@@ -1,10 +1,24 @@
 <template>
   <div class="register">
-    <el-form ref="registerForm" :model="registerForm" :rules="registerRules" class="register-form">
-      <h3 class="title">若依后台管理系统</h3>
+    <el-form
+      ref="registerForm"
+      :model="registerForm"
+      :rules="registerRules"
+      class="register-form"
+    >
+      <h3 class="title">灾区物资管理系统</h3>
       <el-form-item prop="username">
-        <el-input v-model="registerForm.username" type="text" auto-complete="off" placeholder="账号">
-          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
+        <el-input
+          v-model="registerForm.username"
+          type="text"
+          auto-complete="off"
+          placeholder="账号"
+        >
+          <svg-icon
+            slot="prefix"
+            icon-class="user"
+            class="el-input__icon input-icon"
+          />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -15,7 +29,11 @@
           placeholder="密码"
           @keyup.enter.native="handleRegister"
         >
-          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+          <svg-icon
+            slot="prefix"
+            icon-class="password"
+            class="el-input__icon input-icon"
+          />
         </el-input>
       </el-form-item>
       <el-form-item prop="confirmPassword">
@@ -26,9 +44,46 @@
           placeholder="确认密码"
           @keyup.enter.native="handleRegister"
         >
-          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+          <svg-icon
+            slot="prefix"
+            icon-class="password"
+            class="el-input__icon input-icon"
+          />
         </el-input>
       </el-form-item>
+      <el-form-item prop="phonenumber">
+        <el-input
+          v-model="registerForm.phonenumber"
+          placeholder="请输入手机号码"
+          auto-complete="off"
+          maxlength="11"
+          @keyup.enter.native="handleRegister"
+        >
+            <svg-icon
+            slot="prefix"
+            icon-class="phone"
+            class="el-input__icon input-icon"
+          />
+        </el-input>
+      </el-form-item>
+
+      <el-form-item prop="email">
+        <el-input
+          v-model="registerForm.email"
+          placeholder="请输入邮箱"
+          auto-complete="off"
+          maxlength="50"
+          @keyup.enter.native="handleRegister"
+          
+        >
+        <svg-icon
+            slot="prefix"
+            icon-class="email"
+            class="el-input__icon input-icon"
+          />
+        </el-input>
+      </el-form-item>
+
       <el-form-item prop="code" v-if="captchaEnabled">
         <el-input
           v-model="registerForm.code"
@@ -37,25 +92,31 @@
           style="width: 63%"
           @keyup.enter.native="handleRegister"
         >
-          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+          <svg-icon
+            slot="prefix"
+            icon-class="validCode"
+            class="el-input__icon input-icon"
+          />
         </el-input>
         <div class="register-code">
-          <img :src="codeUrl" @click="getCode" class="register-code-img"/>
+          <img :src="codeUrl" @click="getCode" class="register-code-img" />
         </div>
       </el-form-item>
-      <el-form-item style="width:100%;">
+      <el-form-item style="width: 100%">
         <el-button
           :loading="loading"
           size="medium"
           type="primary"
-          style="width:100%;"
+          style="width: 100%"
           @click.native.prevent="handleRegister"
         >
           <span v-if="!loading">注 册</span>
           <span v-else>注 册 中...</span>
         </el-button>
-        <div style="float: right;">
-          <router-link class="link-type" :to="'/login'">使用已有账户登录</router-link>
+        <div style="float: right">
+          <router-link class="link-type" :to="'/login'"
+            >使用已有账户登录</router-link
+          >
         </div>
       </el-form-item>
     </el-form>
@@ -85,26 +146,62 @@ export default {
         username: "",
         password: "",
         confirmPassword: "",
+        phonenumber: "",
+        email: "",
         code: "",
-        uuid: ""
+        uuid: "",
       },
       registerRules: {
         username: [
           { required: true, trigger: "blur", message: "请输入您的账号" },
-          { min: 2, max: 20, message: '用户账号长度必须介于 2 和 20 之间', trigger: 'blur' }
+          {
+            min: 2,
+            max: 20,
+            message: "用户账号长度必须介于 2 和 20 之间",
+            trigger: "blur",
+          },
         ],
         password: [
           { required: true, trigger: "blur", message: "请输入您的密码" },
-          { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间', trigger: 'blur' }
+          {
+            min: 5,
+            max: 20,
+            message: "用户密码长度必须介于 5 和 20 之间",
+            trigger: "blur",
+          },
         ],
         confirmPassword: [
           { required: true, trigger: "blur", message: "请再次输入您的密码" },
-          { required: true, validator: equalToPassword, trigger: "blur" }
+          { required: true, validator: equalToPassword, trigger: "blur" },
         ],
-        code: [{ required: true, trigger: "change", message: "请输入验证码" }]
+        code: [{ required: true, trigger: "change", message: "请输入验证码" }],
+        phonenumber: [
+          {
+            required: true,
+            message: "请输入联系方式",
+            trigger: "blur",
+          },
+          {
+            pattern: /^1(3|4|5|7|8|9)\d{9}$/,
+            message: "手机号格式错误",
+            trigger: "blur",
+          },
+        ],
+        email: [
+        {
+            required: true,
+            message: "请输入邮箱",
+            trigger: "blur",
+          },
+          {
+            type: "email",
+            message: "请输入正确的邮箱地址",
+            trigger: ["blur", "change"],
+          },
+        ],
       },
       loading: false,
-      captchaEnabled: true
+      captchaEnabled: true,
     };
   },
   created() {
@@ -112,8 +209,9 @@ export default {
   },
   methods: {
     getCode() {
-      getCodeImg().then(res => {
-        this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
+      getCodeImg().then((res) => {
+        this.captchaEnabled =
+          res.captchaEnabled === undefined ? true : res.captchaEnabled;
         if (this.captchaEnabled) {
           this.codeUrl = "data:image/gif;base64," + res.img;
           this.registerForm.uuid = res.uuid;
@@ -121,27 +219,37 @@ export default {
       });
     },
     handleRegister() {
-      this.$refs.registerForm.validate(valid => {
+      this.$refs.registerForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-          register(this.registerForm).then(res => {
-            const username = this.registerForm.username;
-            this.$alert("<font color='red'>恭喜你，您的账号 " + username + " 注册成功！</font>", '系统提示', {
-              dangerouslyUseHTMLString: true,
-              type: 'success'
-            }).then(() => {
-              this.$router.push("/login");
-            }).catch(() => {});
-          }).catch(() => {
-            this.loading = false;
-            if (this.captchaEnabled) {
-              this.getCode();
-            }
-          })
+          register(this.registerForm)
+            .then((res) => {
+              const username = this.registerForm.username;
+              this.$alert(
+                "<font color='red'>恭喜你，您的账号 " +
+                  username +
+                  " 注册成功！</font>",
+                "系统提示",
+                {
+                  dangerouslyUseHTMLString: true,
+                  type: "success",
+                }
+              )
+                .then(() => {
+                  this.$router.push("/login");
+                })
+                .catch(() => {});
+            })
+            .catch(() => {
+              this.loading = false;
+              if (this.captchaEnabled) {
+                this.getCode();
+              }
+            });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.material.mapper.MaDistypeMapper">
+    
+    <resultMap type="MaDistype" id="MaDistypeResult">
+        <result property="disid"    column="disid"    />
+        <result property="disname"    column="disname"    />
+    </resultMap>
+
+    <sql id="selectMaDistypeVo">
+        select disid, disname from ma_distype
+    </sql>
+
+    <select id="selectMaDistypeList" parameterType="MaDistype" resultMap="MaDistypeResult">
+        <include refid="selectMaDistypeVo"/>
+        <where>  
+            <if test="disname != null  and disname != ''"> and disname like concat('%', #{disname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectMaDistypeByDisid" parameterType="Long" resultMap="MaDistypeResult">
+        <include refid="selectMaDistypeVo"/>
+        where disid = #{disid}
+    </select>
+        
+    <insert id="insertMaDistype" parameterType="MaDistype" useGeneratedKeys="true" keyProperty="disid">
+        insert into ma_distype
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="disname != null">disname,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="disname != null">#{disname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMaDistype" parameterType="MaDistype">
+        update ma_distype
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="disname != null">disname = #{disname},</if>
+        </trim>
+        where disid = #{disid}
+    </update>
+
+    <delete id="deleteMaDistypeByDisid" parameterType="Long">
+        delete from ma_distype where disid = #{disid}
+    </delete>
+
+    <delete id="deleteMaDistypeByDisids" parameterType="String">
+        delete from ma_distype where disid in 
+        <foreach item="disid" collection="array" open="(" separator="," close=")">
+            #{disid}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.material.mapper.MaMaterialMapper">
+    
+    <resultMap type="MaMaterial" id="MaMaterialResult">
+        <result property="mid"    column="mid"    />
+        <result property="mtitle"    column="mtitle"    />
+        <result property="mdetail"    column="mdetail"    />
+        <result property="mtype"    column="mtype"    />
+        <result property="mimagid"    column="mimagid"    />
+        <result property="maddress"    column="maddress"    />
+        <result property="mstatus"    column="mstatus"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectMaMaterialVo">
+        select mid, mtitle, mdetail, mtype, mimagid, maddress, mstatus, del_flag, create_by, create_time, update_by, update_time, remark from ma_material
+    </sql>
+
+    <select id="selectMaMaterialList" parameterType="MaMaterial" resultMap="MaMaterialResult">
+        <include refid="selectMaMaterialVo"/>
+        <where>  
+            <if test="mtitle != null  and mtitle != ''"> and mtitle = #{mtitle}</if>
+            <if test="mdetail != null  and mdetail != ''"> and mdetail = #{mdetail}</if>
+            <if test="mtype != null "> and mtype = #{mtype}</if>
+            <if test="mimagid != null "> and mimagid = #{mimagid}</if>
+            <if test="maddress != null  and maddress != ''"> and maddress = #{maddress}</if>
+            <if test="mstatus != null  and mstatus != ''"> and mstatus = #{mstatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectMaMaterialByMid" parameterType="Long" resultMap="MaMaterialResult">
+        <include refid="selectMaMaterialVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertMaMaterial" parameterType="MaMaterial" useGeneratedKeys="true" keyProperty="mid">
+        insert into ma_material
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mtitle != null">mtitle,</if>
+            <if test="mdetail != null">mdetail,</if>
+            <if test="mtype != null">mtype,</if>
+            <if test="mimagid != null">mimagid,</if>
+            <if test="maddress != null">maddress,</if>
+            <if test="mstatus != null">mstatus,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mtitle != null">#{mtitle},</if>
+            <if test="mdetail != null">#{mdetail},</if>
+            <if test="mtype != null">#{mtype},</if>
+            <if test="mimagid != null">#{mimagid},</if>
+            <if test="maddress != null">#{maddress},</if>
+            <if test="mstatus != null">#{mstatus},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMaMaterial" parameterType="MaMaterial">
+        update ma_material
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mtitle != null">mtitle = #{mtitle},</if>
+            <if test="mdetail != null">mdetail = #{mdetail},</if>
+            <if test="mtype != null">mtype = #{mtype},</if>
+            <if test="mimagid != null">mimagid = #{mimagid},</if>
+            <if test="maddress != null">maddress = #{maddress},</if>
+            <if test="mstatus != null">mstatus = #{mstatus},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where mid = #{mid}
+    </update>
+
+    <delete id="deleteMaMaterialByMid" parameterType="Long">
+        delete from ma_material where mid = #{mid}
+    </delete>
+
+    <delete id="deleteMaMaterialByMids" parameterType="String">
+        delete from ma_material where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+</mapper>

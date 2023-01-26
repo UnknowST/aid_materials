@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.material.mapper.MaHelpMapper">
+    
+    <resultMap type="MaHelp" id="MaHelpResult">
+        <result property="hid"    column="hid"    />
+        <result property="hname"    column="hname"    />
+        <result property="hphone"    column="hphone"    />
+        <result property="haddress"    column="haddress"    />
+        <result property="disastype"    column="disastype"    />
+        <result property="needtype"    column="needtype"    />
+        <result property="status"    column="status"    />
+        <result property="hedname"    column="hedname"    />
+        <result property="headphone"    column="headphone"    />
+        <result property="hedstatus"    column="hedstatus"    />
+        <result property="heddetail"    column="heddetail"    />
+        <result property="hedaddress"    column="hedaddress"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectMaHelpVo">
+        select hid, hname, hphone, haddress, disastype, needtype, status, hedname, headphone, hedstatus, heddetail, hedaddress, create_by, create_time, update_by, update_time, remark from ma_help
+    </sql>
+
+    <select id="selectMaHelpList" parameterType="MaHelp" resultMap="MaHelpResult">
+        <include refid="selectMaHelpVo"/>
+        <where>  
+            <if test="hname != null  and hname != ''"> and hname like concat('%', #{hname}, '%')</if>
+            <if test="hphone != null  and hphone != ''"> and hphone = #{hphone}</if>
+            <if test="haddress != null  and haddress != ''"> and haddress = #{haddress}</if>
+            <if test="disastype != null "> and disastype = #{disastype}</if>
+            <if test="needtype != null "> and needtype = #{needtype}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="hedname != null  and hedname != ''"> and hedname like concat('%', #{hedname}, '%')</if>
+            <if test="headphone != null  and headphone != ''"> and headphone = #{headphone}</if>
+            <if test="hedstatus != null  and hedstatus != ''"> and hedstatus = #{hedstatus}</if>
+            <if test="heddetail != null  and heddetail != ''"> and heddetail = #{heddetail}</if>
+            <if test="hedaddress != null  and hedaddress != ''"> and hedaddress = #{hedaddress}</if>
+        </where>
+    </select>
+    
+    <select id="selectMaHelpByHid" parameterType="Long" resultMap="MaHelpResult">
+        <include refid="selectMaHelpVo"/>
+        where hid = #{hid}
+    </select>
+        
+    <insert id="insertMaHelp" parameterType="MaHelp" useGeneratedKeys="true" keyProperty="hid">
+        insert into ma_help
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="hname != null">hname,</if>
+            <if test="hphone != null">hphone,</if>
+            <if test="haddress != null">haddress,</if>
+            <if test="disastype != null">disastype,</if>
+            <if test="needtype != null">needtype,</if>
+            <if test="status != null">status,</if>
+            <if test="hedname != null">hedname,</if>
+            <if test="headphone != null">headphone,</if>
+            <if test="hedstatus != null">hedstatus,</if>
+            <if test="heddetail != null">heddetail,</if>
+            <if test="hedaddress != null">hedaddress,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="hname != null">#{hname},</if>
+            <if test="hphone != null">#{hphone},</if>
+            <if test="haddress != null">#{haddress},</if>
+            <if test="disastype != null">#{disastype},</if>
+            <if test="needtype != null">#{needtype},</if>
+            <if test="status != null">#{status},</if>
+            <if test="hedname != null">#{hedname},</if>
+            <if test="headphone != null">#{headphone},</if>
+            <if test="hedstatus != null">#{hedstatus},</if>
+            <if test="heddetail != null">#{heddetail},</if>
+            <if test="hedaddress != null">#{hedaddress},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMaHelp" parameterType="MaHelp">
+        update ma_help
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="hname != null">hname = #{hname},</if>
+            <if test="hphone != null">hphone = #{hphone},</if>
+            <if test="haddress != null">haddress = #{haddress},</if>
+            <if test="disastype != null">disastype = #{disastype},</if>
+            <if test="needtype != null">needtype = #{needtype},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="hedname != null">hedname = #{hedname},</if>
+            <if test="headphone != null">headphone = #{headphone},</if>
+            <if test="hedstatus != null">hedstatus = #{hedstatus},</if>
+            <if test="heddetail != null">heddetail = #{heddetail},</if>
+            <if test="hedaddress != null">hedaddress = #{hedaddress},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where hid = #{hid}
+    </update>
+
+    <delete id="deleteMaHelpByHid" parameterType="Long">
+        delete from ma_help where hid = #{hid}
+    </delete>
+
+    <delete id="deleteMaHelpByHids" parameterType="String">
+        delete from ma_help where hid in 
+        <foreach item="hid" collection="array" open="(" separator="," close=")">
+            #{hid}
+        </foreach>
+    </delete>
+</mapper>

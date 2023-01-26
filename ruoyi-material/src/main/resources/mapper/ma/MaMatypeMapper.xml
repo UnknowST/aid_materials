@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.material.mapper.MaMatypeMapper">
+    
+    <resultMap type="MaMatype" id="MaMatypeResult">
+        <result property="maid"    column="maid"    />
+        <result property="maname"    column="maname"    />
+    </resultMap>
+
+    <sql id="selectMaMatypeVo">
+        select maid, maname from ma_matype
+    </sql>
+
+    <select id="selectMaMatypeList" parameterType="MaMatype" resultMap="MaMatypeResult">
+        <include refid="selectMaMatypeVo"/>
+        <where>  
+            <if test="maname != null  and maname != ''"> and maname like concat('%', #{maname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectMaMatypeByMaid" parameterType="Long" resultMap="MaMatypeResult">
+        <include refid="selectMaMatypeVo"/>
+        where maid = #{maid}
+    </select>
+        
+    <insert id="insertMaMatype" parameterType="MaMatype" useGeneratedKeys="true" keyProperty="maid">
+        insert into ma_matype
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="maname != null">maname,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="maname != null">#{maname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMaMatype" parameterType="MaMatype">
+        update ma_matype
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="maname != null">maname = #{maname},</if>
+        </trim>
+        where maid = #{maid}
+    </update>
+
+    <delete id="deleteMaMatypeByMaid" parameterType="Long">
+        delete from ma_matype where maid = #{maid}
+    </delete>
+
+    <delete id="deleteMaMatypeByMaids" parameterType="String">
+        delete from ma_matype where maid in 
+        <foreach item="maid" collection="array" open="(" separator="," close=")">
+            #{maid}
+        </foreach>
+    </delete>
+</mapper>

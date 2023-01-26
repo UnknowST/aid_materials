@@ -177,6 +177,12 @@
                 <artifactId>ruoyi-common</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
+            <!--物资管理 子模块-->
+            <dependency>
+                <groupId>com.material</groupId>
+                <artifactId>ruoyi-material</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -188,6 +194,7 @@
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
+        <module>ruoyi-material</module>
     </modules>
     <packaging>pom</packaging>
 

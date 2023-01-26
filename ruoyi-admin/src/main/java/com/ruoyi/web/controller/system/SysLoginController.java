@@ -2,6 +2,13 @@ package com.ruoyi.web.controller.system;
 
 import java.util.List;
 import java.util.Set;
+
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +24,15 @@ import com.ruoyi.framework.web.service.SysLoginService;
 import com.ruoyi.framework.web.service.SysPermissionService;
 import com.ruoyi.system.service.ISysMenuService;
 
+
+
 /**
  * 登录验证
  * 
  * @author ruoyi
  */
 @RestController
+
 public class SysLoginController
 {
     @Autowired
@@ -33,6 +43,9 @@ public class SysLoginController
 
     @Autowired
     private SysPermissionService permissionService;
+
+    @Autowired
+    private ISysUserService userService;
 
     /**
      * 登录方法
@@ -70,6 +83,20 @@ public class SysLoginController
         ajax.put("permissions", permissions);
         return ajax;
     }
+
+//    @PostMapping("/register")
+//    @Log(title = "用户注册", businessType = BusinessType.INSERT)
+//    public AjaxResult register(@RequestBody SysUser user){
+//        // 检查 username
+//        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user)))
+//        {
+//            return error("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
+//        }
+//        user.setUserId(SecurityUtils.getUserId());
+//        user.setCreateBy(user.getUserName());
+//        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+//        return toAjax(userService.insertUser(user));
+//    }
 
     /**
      * 获取路由信息
