@@ -80,9 +80,12 @@
           list-type="picture"
           :auto-upload="false"
           :on-success="uploadsuccess"
+          :multiple="false"
+          :limit="1"
           name="file"
           :headers="this.hearders"
           :on-error="uploaderror"
+
         >
           <el-button
             size="small"
@@ -144,7 +147,7 @@ export default {
         minage: null,
         mstatus: 0,
         address: undefined,
-        address1: undefined,
+        address1: null,
         file: [],
         minagefileList: [],
         // 地址选择数据
@@ -225,6 +228,7 @@ export default {
         }
       });
     },
+
     resetForm() {
       this.$refs["maForm"].resetFields();
     },
@@ -266,15 +270,16 @@ export default {
       Object.assign(this.formData, data);
       addMaterial(this.formData).then((res) => {
         // console.log(this.formData)
-        console.log(res);
-        let data={
-          mid:res.mid,
-          imgid:this.formData.mimagid
-        }
+        this.$modal.msgSuccess("上传成功，请等待审核");
+        // console.log(res);
+        // let data={
+        //   mid:res.mid,
+        //   imgid:this.formData.mimagid
+        // }
 
-        updateImg(data).then((res) => {
-          this.$modal.msgSuccess("上传成功，请等待审核");
-        });
+        // updateImg(data).then((res) => {
+          
+        // });
       });
     },
     // 获取省市县 三级联动数据

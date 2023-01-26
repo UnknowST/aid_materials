@@ -323,9 +323,9 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="24" >
+        <el-row :gutter="24">
           <el-col :span="8">
-            <el-form-item label="地址" prop="address"  >
+            <el-form-item label="地址" prop="address">
               <el-select
                 v-model="form.region1"
                 placeholder="请选择省"
@@ -364,7 +364,7 @@
         </el-row>
         <el-row>
           <el-col>
-            <el-form-item label="详细地址" prop="address1" >
+            <el-form-item label="详细地址" prop="address1">
               <el-input
                 v-model="form.address1"
                 placeholder="请详细地址"
@@ -666,9 +666,7 @@ export default {
             trigger: "blur",
           },
         ],
-        address: [
-          { required: true, message: "请选择省市县", trigger: "blur" },
-        ],
+        address: [{ required: true, message: "请选择省市县", trigger: "blur" }],
         address1: [
           { required: true, message: "请输入详细地址", trigger: "blur" },
         ],
@@ -833,6 +831,7 @@ export default {
         region1: "",
         region2: "",
         region3: "",
+        address: "",
       };
       this.resetForm("form");
     },
@@ -882,9 +881,18 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
+
       const userId = row.userId || this.ids;
       getUser(userId).then((response) => {
         this.form = response.data;
+        if (response.data.address != null) {
+        str = this.getaddress(this.form.address);
+        this.form.region1 = str[0];
+        this.form.region2 = str[1];
+        this.form.region3 = str[2];
+        this.form.address1 = str[3];
+      }
+        this.getPositions()
         this.postOptions = response.posts;
         this.roleOptions = response.roles;
         this.$set(this.form, "postIds", response.postIds);
@@ -917,10 +925,13 @@ export default {
     },
     /** 提交按钮 */
     submitForm: function () {
-      let data1={
-        address:this.form.region1+this.form.region2+this.form.region3+this.form.address1
-      }
-      Object.assign(this.form,data1);
+      this.form.address =
+        this.form.region1 +
+        this.form.region2 +
+        this.form.region3 +
+        this.form.address1;
+
+      //Object.assign(this.form, data1);
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.userId != undefined) {

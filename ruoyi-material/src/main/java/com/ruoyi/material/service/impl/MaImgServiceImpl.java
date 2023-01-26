@@ -1,6 +1,9 @@
 package com.ruoyi.material.service.impl;
 
+import java.io.File;
 import java.util.List;
+
+import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,6 +86,7 @@ public class MaImgServiceImpl implements IMaImgService
     @Override
     public int deleteMaImgByImgids(Long[] imgids)
     {
+
         return maImgMapper.deleteMaImgByImgids(imgids);
     }
 
@@ -95,6 +99,18 @@ public class MaImgServiceImpl implements IMaImgService
     @Override
     public int deleteMaImgByImgid(Long imgid)
     {
-        return maImgMapper.deleteMaImgByImgid(imgid);
+        MaImg maImg=  maImgMapper.selectMaImgByImgid(imgid);
+        // 修改文件名
+        String fileNewName=maImg.getImgpath().replace("/profile/upload","");
+        File file=new File(RuoYiConfig.getUploadPath()+fileNewName);
+        //System.out.println(file.getPath());
+        //System.out.println(file.exists());
+
+        if(file.delete()){
+            maImgMapper.deleteMaImgByImgid(imgid);
+        }else{
+            return 0;
+        }
+        return 1;
     }
 }

@@ -3,9 +3,13 @@
     <el-form-item label="用户昵称" prop="nickName">
       <el-input v-model="user.nickName" maxlength="30" />
     </el-form-item> 
+
     <el-form-item label="手机号码" prop="phonenumber">
       <el-input v-model="user.phonenumber" maxlength="11" />
     </el-form-item>
+    <el-form-item label="用户地址" prop="address">
+      <el-input v-model="user.address" maxlength="50" />
+    </el-form-item> 
     <el-form-item label="邮箱" prop="email">
       <el-input v-model="user.email" maxlength="50" />
     </el-form-item>
@@ -51,6 +55,14 @@ export default {
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
             message: "请输入正确的手机号码",
+            trigger: "blur"
+          }
+        ],
+        address: [
+          { required: true, message: "地址不能为空", trigger: "blur" },
+          {
+            pattern: /.+?(省|市|自治区|自治州|县|区|旗)/g,
+            message: "请输入正确地址",
             trigger: "blur"
           }
         ]

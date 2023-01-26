@@ -1,5 +1,6 @@
 package com.ruoyi.material.controller;
 
+import java.io.File;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -98,32 +99,29 @@ public class MaImgController extends BaseController
 	@DeleteMapping("/{imgids}")
     public AjaxResult remove(@PathVariable Long[] imgids)
     {
-        return toAjax(maImgService.deleteMaImgByImgids(imgids));
+
+        // 首先要删除文件夹中对应的文件
+        for(Long imgid:imgids){
+         /*   //获取对应文件地址
+            MaImg maImg= (MaImg) getInfo(imgid).get("data");
+            // 修改文件名
+            String fileNewName=maImg.getImgpath().replace("/profile/upload","");
+            File file=new File(RuoYiConfig.getUploadPath()+fileNewName);
+            //System.out.println(file.getPath());
+            //System.out.println(file.exists());
+
+            if(file.delete()){
+                maImgService.deleteMaImgByImgid(imgid);
+            }else{
+                return error("文件删除失败，请联系管理员！");
+            }*/
+           int flag= maImgService.deleteMaImgByImgid(imgid);
+           if(flag==0){
+               return error("文件删除失败，请重试！");
+           }
+        }
+
+        return AjaxResult.success();
     }
-    /**
-     * 图片上传
-     */
-//    @Log(title = "物资图片上传", businessType = BusinessType.UPDATE)
-//    @PostMapping("/imgupload")
-//    public AjaxResult imgupload(@RequestParam("avatarfile") MultipartFile file,) throws Exception
-//    {
-//        if (!file.isEmpty())
-//        {
-//            MaImg maImg=new MaImg();
-//
-//            LoginUser loginUser = getLoginUser();
-//            String imgurl= FileUploadUtils.upload(RuoYiConfig.getUploadPath(),file, MimeTypeUtils.IMAGE_EXTENSION);
-//            maImg.setImgname(file.getName());
-//            maImg.setImgpath(imgurl);
-//            maImg.setCreateBy(loginUser.getUsername());
-//            if (maImgService.insertMaImg(maImg)==1)
-//            {
-//                AjaxResult ajax = AjaxResult.success();
-//                ajax.put("imgUrl", imgurl);
-//                // 更新缓存用户头像
-//                return ajax;
-//            }
-//        }
-//        return error("上传图片异常，请联系管理员");
-//    }
+
 }

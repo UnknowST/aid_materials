@@ -54,7 +54,6 @@
                u.nick_name,
                u.email,
                u.avatar,
-
                u.phonenumber,
                u.address,
                u.password,

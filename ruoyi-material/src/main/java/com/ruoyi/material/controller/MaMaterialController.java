@@ -108,7 +108,20 @@ public class MaMaterialController extends BaseController
 	@DeleteMapping("/{mids}")
     public AjaxResult remove(@PathVariable Long[] mids)
     {
-        return toAjax(maMaterialService.deleteMaMaterialByMids(mids));
+        // 首先要删除关联的图片
+        for(Long mid:mids){
+            /*AjaxResult ajaxResult=getInfo(mid);
+            MaMaterial maMaterial= (MaMaterial) ajaxResult.get("data");
+            //System.out.println(maMaterial);
+            maImgService.deleteMaImgByImgid(maMaterial.getMimagid());*/
+            int flag=maImgService.deleteMaImgByImgid(mid);
+            if(flag==0){
+                return error("删除失败，请重试！");
+            }
+            maMaterialService.deleteMaMaterialByMid(mid);
+        }
+        //maMaterialService.deleteMaMaterialByMids(mids)
+        return AjaxResult.success();
     }
 
     /**
@@ -127,7 +140,7 @@ public class MaMaterialController extends BaseController
 
             LoginUser loginUser = getLoginUser();
             String imgurl= FileUploadUtils.upload(RuoYiConfig.getUploadPath(),file, MimeTypeUtils.IMAGE_EXTENSION);
-            maImg.setImgname(file.getName());
+            maImg.setImgname(file.getOriginalFilename());
             maImg.setImgpath(imgurl);
             maImg.setCreateBy(loginUser.getUsername());
             int flag=maImgService.insertMaImg(maImg);
@@ -142,5 +155,37 @@ public class MaMaterialController extends BaseController
         }
         return error("上传图片异常，请联系管理员");
     }
+//
+//    /**
+//     * 图片上传
+//     */
+//    @PreAuthorize("@ss.hasPermi('ma:img:update')")
+//    @Log(title = "更新图片", businessType = BusinessType.UPDATE)
+//    @RequestMapping("/updateimg")
+//    @CrossOrigin
+//    public AjaxResult updateimg(@RequestParam("file") MultipartFile file) throws Exception
+//    {
+//        //System.out.println("======="+maMaterial.getMdetail()+maMaterial.getMtitle());
+//        if (!file.isEmpty())
+//        {
+//            MaImg maImg=new MaImg();
+//
+//            LoginUser loginUser = getLoginUser();
+//            String imgurl= FileUploadUtils.upload(RuoYiConfig.getUploadPath(),file, MimeTypeUtils.IMAGE_EXTENSION);
+//            maImg.setImgname(file.getName());
+//            maImg.setImgpath(imgurl);
+//            maImg.setCreateBy(loginUser.getUsername());
+//            int flag=maImgService.insertMaImg(maImg);
+//            if (flag!=0)
+//            {
+//                AjaxResult ajax = AjaxResult.success();
+//                ajax.put("imgUrl", imgurl);
+//                ajax.put("mid",flag);
+//                // 更新缓存用户头像
+//                return ajax;
+//            }
+//        }
+//        return error("上传图片异常，请联系管理员");
+//    }
 
 }
