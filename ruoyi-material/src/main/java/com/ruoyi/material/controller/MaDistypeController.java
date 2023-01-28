@@ -22,7 +22,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 【请填写功能名称】Controller
+ * 灾害类型Controller
  * 
  * @author ruoyi
  * @date 2023-01-19
@@ -35,7 +35,7 @@ public class MaDistypeController extends BaseController
     private IMaDistypeService maDistypeService;
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询灾害类型列表
      */
     @PreAuthorize("@ss.hasPermi('ma:distype:list')")
     @GetMapping("/list")
@@ -47,10 +47,10 @@ public class MaDistypeController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出灾害类型列表
      */
     @PreAuthorize("@ss.hasPermi('ma:distype:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "灾害类型", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, MaDistype maDistype)
     {
@@ -60,7 +60,7 @@ public class MaDistypeController extends BaseController
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取灾害类型详细信息
      */
     @PreAuthorize("@ss.hasPermi('ma:distype:query')")
     @GetMapping(value = "/{disid}")
@@ -70,10 +70,10 @@ public class MaDistypeController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增灾害类型
      */
     @PreAuthorize("@ss.hasPermi('ma:distype:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "新增灾害类型", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody MaDistype maDistype)
     {
@@ -81,10 +81,10 @@ public class MaDistypeController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改灾害类型
      */
     @PreAuthorize("@ss.hasPermi('ma:distype:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "更新灾害类型数据", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody MaDistype maDistype)
     {
@@ -92,10 +92,10 @@ public class MaDistypeController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除灾害类型
      */
     @PreAuthorize("@ss.hasPermi('ma:distype:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "批量灾害类型数据", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{disids}")
     public AjaxResult remove(@PathVariable Long[] disids)
     {

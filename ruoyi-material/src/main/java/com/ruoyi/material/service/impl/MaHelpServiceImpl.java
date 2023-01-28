@@ -9,7 +9,7 @@ import com.ruoyi.material.domain.MaHelp;
 import com.ruoyi.material.service.IMaHelpService;
 
 /**
- * 【请填写功能名称】Service业务层处理
+ * 求助Service业务层处理
  * 
  * @author ruoyi
  * @date 2023-01-20
@@ -21,10 +21,10 @@ public class MaHelpServiceImpl implements IMaHelpService
     private MaHelpMapper maHelpMapper;
 
     /**
-     * 查询【请填写功能名称】
+     * 查询求助
      * 
-     * @param hid 【请填写功能名称】主键
-     * @return 【请填写功能名称】
+     * @param hid 求助主键
+     * @return 求助
      */
     @Override
     public MaHelp selectMaHelpByHid(Long hid)
@@ -33,10 +33,10 @@ public class MaHelpServiceImpl implements IMaHelpService
     }
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询求助列表
      * 
-     * @param maHelp 【请填写功能名称】
-     * @return 【请填写功能名称】
+     * @param maHelp 求助
+     * @return 求助
      */
     @Override
     public List<MaHelp> selectMaHelpList(MaHelp maHelp)
@@ -45,9 +45,9 @@ public class MaHelpServiceImpl implements IMaHelpService
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增求助
      * 
-     * @param maHelp 【请填写功能名称】
+     * @param maHelp 求助
      * @return 结果
      */
     @Override
@@ -58,9 +58,9 @@ public class MaHelpServiceImpl implements IMaHelpService
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改求助
      * 
-     * @param maHelp 【请填写功能名称】
+     * @param maHelp 求助
      * @return 结果
      */
     @Override
@@ -71,9 +71,9 @@ public class MaHelpServiceImpl implements IMaHelpService
     }
 
     /**
-     * 批量删除【请填写功能名称】
+     * 批量删除求助
      * 
-     * @param hids 需要删除的【请填写功能名称】主键
+     * @param hids 需要删除的求助主键
      * @return 结果
      */
     @Override
@@ -83,9 +83,9 @@ public class MaHelpServiceImpl implements IMaHelpService
     }
 
     /**
-     * 删除【请填写功能名称】信息
+     * 删除求助信息
      * 
-     * @param hid 【请填写功能名称】主键
+     * @param hid 求助主键
      * @return 结果
      */
     @Override

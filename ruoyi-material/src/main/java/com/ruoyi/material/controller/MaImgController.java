@@ -22,7 +22,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 【请填写功能名称】Controller
+ * 物资图片Controller
  * 
  * @author ruoyi
  * @date 2023-01-24
@@ -35,7 +35,7 @@ public class MaImgController extends BaseController
     private IMaImgService maImgService;
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询物资图片列表
      */
     @PreAuthorize("@ss.hasPermi('ma:img:list')")
     @GetMapping("/list")
@@ -47,20 +47,20 @@ public class MaImgController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出物资图片列表
      */
     @PreAuthorize("@ss.hasPermi('ma:img:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "导出物资图片", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, MaImg maImg)
     {
         List<MaImg> list = maImgService.selectMaImgList(maImg);
         ExcelUtil<MaImg> util = new ExcelUtil<MaImg>(MaImg.class);
-        util.exportExcel(response, list, "【请填写功能名称】数据");
+        util.exportExcel(response, list, "物资图片数据");
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取物资图片详细信息
      */
     @PreAuthorize("@ss.hasPermi('ma:img:query')")
     @GetMapping(value = "/{imgid}")
@@ -70,10 +70,10 @@ public class MaImgController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增物资图片
      */
     @PreAuthorize("@ss.hasPermi('ma:img:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "新增物资图片", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody MaImg maImg)
     {
@@ -81,10 +81,10 @@ public class MaImgController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改物资图片
      */
     @PreAuthorize("@ss.hasPermi('ma:img:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "修改物资图片", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody MaImg maImg)
     {
@@ -92,29 +92,17 @@ public class MaImgController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除物资图片
      */
     @PreAuthorize("@ss.hasPermi('ma:img:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "删除物资图片", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{imgids}")
     public AjaxResult remove(@PathVariable Long[] imgids)
     {
 
-        // 首先要删除文件夹中对应的文件
-        for(Long imgid:imgids){
-         /*   //获取对应文件地址
-            MaImg maImg= (MaImg) getInfo(imgid).get("data");
-            // 修改文件名
-            String fileNewName=maImg.getImgpath().replace("/profile/upload","");
-            File file=new File(RuoYiConfig.getUploadPath()+fileNewName);
-            //System.out.println(file.getPath());
-            //System.out.println(file.exists());
 
-            if(file.delete()){
-                maImgService.deleteMaImgByImgid(imgid);
-            }else{
-                return error("文件删除失败，请联系管理员！");
-            }*/
+        for(Long imgid:imgids){
+
            int flag= maImgService.deleteMaImgByImgid(imgid);
            if(flag==0){
                return error("文件删除失败，请重试！");

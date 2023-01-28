@@ -198,7 +198,7 @@
     />
 
     <!-- 添加或修改【请填写功能名称】对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body :before-close="handleDialogClose">
       <el-form
         ref="form"
         :model="form"
@@ -308,33 +308,8 @@
             />
           </el-select>
         </el-form-item>
-        <!-- <el-form-item size="large">
-        <el-button type="primary" @click="submitForm">提交</el-button>
-        <el-button @click="resetForm">重置</el-button>
-      </el-form-item> -->
       </el-form>
 
-      <!-- <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="物资标题" prop="mtitle">
-          <el-input v-model="form.mtitle" placeholder="请输入物资标题" />
-        </el-form-item>
-        <el-form-item label="图片id" prop="mimagid">
-          <el-input v-model="form.mimagid" placeholder="请输入图片id" />
-        </el-form-item>
-        <el-form-item label="地址" prop="maddress">
-          <el-input v-model="form.maddress" placeholder="请输入地址" />
-        </el-form-item>
-        <el-form-item label="删除标志" prop="delFlag">
-          <el-input v-model="form.delFlag" placeholder="请输入删除标志" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input
-            v-model="form.remark"
-            type="textarea"
-            placeholder="请输入内容"
-          />
-        </el-form-item>
-      </el-form> -->
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
@@ -342,7 +317,12 @@
     </el-dialog>
 
     <!-- // 审核弹出框 -->
-    <el-dialog :title="title" :visible.sync="exopen" width="500px" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="exopen"
+      width="500px"
+      append-to-body
+    >
       <el-form
         ref="form"
         :model="form"
@@ -350,7 +330,7 @@
         size="medium"
         label-width="100px"
       >
-      <el-form-item label="审核状态" prop="mstatus">
+        <el-form-item label="审核状态" prop="mstatus">
           <el-select
             v-model="form.mstatus"
             placeholder="审核状态"
@@ -365,14 +345,155 @@
             />
           </el-select>
         </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
+      </el-form>
+      <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="exsubmitForm">确 定</el-button>
         <el-button @click="excancel">取 消</el-button>
       </div>
     </el-dialog>
     <!-- // 申请弹出框 -->
-    <el-dialog :title="title" :visible.sync="apopen" width="500px" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="apopen"
+      width="550px"
+      append-to-body
+    >
+      <el-form
+        ref="apform"
+        :model="apform"
+        :rules="rules"
+        size="medium"
+        label-width="100px"
+        label-position="right"
+      >
+        <el-form-item label="用户名" prop="husername">
+          <el-input
+            v-model="user.userName"
+            placeholder="请输入用户名"
+            show-word-limit
+            clearable
+            prefix-icon="el-icon-mobile"
+            :style="{ width: '100%' }"
+            readonly=""
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="姓名" prop="hname">
+          <el-input
+            v-model="user.nickName"
+            placeholder="请输入姓名"
+            :style="{ width: '100%' }"
+            readonly=""
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="联系方式" prop="hphone">
+          <el-input
+            v-model="user.phonenumber"
+            placeholder="请输入联系方式"
+            clearable
+            :style="{ width: '100%' }"
+            readonly=""
+          >
+          </el-input>
+        </el-form-item>
+        <!-- 层级太深 表单校验 不能检验到 数据的变化 -->
+        <el-row :gutter="24">
+          <el-form-item label="地址" prop="haddress">
+            <el-col :span="8">
+              <el-select
+                v-model="apform.region1"
+                placeholder="请选择省"
+                @change="provinceChange($event)"
+              >
+                <el-option
+                  v-for="(item, index) in this.provinceList"
+                  :key="item.name"
+                  :value="item.name"
+                ></el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="8">
+              <el-select
+                v-model="apform.region2"
+                placeholder="请选择城市"
+                @change="cityChange($event)"
+              >
+                <el-option
+                  v-for="(item, index) in this.cityList"
+                  :key="item.name"
+                  :value="item.name"
+                ></el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="8">
+              <el-select v-model="apform.region3" placeholder="请选择区县">
+                <el-option
+                  v-for="(item, index) in this.countyList"
+                  :key="item.name"
+                  :value="item.name"
+                ></el-option>
+              </el-select>
+            </el-col>
+          </el-form-item>
+        </el-row>
+
+        <el-row>
+          <el-col>
+            <el-form-item label="详细地址" prop="haddress1">
+              <el-input
+                v-model="apform.haddress1"
+                placeholder="请详细地址"
+                maxlength="20"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="灾害类型" prop="disastype">
+          <el-select
+            v-model="apform.disastype"
+            placeholder="请选择灾害类型"
+            clearable
+            :style="{ width: '100%' }"
+          >
+            <el-option
+              v-for="(item, index) in this.distype"
+              :key="item.disid"
+              :label="item.disname"
+              :value="item.disid"
+              :disabled="item.disabled"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="求助类型" prop="needtype">
+          <el-select
+            v-model="apform.needtype"
+            placeholder="请选择求助类型"
+            clearable
+            :style="{ width: '100%' }"
+          >
+            <el-option
+              v-for="(item, index) in this.needtype"
+              :key="item.maid"
+              :label="item.maname"
+              :value="item.maid"
+              :disabled="item.disabled"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input
+            v-model="apform.remark"
+            type="textarea"
+            placeholder="请输入备注"
+            show-word-limit
+            :autosize="{ minRows: 4, maxRows: 4 }"
+            :style="{ width: '100%' }"
+          ></el-input>
+        </el-form-item>
+        <el-form-item size="large">
+          <el-button type="primary" @click="apsubmitForm">提交</el-button>
+          <el-button @click="apCancel">取消</el-button>
+        </el-form-item>
+      </el-form>
     </el-dialog>
   </div>
 </template>
@@ -389,12 +510,17 @@ import {
 import { delImg } from "@/api/ma/img";
 import { getToken } from "@/utils/auth";
 import { updateImg } from "@/api/ma/img";
+import { getUserProfile } from "@/api/system/user";
+import { addHelped } from "@/api/ma/helped";
 
+import { listDistype, listMatype } from "@/api/ma/maapply";
 export default {
   name: "Material",
   dicts: ["ma_examine_status"],
   data() {
     return {
+      //登录用户数据
+      user: {},
       // 地址选择数据
       provinceList: [],
       cityList: [],
@@ -428,9 +554,10 @@ export default {
       // 是否显示弹出层
       open: false,
       // 审核弹出层
-      exopen:false,
+      exopen: false,
       // 申请弹出层
-      apopen:false,
+      apopen: false,
+
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -442,6 +569,8 @@ export default {
         maddress: null,
         mstatus: null,
       },
+      distype: [],
+      needtype: [],
       // 表单参数
       form: {
         mimagid: null,
@@ -452,16 +581,34 @@ export default {
         mstatus: 0,
         maddress: "",
         address: undefined,
-        address1: null,
+        address1: undefined,
+        disastype: undefined,
+        needtype: undefined,
         // 地址选择数据
         provinceList: [],
         cityList: [],
         countyList: [],
         CITY: [],
         XIAN: [],
-        region1: "",
-        region2: "",
-        region3: "",
+        region1: [],
+        region2: [],
+        region3: [],
+      },
+      apform: {
+        mid: undefined,
+        hname: undefined,
+        husername: undefined,
+        hphone: undefined,
+        haddress: undefined,
+        disastype: undefined,
+        needtype: undefined,
+        status: undefined,
+        remark: undefined,
+        haddress1: undefined,
+        region1: undefined,
+        region2: undefined,
+        region3: undefined,
+        create_by:undefined,
       },
       // 表单校验
       rules: {
@@ -500,6 +647,69 @@ export default {
             trigger: "blur",
           },
         ],
+        hname: [
+          {
+            required: true,
+            message: "姓名不能为空",
+            trigger: "blur",
+          },
+        ],
+        husername: [
+          {
+            required: true,
+            message: "用户名不能为空",
+            trigger: "blur",
+          },
+        ],
+        hphone: [
+          {
+            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
+            message: "请输入正确的手机号码",
+            trigger: "blur",
+          },
+        ],
+        haddress1: [
+          {
+            required: true,
+            message: "请输入详细地址",
+            trigger: "blur",
+          },
+        ],
+        region1: [
+          {
+            required: true,
+            message: "请选择地址",
+            trigger: "change",
+          },
+        ],
+        region2: [
+          {
+            required: true,
+            message: "请选择地址",
+            trigger: "change",
+          },
+        ],
+        region3: [
+          {
+            required: true,
+            message: "请选择地址",
+            trigger: "change",
+          },
+        ],
+        disastype: [
+          {
+            required: true,
+            message: "请选择灾害类型",
+            trigger: "change",
+          },
+        ],
+        needtype: [
+          {
+            required: true,
+            message: "请选择求助类型",
+            trigger: "change",
+          },
+        ],
       },
     };
   },
@@ -512,6 +722,7 @@ export default {
       return process.env.VUE_APP_BASE_API;
     },
   },
+
   methods: {
     /** 查询【请填写功能名称】列表 */
     getList() {
@@ -522,11 +733,35 @@ export default {
         this.loading = false;
       });
     },
+    getUser() {
+      getUserProfile().then((response) => {
+        this.user = response.data;
+        //console.log(this.user);
+        this.roleGroup = response.roleGroup;
+        this.postGroup = response.postGroup;
+      });
+    },
+    getdata() {
+      listDistype().then((res) => {
+        this.distype = res.rows;
+      });
+      listMatype().then((res) => {
+        this.needtype = res.rows;
+      });
+    },
     // 取消按钮
     cancel() {
+      this.minagefileList=[]
       this.open = false;
       this.reset();
     },
+    //点击右上角关闭按钮的回调事件
+    handleDialogClose(){
+      this.open=false;
+      this.reset()
+      this.minagefileList=[]
+    },
+
     // 表单重置
     reset() {
       this.form = {
@@ -576,8 +811,7 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.choiseFlag = "false";
-      this.minagefileList = [];
-      this.form.minagefileList = [];
+    
       this.reset();
       const mid = row.mid || this.ids;
       getMaterial(mid).then((response) => {
@@ -602,32 +836,78 @@ export default {
       });
     },
     // 审核按钮
-    handleExamine(row){
-        this.exopen=true,
-        this.title="审核物资",
-        this.form.mstatus=row.mstatus
-        this.form.mid=row.mid
-        console.log(row)
-  
+    handleExamine(row) {
+      (this.exopen = true),
+        (this.title = "审核物资"),
+        (this.form.mstatus = row.mstatus);
+      this.form.mid = row.mid;
     },
-    excancel(){
-      this.exopen=false,
+    excancel() {
+      (this.exopen = false), this.reset();
+    },
+    apCancel() {
+      this.apopen = false;
       this.reset();
     },
-    exsubmitForm(){
-      this.$refs["form"].validate((valid)=>{
-        if(valid){
-          updateMaterial(this.form).then(res=>{
-          this.$modal.msgSuccess("操作成功")
-          this.exopen=false,
-          this.getList()
-        })
+    exsubmitForm() {
+      this.$refs["form"].validate((valid) => {
+        if (valid) {
+          updateMaterial(this.form).then((res) => {
+            this.$modal.msgSuccess("操作成功");
+            (this.exopen = false), this.getList();
+          });
         }
-      })
+      });
+    },
+    apsubmitForm() {
+      this.$refs["apform"].validate((valid) => {
+        if (valid) {
+          if (
+            this.apform.region1 == undefined ||
+            this.apform.region2 == undefined ||
+            this.apform.region3 == undefined
+          ) {
+            this.$message.error("地址信息必填");
+            return;
+          } else {
+            this.apform.haddress =
+              this.apform.region1 +
+              this.apform.region2 +
+              this.apform.region3 +
+              this.apform.haddress;
+
+            addHelped(this.apform).then((res) => {
+              this.$modal.msgSuccess("操作成功");
+              (this.apopen = false), this.getList();
+            });
+          }
+        }
+      });
     },
     // 申请按钮
-    handleApply(row){
-
+    handleApply(row) {
+      this.apopen = true;
+      this.title = "申请物资";
+      this.getUser();
+      this.getdata();
+      this.getPositions();
+      this.apform.mid = row.mid;
+     
+      getUserProfile().then((response) => {
+        this.user = response.data;
+        if (this.user.address != null) {
+          str = this.getaddress(this.user.address);
+          (this.apform.region1 = str[0]),
+            (this.apform.region2 = str[1]),
+            (this.apform.region2 = str[2]),
+            (this.apform.haddress1 = str[3]);
+        }
+        (this.apform.husername = this.user.userName),
+          (this.apform.hname = this.user.nickName),
+          (this.apform.hphone = this.user.phonenumber);
+          this.apform.create_by=this.user.userName
+      });
+      // console.log(this.user)
     },
     /** 提交按钮 */
     submitForm() {
@@ -650,7 +930,10 @@ export default {
             } else {
               updateMaterial(this.form).then((res) => {
                 this.$modal.msgSuccess("修改成功");
+                this.minagefileList = [];
+                
                 this.open = false;
+
                 this.getList();
               });
             }
@@ -800,6 +1083,7 @@ export default {
         updateMaterial(this.form).then((res) => {
           // console.log(this.form)
           this.$modal.msgSuccess("修改成功！");
+          this.minagefileList = [];
           this.open = false;
           this.getList();
         });

@@ -22,7 +22,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 【请填写功能名称】Controller
+ * 求助Controller
  * 
  * @author ruoyi
  * @date 2023-01-20
@@ -35,7 +35,7 @@ public class MaHelpController extends BaseController
     private IMaHelpService maHelpService;
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询求助列表
      */
     @PreAuthorize("@ss.hasPermi('ma:help:list')")
     @GetMapping("/list")
@@ -47,20 +47,20 @@ public class MaHelpController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出求助列表
      */
     @PreAuthorize("@ss.hasPermi('ma:help:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "导出求助", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, MaHelp maHelp)
     {
         List<MaHelp> list = maHelpService.selectMaHelpList(maHelp);
         ExcelUtil<MaHelp> util = new ExcelUtil<MaHelp>(MaHelp.class);
-        util.exportExcel(response, list, "【请填写功能名称】数据");
+        util.exportExcel(response, list, "求助数据");
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取求助详细信息
      */
     @PreAuthorize("@ss.hasPermi('ma:help:query')")
     @GetMapping(value = "/{hid}")
@@ -70,10 +70,10 @@ public class MaHelpController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增求助
      */
     @PreAuthorize("@ss.hasPermi('ma:help:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "新增求助", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody MaHelp maHelp)
     {
@@ -81,10 +81,10 @@ public class MaHelpController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改求助
      */
     @PreAuthorize("@ss.hasPermi('ma:help:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "修改求助记录", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody MaHelp maHelp)
     {
@@ -92,10 +92,10 @@ public class MaHelpController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除求助
      */
     @PreAuthorize("@ss.hasPermi('ma:help:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "删除求助记录", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{hids}")
     public AjaxResult remove(@PathVariable Long[] hids)
     {

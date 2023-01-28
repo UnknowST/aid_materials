@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.material.mapper.MaCarouselimgMapper">
+    
+    <resultMap type="MaCarouselimg" id="MaCarouselimgResult">
+        <result property="id"    column="id"    />
+        <result property="imgname"    column="imgname"    />
+        <result property="imgpath"    column="imgpath"    />
+        <result property="imgstatus"    column="imgstatus"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectMaCarouselimgVo">
+        select id, imgname, imgpath, imgstatus, create_by, create_time, update_by, update_time, remark from ma_carouselimg
+    </sql>
+
+    <select id="selectMaCarouselimgList" parameterType="MaCarouselimg" resultMap="MaCarouselimgResult">
+        <include refid="selectMaCarouselimgVo"/>
+        <where>  
+            <if test="imgname != null  and imgname != ''"> and imgname like concat('%', #{imgname}, '%')</if>
+            <if test="imgpath != null  and imgpath != ''"> and imgpath = #{imgpath}</if>
+            <if test="imgstatus != null  and imgstatus != ''"> and imgstatus = #{imgstatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectMaCarouselimgById" parameterType="Long" resultMap="MaCarouselimgResult">
+        <include refid="selectMaCarouselimgVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMaCarouselimg" parameterType="MaCarouselimg" useGeneratedKeys="true" keyProperty="id">
+        insert into ma_carouselimg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imgname != null">imgname,</if>
+            <if test="imgpath != null">imgpath,</if>
+            <if test="imgstatus != null">imgstatus,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imgname != null">#{imgname},</if>
+            <if test="imgpath != null">#{imgpath},</if>
+            <if test="imgstatus != null">#{imgstatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMaCarouselimg" parameterType="MaCarouselimg">
+        update ma_carouselimg
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imgname != null">imgname = #{imgname},</if>
+            <if test="imgpath != null">imgpath = #{imgpath},</if>
+            <if test="imgstatus != null">imgstatus = #{imgstatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMaCarouselimgById" parameterType="Long">
+        delete from ma_carouselimg where id = #{id}
+    </delete>
+
+    <delete id="deleteMaCarouselimgByIds" parameterType="String">
+        delete from ma_carouselimg where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

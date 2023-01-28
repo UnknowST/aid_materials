@@ -6,7 +6,7 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 【请填写功能名称】对象 ma_matype
+ * 求助类型对象 ma_matype
  * 
  * @author ruoyi
  * @date 2023-01-19

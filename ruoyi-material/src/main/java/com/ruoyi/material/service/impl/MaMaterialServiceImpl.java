@@ -9,7 +9,7 @@ import com.ruoyi.material.domain.MaMaterial;
 import com.ruoyi.material.service.IMaMaterialService;
 
 /**
- * 【请填写功能名称】Service业务层处理
+ * 物资记录Service业务层处理
  * 
  * @author ruoyi
  * @date 2023-01-24
@@ -21,10 +21,10 @@ public class MaMaterialServiceImpl implements IMaMaterialService
     private MaMaterialMapper maMaterialMapper;
 
     /**
-     * 查询【请填写功能名称】
+     * 查询物资记录
      * 
-     * @param mid 【请填写功能名称】主键
-     * @return 【请填写功能名称】
+     * @param mid 物资记录主键
+     * @return 物资记录
      */
     @Override
     public MaMaterial selectMaMaterialByMid(Long mid)
@@ -33,10 +33,10 @@ public class MaMaterialServiceImpl implements IMaMaterialService
     }
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询物资记录列表
      * 
-     * @param maMaterial 【请填写功能名称】
-     * @return 【请填写功能名称】
+     * @param maMaterial 物资记录
+     * @return 物资记录
      */
     @Override
     public List<MaMaterial> selectMaMaterialList(MaMaterial maMaterial)
@@ -45,9 +45,9 @@ public class MaMaterialServiceImpl implements IMaMaterialService
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增物资记录
      * 
-     * @param maMaterial 【请填写功能名称】
+     * @param maMaterial 物资记录
      * @return 结果
      */
     @Override
@@ -62,9 +62,9 @@ public class MaMaterialServiceImpl implements IMaMaterialService
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改物资记录
      * 
-     * @param maMaterial 【请填写功能名称】
+     * @param maMaterial 物资记录
      * @return 结果
      */
     @Override
@@ -75,9 +75,9 @@ public class MaMaterialServiceImpl implements IMaMaterialService
     }
 
     /**
-     * 批量删除【请填写功能名称】
+     * 批量删除物资记录
      * 
-     * @param mids 需要删除的【请填写功能名称】主键
+     * @param mids 需要删除的物资记录主键
      * @return 结果
      */
     @Override
@@ -87,9 +87,9 @@ public class MaMaterialServiceImpl implements IMaMaterialService
     }
 
     /**
-     * 删除【请填写功能名称】信息
+     * 删除物资记录信息
      * 
-     * @param mid 【请填写功能名称】主键
+     * @param mid 物资记录主键
      * @return 结果
      */
     @Override

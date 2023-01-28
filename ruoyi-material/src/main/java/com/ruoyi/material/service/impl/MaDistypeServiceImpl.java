@@ -8,7 +8,7 @@ import com.ruoyi.material.domain.MaDistype;
 import com.ruoyi.material.service.IMaDistypeService;
 
 /**
- * 【请填写功能名称】Service业务层处理
+ * 灾害类型Service业务层处理
  * 
  * @author ruoyi
  * @date 2023-01-19
@@ -20,10 +20,10 @@ public class MaDistypeServiceImpl implements IMaDistypeService
     private MaDistypeMapper maDistypeMapper;
 
     /**
-     * 查询【请填写功能名称】
+     * 查询灾害类型
      * 
-     * @param disid 【请填写功能名称】主键
-     * @return 【请填写功能名称】
+     * @param disid 灾害类型主键
+     * @return 灾害类型
      */
     @Override
     public MaDistype selectMaDistypeByDisid(Long disid)
@@ -32,10 +32,10 @@ public class MaDistypeServiceImpl implements IMaDistypeService
     }
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询灾害类型列表
      * 
-     * @param maDistype 【请填写功能名称】
-     * @return 【请填写功能名称】
+     * @param maDistype 灾害类型
+     * @return 灾害类型
      */
     @Override
     public List<MaDistype> selectMaDistypeList(MaDistype maDistype)
@@ -44,9 +44,9 @@ public class MaDistypeServiceImpl implements IMaDistypeService
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增灾害类型
      * 
-     * @param maDistype 【请填写功能名称】
+     * @param maDistype 灾害类型
      * @return 结果
      */
     @Override
@@ -56,9 +56,9 @@ public class MaDistypeServiceImpl implements IMaDistypeService
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改灾害类型
      * 
-     * @param maDistype 【请填写功能名称】
+     * @param maDistype 灾害类型
      * @return 结果
      */
     @Override
@@ -68,9 +68,9 @@ public class MaDistypeServiceImpl implements IMaDistypeService
     }
 
     /**
-     * 批量删除【请填写功能名称】
+     * 批量删除灾害类型
      * 
-     * @param disids 需要删除的【请填写功能名称】主键
+     * @param disids 需要删除的灾害类型主键
      * @return 结果
      */
     @Override
@@ -80,9 +80,9 @@ public class MaDistypeServiceImpl implements IMaDistypeService
     }
 
     /**
-     * 删除【请填写功能名称】信息
+     * 删除灾害类型信息
      * 
-     * @param disid 【请填写功能名称】主键
+     * @param disid 灾害类型主键
      * @return 结果
      */
     @Override

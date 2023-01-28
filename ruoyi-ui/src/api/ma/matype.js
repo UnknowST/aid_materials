@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询【请填写功能名称】列表
+// 查询求助类型列表
 export function listMatype(query) {
   return request({
     url: '/ma/matype/list',
@@ -9,7 +9,7 @@ export function listMatype(query) {
   })
 }
 
-// 查询【请填写功能名称】详细
+// 查询求助类型详细
 export function getMatype(maid) {
   return request({
     url: '/ma/matype/' + maid,
@@ -17,7 +17,7 @@ export function getMatype(maid) {
   })
 }
 
-// 新增【请填写功能名称】
+// 新增求助类型
 export function addMatype(data) {
   return request({
     url: '/ma/matype',
@@ -26,7 +26,7 @@ export function addMatype(data) {
   })
 }
 
-// 修改【请填写功能名称】
+// 修改求助类型
 export function updateMatype(data) {
   return request({
     url: '/ma/matype',
@@ -35,7 +35,7 @@ export function updateMatype(data) {
   })
 }
 
-// 删除【请填写功能名称】
+// 删除求助类型
 export function delMatype(maid) {
   return request({
     url: '/ma/matype/' + maid,

@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="MaHelp" id="MaHelpResult">
         <result property="hid"    column="hid"    />
+        <result property="husername"    column="husername"    />
         <result property="hname"    column="hname"    />
         <result property="hphone"    column="hphone"    />
         <result property="haddress"    column="haddress"    />
@@ -25,12 +26,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectMaHelpVo">
-        select hid, hname, hphone, haddress, disastype, needtype, status, hedname, headphone, hedstatus, heddetail, hedaddress, create_by, create_time, update_by, update_time, remark from ma_help
+        select hid,husername, hname, hphone, haddress, disastype, needtype, status, hedname, headphone, hedstatus, heddetail, hedaddress, create_by, create_time, update_by, update_time, remark from ma_help
     </sql>
 
     <select id="selectMaHelpList" parameterType="MaHelp" resultMap="MaHelpResult">
         <include refid="selectMaHelpVo"/>
-        <where>  
+        <where>
+            <if test="husername != null  and husername != ''"> and husername like concat('%', #{husername}, '%')</if>
             <if test="hname != null  and hname != ''"> and hname like concat('%', #{hname}, '%')</if>
             <if test="hphone != null  and hphone != ''"> and hphone = #{hphone}</if>
             <if test="haddress != null  and haddress != ''"> and haddress = #{haddress}</if>
@@ -53,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertMaHelp" parameterType="MaHelp" useGeneratedKeys="true" keyProperty="hid">
         insert into ma_help
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="husername != null">husername,</if>
             <if test="hname != null">hname,</if>
             <if test="hphone != null">hphone,</if>
             <if test="haddress != null">haddress,</if>
@@ -71,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null">remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="husername != null">#{husername},</if>
             <if test="hname != null">#{hname},</if>
             <if test="hphone != null">#{hphone},</if>
             <if test="haddress != null">#{haddress},</if>
@@ -93,6 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateMaHelp" parameterType="MaHelp">
         update ma_help
         <trim prefix="SET" suffixOverrides=",">
+            <if test="husername != null">#{husername},</if>
             <if test="hname != null">hname = #{hname},</if>
             <if test="hphone != null">hphone = #{hphone},</if>
             <if test="haddress != null">haddress = #{haddress},</if>

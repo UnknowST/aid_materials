@@ -12,7 +12,7 @@ import com.ruoyi.material.domain.MaImg;
 import com.ruoyi.material.service.IMaImgService;
 
 /**
- * 【请填写功能名称】Service业务层处理
+ * 物资图片Service业务层处理
  * 
  * @author ruoyi
  * @date 2023-01-24
@@ -24,10 +24,10 @@ public class MaImgServiceImpl implements IMaImgService
     private MaImgMapper maImgMapper;
 
     /**
-     * 查询【请填写功能名称】
+     * 查询物资图片
      * 
-     * @param imgid 【请填写功能名称】主键
-     * @return 【请填写功能名称】
+     * @param imgid 物资图片主键
+     * @return 物资图片
      */
     @Override
     public MaImg selectMaImgByImgid(Long imgid)
@@ -36,10 +36,10 @@ public class MaImgServiceImpl implements IMaImgService
     }
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询物资图片列表
      * 
-     * @param maImg 【请填写功能名称】
-     * @return 【请填写功能名称】
+     * @param maImg 物资图片
+     * @return 物资图片
      */
     @Override
     public List<MaImg> selectMaImgList(MaImg maImg)
@@ -48,9 +48,9 @@ public class MaImgServiceImpl implements IMaImgService
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增物资图片
      * 
-     * @param maImg 【请填写功能名称】
+     * @param maImg 物资图片
      * @return 结果
      */
     @Override
@@ -65,9 +65,9 @@ public class MaImgServiceImpl implements IMaImgService
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改物资图片
      * 
-     * @param maImg 【请填写功能名称】
+     * @param maImg 物资图片
      * @return 结果
      */
     @Override
@@ -78,9 +78,9 @@ public class MaImgServiceImpl implements IMaImgService
     }
 
     /**
-     * 批量删除【请填写功能名称】
+     * 批量删除物资图片
      * 
-     * @param imgids 需要删除的【请填写功能名称】主键
+     * @param imgids 需要删除的物资图片主键
      * @return 结果
      */
     @Override
@@ -91,9 +91,9 @@ public class MaImgServiceImpl implements IMaImgService
     }
 
     /**
-     * 删除【请填写功能名称】信息
+     * 删除物资图片信息
      * 
-     * @param imgid 【请填写功能名称】主键
+     * @param imgid 物资图片主键
      * @return 结果
      */
     @Override

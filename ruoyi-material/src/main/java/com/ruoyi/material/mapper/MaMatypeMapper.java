@@ -4,7 +4,7 @@ import java.util.List;
 import com.ruoyi.material.domain.MaMatype;
 
 /**
- * 【请填写功能名称】Mapper接口
+ * 求助类型Mapper接口
  * 
  * @author ruoyi
  * @date 2023-01-19
@@ -12,47 +12,47 @@ import com.ruoyi.material.domain.MaMatype;
 public interface MaMatypeMapper 
 {
     /**
-     * 查询【请填写功能名称】
+     * 查询求助类型
      * 
-     * @param maid 【请填写功能名称】主键
-     * @return 【请填写功能名称】
+     * @param maid 求助类型主键
+     * @return 求助类型
      */
     public MaMatype selectMaMatypeByMaid(Long maid);
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询求助类型列表
      * 
-     * @param maMatype 【请填写功能名称】
-     * @return 【请填写功能名称】集合
+     * @param maMatype 求助类型
+     * @return 求助类型集合
      */
     public List<MaMatype> selectMaMatypeList(MaMatype maMatype);
 
     /**
-     * 新增【请填写功能名称】
+     * 新增求助类型
      * 
-     * @param maMatype 【请填写功能名称】
+     * @param maMatype 求助类型
      * @return 结果
      */
     public int insertMaMatype(MaMatype maMatype);
 
     /**
-     * 修改【请填写功能名称】
+     * 修改求助类型
      * 
-     * @param maMatype 【请填写功能名称】
+     * @param maMatype 求助类型
      * @return 结果
      */
     public int updateMaMatype(MaMatype maMatype);
 
     /**
-     * 删除【请填写功能名称】
+     * 删除求助类型
      * 
-     * @param maid 【请填写功能名称】主键
+     * @param maid 求助类型主键
      * @return 结果
      */
     public int deleteMaMatypeByMaid(Long maid);
 
     /**
-     * 批量删除【请填写功能名称】
+     * 批量删除求助类型
      * 
      * @param maids 需要删除的数据主键集合
      * @return 结果

@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询【请填写功能名称】列表
+// 查询灾害类型列表
 export function listDistype(query) {
   return request({
     url: '/ma/distype/list',
@@ -9,7 +9,7 @@ export function listDistype(query) {
   })
 }
 
-// 查询【请填写功能名称】详细
+// 查询灾害类型详细
 export function getDistype(disid) {
   return request({
     url: '/ma/distype/' + disid,
@@ -17,7 +17,7 @@ export function getDistype(disid) {
   })
 }
 
-// 新增【请填写功能名称】
+// 新增灾害类型
 export function addDistype(data) {
   return request({
     url: '/ma/distype',
@@ -26,7 +26,7 @@ export function addDistype(data) {
   })
 }
 
-// 修改【请填写功能名称】
+// 修改灾害类型
 export function updateDistype(data) {
   return request({
     url: '/ma/distype',
@@ -35,7 +35,7 @@ export function updateDistype(data) {
   })
 }
 
-// 删除【请填写功能名称】
+// 删除灾害类型
 export function delDistype(disid) {
   return request({
     url: '/ma/distype/' + disid,

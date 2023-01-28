@@ -269,7 +269,7 @@ export default {
             this.formData.hname=this.user.nickName
             this.formData.hphone=this.user.phonenumber
             Object.assign(this.formData,data1)
-            //console.log(this.formData);
+            console.log(this.formData);
             addHelp(this.formData).then((res)=>{
                 this.$modal.msgSuccess("申请成功，请等待审核");
                //this.open = false;

@@ -8,7 +8,7 @@ import com.ruoyi.material.domain.MaMatype;
 import com.ruoyi.material.service.IMaMatypeService;
 
 /**
- * 【请填写功能名称】Service业务层处理
+ * 求助类型Service业务层处理
  * 
  * @author ruoyi
  * @date 2023-01-19
@@ -20,10 +20,10 @@ public class MaMatypeServiceImpl implements IMaMatypeService
     private MaMatypeMapper maMatypeMapper;
 
     /**
-     * 查询【请填写功能名称】
+     * 查询求助类型
      * 
-     * @param maid 【请填写功能名称】主键
-     * @return 【请填写功能名称】
+     * @param maid 求助类型主键
+     * @return 求助类型
      */
     @Override
     public MaMatype selectMaMatypeByMaid(Long maid)
@@ -32,10 +32,10 @@ public class MaMatypeServiceImpl implements IMaMatypeService
     }
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询求助类型列表
      * 
-     * @param maMatype 【请填写功能名称】
-     * @return 【请填写功能名称】
+     * @param maMatype 求助类型
+     * @return 求助类型
      */
     @Override
     public List<MaMatype> selectMaMatypeList(MaMatype maMatype)
@@ -44,9 +44,9 @@ public class MaMatypeServiceImpl implements IMaMatypeService
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增求助类型
      * 
-     * @param maMatype 【请填写功能名称】
+     * @param maMatype 求助类型
      * @return 结果
      */
     @Override
@@ -56,9 +56,9 @@ public class MaMatypeServiceImpl implements IMaMatypeService
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改求助类型
      * 
-     * @param maMatype 【请填写功能名称】
+     * @param maMatype 求助类型
      * @return 结果
      */
     @Override
@@ -68,9 +68,9 @@ public class MaMatypeServiceImpl implements IMaMatypeService
     }
 
     /**
-     * 批量删除【请填写功能名称】
+     * 批量删除求助类型
      * 
-     * @param maids 需要删除的【请填写功能名称】主键
+     * @param maids 需要删除的求助类型主键
      * @return 结果
      */
     @Override
@@ -80,9 +80,9 @@ public class MaMatypeServiceImpl implements IMaMatypeService
     }
 
     /**
-     * 删除【请填写功能名称】信息
+     * 删除求助类型信息
      * 
-     * @param maid 【请填写功能名称】主键
+     * @param maid 求助类型主键
      * @return 结果
      */
     @Override

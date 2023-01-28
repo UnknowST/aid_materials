@@ -24,7 +24,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 【请填写功能名称】Controller
+ * 物资记录Controller
  * 
  * @author ruoyi
  * @date 2023-01-24
@@ -38,7 +38,7 @@ public class MaMaterialController extends BaseController
     @Autowired
     private IMaImgService maImgService;
     /**
-     * 查询【请填写功能名称】列表
+     * 查询物资记录列表
      */
     @PreAuthorize("@ss.hasPermi('ma:material:list')")
     @GetMapping("/list")
@@ -50,20 +50,20 @@ public class MaMaterialController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出物资记录列表
      */
     @PreAuthorize("@ss.hasPermi('ma:material:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "导出物资记录", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, MaMaterial maMaterial)
     {
         List<MaMaterial> list = maMaterialService.selectMaMaterialList(maMaterial);
         ExcelUtil<MaMaterial> util = new ExcelUtil<MaMaterial>(MaMaterial.class);
-        util.exportExcel(response, list, "【请填写功能名称】数据");
+        util.exportExcel(response, list, "物资记录数据");
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取物资记录详细信息
      */
     @PreAuthorize("@ss.hasPermi('ma:material:query')")
     @GetMapping(value = "/{mid}")
@@ -73,10 +73,10 @@ public class MaMaterialController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增物资记录
      */
     @PreAuthorize("@ss.hasPermi('ma:material:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "新增物资记录", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody MaMaterial maMaterial)
     {
@@ -90,10 +90,10 @@ public class MaMaterialController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改物资记录
      */
     @PreAuthorize("@ss.hasPermi('ma:material:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "修改物资记录", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody MaMaterial maMaterial)
     {
@@ -101,26 +101,23 @@ public class MaMaterialController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除物资记录
      */
     @PreAuthorize("@ss.hasPermi('ma:material:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "删除物资记录", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{mids}")
     public AjaxResult remove(@PathVariable Long[] mids)
     {
         // 首先要删除关联的图片
         for(Long mid:mids){
-            /*AjaxResult ajaxResult=getInfo(mid);
-            MaMaterial maMaterial= (MaMaterial) ajaxResult.get("data");
-            //System.out.println(maMaterial);
-            maImgService.deleteMaImgByImgid(maMaterial.getMimagid());*/
+
             int flag=maImgService.deleteMaImgByImgid(mid);
             if(flag==0){
                 return error("删除失败，请重试！");
             }
             maMaterialService.deleteMaMaterialByMid(mid);
         }
-        //maMaterialService.deleteMaMaterialByMids(mids)
+
         return AjaxResult.success();
     }
 
@@ -155,37 +152,6 @@ public class MaMaterialController extends BaseController
         }
         return error("上传图片异常，请联系管理员");
     }
-//
-//    /**
-//     * 图片上传
-//     */
-//    @PreAuthorize("@ss.hasPermi('ma:img:update')")
-//    @Log(title = "更新图片", businessType = BusinessType.UPDATE)
-//    @RequestMapping("/updateimg")
-//    @CrossOrigin
-//    public AjaxResult updateimg(@RequestParam("file") MultipartFile file) throws Exception
-//    {
-//        //System.out.println("======="+maMaterial.getMdetail()+maMaterial.getMtitle());
-//        if (!file.isEmpty())
-//        {
-//            MaImg maImg=new MaImg();
-//
-//            LoginUser loginUser = getLoginUser();
-//            String imgurl= FileUploadUtils.upload(RuoYiConfig.getUploadPath(),file, MimeTypeUtils.IMAGE_EXTENSION);
-//            maImg.setImgname(file.getName());
-//            maImg.setImgpath(imgurl);
-//            maImg.setCreateBy(loginUser.getUsername());
-//            int flag=maImgService.insertMaImg(maImg);
-//            if (flag!=0)
-//            {
-//                AjaxResult ajax = AjaxResult.success();
-//                ajax.put("imgUrl", imgurl);
-//                ajax.put("mid",flag);
-//                // 更新缓存用户头像
-//                return ajax;
-//            }
-//        }
-//        return error("上传图片异常，请联系管理员");
-//    }
+
 
 }
