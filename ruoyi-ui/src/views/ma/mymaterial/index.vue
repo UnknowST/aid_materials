@@ -17,13 +17,13 @@
         />
       </el-form-item>
       <!-- <el-form-item label="图片id" prop="mimagid">
-        <el-input
-          v-model="queryParams.mimagid"
-          placeholder="请输入图片id"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item> -->
+          <el-input
+            v-model="queryParams.mimagid"
+            placeholder="请输入图片id"
+            clearable
+            @keyup.enter.native="handleQuery"
+          />
+        </el-form-item> -->
       <el-form-item label="地址" prop="maddress">
         <el-input
           v-model="queryParams.maddress"
@@ -63,16 +63,16 @@
 
     <el-row :gutter="10" class="mb8">
       <!-- <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['ma:material:add']"
-          >新增</el-button
-        >
-      </el-col> -->
+          <el-button
+            type="primary"
+            plain
+            icon="el-icon-plus"
+            size="mini"
+            @click="handleAdd"
+            v-hasPermi="['ma:material:add']"
+            >新增</el-button
+          >
+        </el-col> -->
       <el-col :span="1.5">
         <el-button
           type="success"
@@ -168,22 +168,21 @@
             >删除</el-button
           >
 
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-check"
-            @click="handleExamine(scope.row)"
-            v-hasPermi="['ma:material:remove']"
-            >审核</el-button
-          >
+          <!-- <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-check"
+              @click="handleExamine(scope.row)"
+              v-hasPermi="['ma:material:remove']"
+              >审核</el-button> -->
 
           <el-button
             size="mini"
             type="text"
-            icon="el-icon-message"
+            icon="el-icon-s-data"
             @click="handleApply(scope.row)"
             v-hasPermi="['ma:material:remove']"
-            >申请</el-button
+            >申请列表</el-button
           >
         </template>
       </el-table-column>
@@ -198,7 +197,13 @@
     />
 
     <!-- 添加或修改【请填写功能名称】对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body :before-close="handleDialogClose">
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="500px"
+      append-to-body
+      :before-close="handleDialogClose"
+    >
       <el-form
         ref="form"
         :model="form"
@@ -316,189 +321,131 @@
       </div>
     </el-dialog>
 
-    <!-- // 审核弹出框 -->
+    <!-- // 申请列表弹出框 -->
     <el-dialog
       :title="title"
-      :visible.sync="exopen"
-      width="500px"
+      :visible.sync="apopen"
+      width="1000px"
       append-to-body
     >
+      <el-table
+        v-loading="loading"
+        :data="helpedList"
+        @selection-change="handleSelectionChange"
+      >
+      
+        <el-table-column label="id" align="center" prop="huid" />
+        <el-table-column label="用户名" align="center" prop="husername" />
+        <el-table-column label="姓名" align="center" prop="hname" />
+        <el-table-column label="联系方式" align="center" prop="hphone">
+        </el-table-column>
+        <el-table-column label="地址" align="center" prop="haddress" />
+        <el-table-column label="灾害类型" align="center" prop="disastype">
+          <template slot-scope="scope">
+            <span>
+              {{ getDisastypeName(scope.row.disastype) }}
+            </span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="求助类型" align="center" prop="needtype">
+          <template slot-scope="scope">
+            <span>
+              {{ getNeedtypeName(scope.row.needtype) }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="申请状态" align="center" prop="status" width="100">
+          <template slot-scope="scope">
+            <dict-tag
+              :options="dict.type.help_status"
+              :value="scope.row.status"
+            ></dict-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="申请时间" align="center" prop="createTime">
+        </el-table-column>
+        <!-- <el-table-column label="备注" align="center" prop="remark" /> -->
+        <el-table-column
+          label="操作"
+          align="center"
+          class-name="small-padding fixed-width"
+        >
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-s-data"
+              @click="handleReback(scope.row)"
+              v-hasPermi="['ma:material:remove']"
+              >反馈</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <pagination
+        v-show="total > 0"
+        :total="total"
+        :page.sync="helpedqueryParams.pageNum"
+        :limit.sync="helpedqueryParams.pageSize"
+        @pagination="getHelpList(helpedqueryParams.mid)"
+      />
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="apCancel">取 消</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 反馈页面 抽屉 -->
+    <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false">
       <el-form
-        ref="form"
-        :model="form"
+        ref="Reform"
+        :model="Reform"
         :rules="rules"
         size="medium"
         label-width="100px"
+        style="padding-top: 30px"
       >
-        <el-form-item label="审核状态" prop="mstatus">
+        <el-form-item label="帮助状态" prop="status">
           <el-select
-            v-model="form.mstatus"
-            placeholder="审核状态"
+            v-model="Reform.status"
+            placeholder="帮助状态"
             clearable
             style="width: 240px"
           >
             <el-option
-              v-for="dict in dict.type.ma_examine_status"
+              v-for="dict in dict.type.help_status"
               :key="dict.value"
               :label="dict.label"
               :value="dict.value"
             />
           </el-select>
         </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="exsubmitForm">确 定</el-button>
-        <el-button @click="excancel">取 消</el-button>
-      </div>
-    </el-dialog>
-    <!-- // 申请弹出框 -->
-    <el-dialog
-      :title="title"
-      :visible.sync="apopen"
-      width="550px"
-      append-to-body
-    >
-      <el-form
-        ref="apform"
-        :model="apform"
-        :rules="rules"
-        size="medium"
-        label-width="100px"
-        label-position="right"
-      >
-        <el-form-item label="用户名" prop="husername">
+        <el-form-item label="备注" prop="remark" required>
           <el-input
-            v-model="user.userName"
-            placeholder="请输入用户名"
-            show-word-limit
-            clearable
-            prefix-icon="el-icon-mobile"
-            :style="{ width: '100%' }"
-            readonly=""
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="姓名" prop="hname">
-          <el-input
-            v-model="user.nickName"
-            placeholder="请输入姓名"
-            :style="{ width: '100%' }"
-            readonly=""
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="联系方式" prop="hphone">
-          <el-input
-            v-model="user.phonenumber"
-            placeholder="请输入联系方式"
+            type="textarea"
+            v-model="Reform.remark"
+            placeholder="备注信息"
             clearable
             :style="{ width: '100%' }"
-            readonly=""
           >
           </el-input>
         </el-form-item>
-        <!-- 层级太深 表单校验 不能检验到 数据的变化 -->
-        <el-row :gutter="24">
-          <el-form-item label="地址" prop="haddress">
-            <el-col :span="8">
-              <el-select
-                v-model="apform.region1"
-                placeholder="请选择省"
-                @change="provinceChange($event)"
-              >
-                <el-option
-                  v-for="(item, index) in this.provinceList"
-                  :key="item.name"
-                  :value="item.name"
-                ></el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="8">
-              <el-select
-                v-model="apform.region2"
-                placeholder="请选择城市"
-                @change="cityChange($event)"
-              >
-                <el-option
-                  v-for="(item, index) in this.cityList"
-                  :key="item.name"
-                  :value="item.name"
-                ></el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="8">
-              <el-select v-model="apform.region3" placeholder="请选择区县">
-                <el-option
-                  v-for="(item, index) in this.countyList"
-                  :key="item.name"
-                  :value="item.name"
-                ></el-option>
-              </el-select>
-            </el-col>
-          </el-form-item>
-        </el-row>
-
-        <el-row>
-          <el-col>
-            <el-form-item label="详细地址" prop="haddress1">
-              <el-input
-                v-model="apform.haddress1"
-                placeholder="请详细地址"
-                maxlength="20"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="灾害类型" prop="disastype">
-          <el-select
-            v-model="apform.disastype"
-            placeholder="请选择灾害类型"
-            clearable
-            :style="{ width: '100%' }"
+        <el-form-item>
+          <el-button
+            type="primary"
+            icon="el-icon-search"
+            size="mini"
+            @click="submitReform"
+            >提交</el-button
           >
-            <el-option
-              v-for="(item, index) in this.distype"
-              :key="item.disid"
-              :label="item.disname"
-              :value="item.disid"
-              :disabled="item.disabled"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="求助类型" prop="needtype">
-          <el-select
-            v-model="apform.needtype"
-            placeholder="请选择求助类型"
-            clearable
-            :style="{ width: '100%' }"
-          >
-            <el-option
-              v-for="(item, index) in this.needtype"
-              :key="item.maid"
-              :label="item.maname"
-              :value="item.maid"
-              :disabled="item.disabled"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input
-            v-model="apform.remark"
-            type="textarea"
-            placeholder="请输入备注"
-            show-word-limit
-            :autosize="{ minRows: 4, maxRows: 4 }"
-            :style="{ width: '100%' }"
-          ></el-input>
-        </el-form-item>
-        <el-form-item size="large">
-          <el-button type="primary" @click="apsubmitForm">提交</el-button>
-          <el-button @click="apCancel">取消</el-button>
         </el-form-item>
       </el-form>
-    </el-dialog>
+    </el-drawer>
   </div>
 </template>
-  
-  <script>
+    
+    <script>
 import {
   listMaterial,
   getMaterial,
@@ -506,6 +453,7 @@ import {
   addMaterial,
   updateMaterial,
   getPosition,
+  mylistMaterial,
 } from "@/api/ma/maupload";
 import { delImg } from "@/api/ma/img";
 import { getToken } from "@/utils/auth";
@@ -514,9 +462,11 @@ import { getUserProfile } from "@/api/system/user";
 import { addHelped } from "@/api/ma/helped";
 
 import { listDistype, listMatype } from "@/api/ma/maapply";
+import { listHelped, updateHelped } from "@/api/ma/helped";
 export default {
   name: "Material",
-  dicts: ["ma_examine_status"],
+
+  dicts: ["ma_examine_status", "help_status"],
   data() {
     return {
       //登录用户数据
@@ -527,10 +477,7 @@ export default {
       countyList: [],
       CITY: [],
       XIAN: [],
-      region1:[],
-      region2:[],
-      region3:[],
-      address1:undefined,
+      drawer: false,
       showbutton1: "false",
       showbutton2: "false",
       hearders: {
@@ -551,14 +498,15 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 【请填写功能名称】表格数据
+      // 物资列表表格数据
       materialList: [],
+      // 申请记录列表数据
+      helpedList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
-      // 审核弹出层
-      exopen: false,
+
       // 申请弹出层
       apopen: false,
 
@@ -573,7 +521,14 @@ export default {
         maddress: null,
         mstatus: null,
       },
-      distype: [],
+      //申请列表查询参数
+      helpedqueryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        mid: null,
+      },
+
+      disastype: [],
       needtype: [],
       // 表单参数
       form: {
@@ -612,7 +567,13 @@ export default {
         region1: undefined,
         region2: undefined,
         region3: undefined,
-        create_by:undefined,
+        create_by: undefined,
+      },
+      //帮助状态修改 form
+      Reform: {
+        huid: null,
+        status: null,
+        remark: null,
       },
       // 表单校验
       rules: {
@@ -714,6 +675,20 @@ export default {
             trigger: "change",
           },
         ],
+        status: [
+          {
+            required: true,
+            message: "请选择状态",
+            trigger: "change",
+          },
+        ],
+        remark: [
+          {
+            required: true,
+            message: "请输入备注",
+            trigger: "change",
+          },
+        ],
       },
     };
   },
@@ -728,12 +703,34 @@ export default {
   },
 
   methods: {
-    /** 查询【请填写功能名称】列表 */
+    //查询灾害类型的名称
+    getDisastypeName(option) {
+      for (var i = 0; i < this.disastype.length; i++) {
+        if (option == this.disastype[i].disid) return this.disastype[i].disname;
+      }
+    },
+    //查询求助类型的名称
+    getNeedtypeName(option) {
+      for (var i = 0; i < this.needtype.length; i++) {
+        if (option == this.needtype[i].maid) return this.needtype[i].maname;
+      }
+    },
+    /** 查询用户物资列表 */
     getList() {
       this.loading = true;
-      listMaterial(this.queryParams).then((response) => {
+      mylistMaterial(this.queryParams).then((response) => {
         this.materialList = response.rows;
         this.total = response.total;
+        this.loading = false;
+      });
+    },
+    getHelpList(options) {
+      this.loading = true;
+
+      this.helpedqueryParams.mid = options;
+      listHelped(this.helpedqueryParams).then((res) => {
+        this.helpedList = res.rows;
+        this.total = res.total;
         this.loading = false;
       });
     },
@@ -747,7 +744,7 @@ export default {
     },
     getdata() {
       listDistype().then((res) => {
-        this.distype = res.rows;
+        this.disastype = res.rows;
       });
       listMatype().then((res) => {
         this.needtype = res.rows;
@@ -755,15 +752,15 @@ export default {
     },
     // 取消按钮
     cancel() {
-      this.minagefileList=[]
+      this.minagefileList = [];
       this.open = false;
       this.reset();
     },
     //点击右上角关闭按钮的回调事件
-    handleDialogClose(){
-      this.open=false;
-      this.reset()
-      this.minagefileList=[]
+    handleDialogClose() {
+      this.open = false;
+      this.reset();
+      this.minagefileList = [];
     },
 
     // 表单重置
@@ -815,7 +812,7 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.choiseFlag = "false";
-    
+
       this.reset();
       const mid = row.mid || this.ids;
       getMaterial(mid).then((response) => {
@@ -833,7 +830,9 @@ export default {
         // this.form.region2 = str[1];
         // this.form.region3 = str[2];
         // this.form.address1 = str[3];
-    
+        console.log(str);
+        //console.log(response)
+        //this.form.minage=response.data.imgpath
         let data = {
           name: response.data.imgname,
           url: this.baseurl + response.data.imgpath,
@@ -841,84 +840,38 @@ export default {
         this.minagefileList.push(data);
       });
     },
-    // 审核按钮
-    handleExamine(row) {
-      (this.exopen = true),
-        (this.title = "审核物资"),
-        (this.form.mstatus = row.mstatus);
-      this.form.mid = row.mid;
-    },
-    excancel() {
-      (this.exopen = false), this.reset();
-    },
+
     apCancel() {
       this.apopen = false;
       this.reset();
     },
-    exsubmitForm() {
-      this.$refs["form"].validate((valid) => {
+
+    // 申请列表按钮
+    handleApply(row) {
+      this.apopen = true;
+      this.title = "申请列表";
+
+      this.getHelpList(row.mid);
+      this.helpedqueryParams.mid = row.mid;
+      this.getdata();
+    },
+    //反馈按钮
+    handleReback(row) {
+      this.drawer = true;
+      this.Reform.huid=row.huid;
+      console.log(this.Reform.huid)
+    },
+    //反馈提交按钮
+    submitReform() {
+      this.$refs["Reform"].validate((valid) => {
         if (valid) {
-          updateMaterial(this.form).then((res) => {
-            this.$modal.msgSuccess("操作成功");
-            (this.exopen = false), this.getList();
+          updateHelped(this.Reform).then((res) => {
+            this.$modal.msgSuccess("反馈成功！");
+            this.drawer=false;
+            this.getHelpList(this.helpedqueryParams.mid)
           });
         }
       });
-    },
-    apsubmitForm() {
-      this.$refs["apform"].validate((valid) => {
-        if (valid) {
-          if (
-            this.apform.region1 == undefined ||
-            this.apform.region2 == undefined ||
-            this.apform.region3 == undefined ||
-            this.apform.haddress1==undefined
-          ) {
-            this.$message.error("地址信息必填");
-            return;
-          } else {
-            this.apform.haddress =
-              this.apform.region1 +
-              this.apform.region2 +
-              this.apform.region3 +
-              this.apform.haddress1;
-
-            addHelped(this.apform).then((res) => {
-              this.$modal.msgSuccess("操作成功");
-              (this.apopen = false), this.getList();
-            });
-          }
-        }
-      });
-    },
-    // 申请按钮
-    handleApply(row) {
-      this.apopen = true;
-      this.title = "申请物资";
-      this.getUser();
-      this.getdata();
-      this.getPositions();
-      this.apform.mid = row.mid;
-     
-      getUserProfile().then((response) => {
-        this.user = response.data;
-        if (this.user.address != null) {
-          str = this.getaddress(this.user.address);
-          this.$set(this.apform, 'region1', str[0])
-        this.$set(this.apform, 'region2', str[1])
-        this.$set(this.apform, 'region3', str[2])
-        this.$set(this.apform, 'haddress1', str[3])
-          // (this.apform.region1 = str[0]),
-          //   (this.apform.region2 = str[1]),
-          //   (this.apform.region2 = str[2]),
-          //   (this.apform.haddress1 = str[3]);
-        }
-        (this.apform.husername = this.user.userName),
-          (this.apform.hname = this.user.nickName),
-          (this.apform.hphone = this.user.phonenumber);
-          this.apform.create_by=this.user.userName
-      });
-      // console.log(this.user)
     },
     /** 提交按钮 */
     submitForm() {
@@ -942,7 +895,7 @@ export default {
               updateMaterial(this.form).then((res) => {
                 this.$modal.msgSuccess("修改成功");
                 this.minagefileList = [];
-                
+
                 this.open = false;
 
                 this.getList();
@@ -1103,4 +1056,4 @@ export default {
   },
 };
 </script>
-  
+    

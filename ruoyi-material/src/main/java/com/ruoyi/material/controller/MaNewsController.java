@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,11 +72,11 @@ public class MaNewsController extends BaseController {
      * 新增新闻列
      */
     @PreAuthorize("@ss.hasPermi('ma:news:add')")
-    @Log(title = "新闻列", businessType = BusinessType.INSERT)
+    @Log(title = "新增新闻列", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody MaNews maNews) {
-        LoginUser loginUser = getLoginUser();
-        maNews.setCreateBy(loginUser.getUsername());
+
+        maNews.setCreateBy(SecurityUtils.getUsername());
         return toAjax(maNewsService.insertMaNews(maNews));
     }
 
@@ -86,8 +87,8 @@ public class MaNewsController extends BaseController {
     @Log(title = "新闻列", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody MaNews maNews) {
-        LoginUser loginUser = getLoginUser();
-        maNews.setUpdateBy(loginUser.getUsername());
+        //LoginUser loginUser = getLoginUser();
+        maNews.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(maNewsService.updateMaNews(maNews));
     }
 

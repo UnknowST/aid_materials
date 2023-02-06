@@ -9,6 +9,27 @@ export function listHelp(query) {
   })
 }
 
+//查询登录用户的求助列表
+
+export function mylistHelp(query) {
+  return request({
+    url: '/ma/help/mylist',
+    method: 'get',
+    params: query
+  })
+}
+
+//查询登录用户 提供帮助的列表
+//查询登录用户的求助列表
+
+export function myedlistHelp(query) {
+  return request({
+    url: '/ma/help/myedlist',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询求助详细
 export function getHelp(hid) {
   return request({

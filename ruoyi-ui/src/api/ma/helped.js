@@ -9,6 +9,15 @@ export function listHelped(query) {
   })
 }
 
+// 查询登录用户的求助列表
+export function mylistHelped(query) {
+  return request({
+    url: '/ma/helped/mylist',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询物资帮助详细
 export function getHelped(huid) {
   return request({
@@ -40,5 +49,13 @@ export function delHelped(huid) {
   return request({
     url: '/ma/helped/' + huid,
     method: 'delete'
+  })
+}
+
+//根据物资id 查询对应记录
+export function getInfoByMid(mid){
+  return request({
+    url:'/ma/helped/'+mid,
+    method:'get'
   })
 }

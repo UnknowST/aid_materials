@@ -58,4 +58,11 @@ public interface MaHelpedMapper
      * @return 结果
      */
     public int deleteMaHelpedByHuids(Long[] huids);
+
+    /**
+     *  查询对应物资的 申请记录
+     * @param mid
+     * @return
+     */
+    public List<MaHelped> selectMaHelpedByMid(Long mid);
 }

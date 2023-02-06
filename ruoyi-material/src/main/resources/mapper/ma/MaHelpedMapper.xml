@@ -1,50 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.material.mapper.MaHelpedMapper">
-    
+
     <resultMap type="MaHelped" id="MaHelpedResult">
-        <result property="huid"    column="huid"    />
-        <result property="mid"    column="mid"    />
-        <result property="husername"    column="husername"    />
-        <result property="hname"    column="hname"    />
-        <result property="hphone"    column="hphone"    />
-        <result property="haddress"    column="haddress"    />
-        <result property="disastype"    column="disastype"    />
-        <result property="needtype"    column="needtype"    />
-        <result property="status"    column="status"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="remark"    column="remark"    />
+        <result property="huid" column="huid"/>
+        <result property="mid" column="mid"/>
+        <result property="husername" column="husername"/>
+        <result property="hname" column="hname"/>
+        <result property="hphone" column="hphone"/>
+        <result property="haddress" column="haddress"/>
+        <result property="disastype" column="disastype"/>
+        <result property="needtype" column="needtype"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
     </resultMap>
 
     <sql id="selectMaHelpedVo">
-        select huid, mid, husername, hname, hphone, haddress, disastype, needtype, status, create_by, create_time, update_by, update_time, remark from ma_helped
+        select huid,
+               mid,
+               husername,
+               hname,
+               hphone,
+               haddress,
+               disastype,
+               needtype,
+               status,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark
+        from ma_helped
     </sql>
 
     <select id="selectMaHelpedList" parameterType="MaHelped" resultMap="MaHelpedResult">
         <include refid="selectMaHelpedVo"/>
-        <where>  
-            <if test="huid != null "> and huid = #{huid}</if>
-            <if test="mid != null "> and mid = #{mid}</if>
-            <if test="husername != null  and husername != ''"> and husername like concat('%', #{husername}, '%')</if>
-            <if test="hname != null  and hname != ''"> and hname like concat('%', #{hname}, '%')</if>
-            <if test="hphone != null  and hphone != ''"> and hphone = #{hphone}</if>
-            <if test="haddress != null  and haddress != ''"> and haddress = #{haddress}</if>
-            <if test="disastype != null "> and disastype = #{disastype}</if>
-            <if test="needtype != null "> and needtype = #{needtype}</if>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
+        <where>
+            <if test="huid != null ">and huid = #{huid}</if>
+            <if test="mid != null ">and mid = #{mid}</if>
+            <if test="husername != null  and husername != ''">and husername=#{husername}</if>
+            <if test="hname != null  and hname != ''">and hname like concat('%', #{hname}, '%')</if>
+            <if test="hphone != null  and hphone != ''">and hphone = #{hphone}</if>
+            <if test="haddress != null  and haddress != ''">and haddress = #{haddress}</if>
+            <if test="disastype != null ">and disastype = #{disastype}</if>
+            <if test="needtype != null ">and needtype = #{needtype}</if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
         </where>
     </select>
-    
+
     <select id="selectMaHelpedByHuid" parameterType="Long" resultMap="MaHelpedResult">
         <include refid="selectMaHelpedVo"/>
         where huid = #{huid}
     </select>
-        
+
     <insert id="insertMaHelped" parameterType="MaHelped">
         insert into ma_helped
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -62,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="huid != null">#{huid},</if>
             <if test="mid != null">#{mid},</if>
@@ -78,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateMaHelped" parameterType="MaHelped">
@@ -102,13 +116,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteMaHelpedByHuid" parameterType="Long">
-        delete from ma_helped where huid = #{huid}
+        delete
+        from ma_helped
+        where huid = #{huid}
     </delete>
 
     <delete id="deleteMaHelpedByHuids" parameterType="String">
-        delete from ma_helped where huid in 
+        delete from ma_helped where huid in
         <foreach item="huid" collection="array" open="(" separator="," close=")">
             #{huid}
         </foreach>
     </delete>
+
+    <select id="selectMaHelpedByMid" parameterType="Long" resultMap="MaHelpedResult">
+        select *
+        from ma_helped
+        where mid = #{mid}
+    </select>
 </mapper>

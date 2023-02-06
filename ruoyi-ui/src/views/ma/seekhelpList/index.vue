@@ -56,22 +56,8 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="详细信息" prop="heddetail">
-        <el-input
-          v-model="queryParams.heddetail"
-          placeholder="请输入详细信息"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="提供帮助者地址" prop="hedaddress">
-        <el-input
-          v-model="queryParams.hedaddress"
-          placeholder="请输入提供帮助者地址"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+
+
       <el-form-item label="申请状态" prop="status">
           <el-select
             v-model="queryParams.status"
@@ -87,7 +73,23 @@
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="帮助状态" prop="hedstatus">
+        <el-select
+          v-model="queryParams.hedstatus"
+          placeholder="帮助状态"
+          clearable
+          style="width: 240px"
+        >
+          <el-option
+            v-for="dict in dict.type.help_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item>
+
         <el-button
           type="primary"
           icon="el-icon-search"
@@ -109,21 +111,21 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:help:add']"
+          v-hasPermi="['ma:help:add']"
           >新增</el-button
         >
       </el-col> -->
       <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['system:help:edit']"
-          >修改</el-button
-        >
+          <!-- <el-button
+            type="success"
+            plain
+            icon="el-icon-edit"
+            size="mini"
+            :disabled="single"
+            @click="handleUpdate"
+            v-hasPermi="['ma:help:edit']"
+            >修改</el-button> -->
+        
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -133,7 +135,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:help:remove']"
+          v-hasPermi="['ma:help:remove']"
           >删除</el-button
         >
       </el-col>
@@ -144,7 +146,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:help:export']"
+          v-hasPermi="['ma:help:export']"
           >导出</el-button
         >
       </el-col>
@@ -176,7 +178,7 @@
       <el-table-column label="求助类型" align="center" prop="needtype">
         <template slot-scope="scope">
           <span>
-            {{ getDisastypeName(scope.row.needtype) }}
+            {{ getNeedtypeName(scope.row.needtype) }}
           </span>
         </template>
       </el-table-column>
@@ -217,29 +219,33 @@
       >
         <template slot-scope="scope">
           <el-button
+          v-if="scope.row.status==1 && scope.row.hedstatus==0 && scope.row.husername!=user.userName"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:help:edit']"
-            >修改</el-button
+            v-hasPermi="['ma:help:edit']"
+            >帮助</el-button
           >
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
+            v-if="(scope.row.hedstatus==0 || scope.row.hedstatus==2) && user.userName==scope.row.husername"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:help:remove']"
+            v-hasPermi="['ma:help:remove']"
             >删除</el-button
           >
           <el-button
             size="mini"
             type="text"
-            icon="el-icon-delete"
+            icon="el-icon-circle-check"
+            v-if="(scope.row.hedstatus==0 && user.roleIds[0]==3)||(scope.row.hedstatus==0 && user.roleIds[0]==1)"
             @click="handleExam(scope.row)"
-            v-hasPermi="['system:help:remove']"
+            v-hasPermi="['ma:help:edit']"
             >审核</el-button
           >
+ 
         </template>
       </el-table-column>
     </el-table>
@@ -252,41 +258,33 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改【请填写功能名称】对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <!-- 提供帮助弹窗 -->
+    <el-dialog :title="title" :visible.sync="open" width="700px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="求助者用户名" prop="husername">
-          <el-input v-model="form.husername" placeholder="请输入求助者用户名" />
-        </el-form-item>
-        <el-form-item label="求助者姓名" prop="hname">
-          <el-input v-model="form.hname" placeholder="请输入求助者姓名" />
-        </el-form-item>
-        <el-form-item label="求助者电话" prop="hphone">
-          <el-input v-model="form.hphone" placeholder="请输入求助者电话" />
-        </el-form-item>
-        <el-form-item label="提供帮助者用户名" prop="hedusername">
+        <el-form-item label="提供帮助者用户名" prop="hedusername" required="">
           <el-input
-            v-model="form.hedusername"
+            v-model="user.userName"
             placeholder="请输入提供帮助者用户名"
+           
           />
         </el-form-item>
-        <el-form-item label="提供帮助者姓名" prop="hedname">
-          <el-input v-model="form.hedname" placeholder="请输入提供帮助者姓名" />
+        <el-form-item label="提供帮助者姓名" prop="hedname" required>
+          <el-input v-model="user.nickName" placeholder="请输入提供帮助者姓名" />
         </el-form-item>
-        <el-form-item label="提供帮助者电话" prop="headphone">
+        <el-form-item label="提供帮助者电话" prop="headphone" required>
           <el-input
-            v-model="form.headphone"
+            v-model="user.phonenumber"
             placeholder="请输入提供帮助者电话"
           />
         </el-form-item>
-        <el-form-item label="详细信息" prop="heddetail">
-          <el-input v-model="form.heddetail" placeholder="请输入详细信息" />
-        </el-form-item>
-        <el-form-item label="提供帮助者地址" prop="hedaddress">
+        <el-form-item label="提供帮助者地址" prop="hedaddress" required>
           <el-input
-            v-model="form.hedaddress"
+            v-model="user.address"
             placeholder="请输入提供帮助者地址"
           />
+        </el-form-item>
+        <el-form-item label="详细信息" prop="heddetail" required>
+          <el-input  type="textarea" v-model="form.heddetail" placeholder="请输入详细信息" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input
@@ -337,6 +335,8 @@
         <el-button @click="excancel">取 消</el-button>
       </div>
     </el-dialog>
+
+    
   </div>
 </template>
   
@@ -344,11 +344,14 @@
 import { listHelp, getHelp, delHelp, addHelp, updateHelp } from "@/api/ma/help";
 import { listDistype } from "@/api/ma/distype";
 import { listMatype } from "@/api/ma/matype";
+import { getUserProfile } from "@/api/system/user";
 export default {
   name: "Help",
   dicts: ["ma_examine_status", "help_status"],
   data() {
     return {
+      //用户对象
+      user:{},
       //灾害类型
       disastype: [],
       //求助类型
@@ -365,7 +368,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 【请填写功能名称】表格数据
+      // 求助记录表格数据
       helpList: [],
       // 弹出层标题
       title: "",
@@ -390,6 +393,7 @@ export default {
         heddetail: null,
         hedaddress: null,
         status:null,
+        hedstatus:null
       },
       // 表单参数
       form: {},
@@ -407,6 +411,8 @@ export default {
   created() {
     this.getList();
     this.getData();
+    this.getUser();
+    
   },
   methods: {
     //查询灾害数据和 求助类型数据
@@ -418,6 +424,15 @@ export default {
         this.needtype = res.rows;
       });
     },
+    //获取操作用户 的用户信息
+        //获取当前用户信息
+       getUser() {
+      getUserProfile().then((response) => {
+        this.user = response.data;
+        this.roleGroup = response.roleGroup;
+        this.postGroup = response.postGroup;
+      });
+    },
     //查询灾害类型的名称
     getDisastypeName(option) {
       for (var i = 0; i < this.disastype.length; i++) {
@@ -426,7 +441,7 @@ export default {
     },
     //查询求助类型的名称
     getNeedtypeName(option) {
-      for (var i = 0; i < this.needtype; i++) {
+      for (var i = 0; i < this.needtype.length; i++) {
         if (option == this.needtype[i].maid) return this.needtype[i].maname;
       }
     },
@@ -434,6 +449,7 @@ export default {
     getList() {
       this.loading = true;
       listHelp(this.queryParams).then((response) => {
+        
         this.helpList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -514,14 +530,20 @@ export default {
       this.open = true;
       this.title = "添加求助记录";
     },
-    /** 修改按钮操作 */
+    /** 帮助按钮操作 */
     handleUpdate(row) {
       this.reset();
+
       const hid = row.hid || this.ids;
       getHelp(hid).then((response) => {
-        this.form = response.data;
+        this.getUser();
+        //this.form = response.data;
+        this.$set(this.form, 'hedusername', this.user.userName)
+        this.$set(this.form, 'hedname', this.user.nickName)
+        this.$set(this.form, 'headphone', this.user.phonenumber)
+        this.$set(this.form, 'hedaddress', this.user.address)
         this.open = true;
-        this.title = "修改求助记录";
+        this.title = "帮助表单";
       });
     },
     /** 提交按钮 */
@@ -529,7 +551,17 @@ export default {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.hid != null) {
-            updateHelp(this.form).then((response) => {
+            updateHelp({
+              hid:this.form.hid,
+              hedusername:this.user.userName,
+              hedname:this.user.nickName,
+              headphone:this.user.phonenumber,
+              hedaddress:this.user.address,
+              heddetail:this.form.heddetail,
+              hedstatus:1,
+              remark:this.form.remark
+
+            }).then((response) => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
@@ -548,7 +580,7 @@ export default {
     handleDelete(row) {
       const hids = row.hid || this.ids;
       this.$modal
-        .confirm('是否确认删除【请填写功能名称】编号为"' + hids + '"的数据项？')
+        .confirm('是否确认删除求助记录编号为"' + hids + '"的数据项？')
         .then(function () {
           return delHelp(hids);
         })
@@ -561,7 +593,7 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       this.download(
-        "system/help/export",
+        "ma/help/export",
         {
           ...this.queryParams,
         },

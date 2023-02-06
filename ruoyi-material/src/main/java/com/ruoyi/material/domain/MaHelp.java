@@ -63,6 +63,12 @@ public class MaHelp extends BaseEntity {
     /**
      * 提供帮助者姓名
      */
+    @Excel(name = "提供帮助者用户名")
+    private String hedusername;
+
+    /**
+     * 提供帮助者姓名
+     */
     @Excel(name = "提供帮助者姓名")
     private String hedname;
 
@@ -194,6 +200,14 @@ public class MaHelp extends BaseEntity {
         return hedaddress;
     }
 
+    public String getHedusername() {
+        return hedusername;
+    }
+
+    public void setHedusername(String hedusername) {
+        this.hedusername = hedusername;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
@@ -205,6 +219,7 @@ public class MaHelp extends BaseEntity {
                 .append("disastype", getDisastype())
                 .append("needtype", getNeedtype())
                 .append("status", getStatus())
+                .append("hedusername",getHedusername())
                 .append("hedname", getHedname())
                 .append("headphone", getHeadphone())
                 .append("hedstatus", getHedstatus())

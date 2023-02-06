@@ -31,7 +31,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:carouselimg:add']"
+          v-hasPermi="['ma:carouselimg:add']"
           >新增</el-button
         >
       </el-col>
@@ -43,7 +43,7 @@
             size="mini"
             :disabled="single"
             @click="handleUpdate"
-            v-hasPermi="['system:carouselimg:edit']"
+            v-hasPermi="['ma:carouselimg:edit']"
           >修改</el-button> -->
       </el-col>
       <el-col :span="1.5">
@@ -54,7 +54,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:carouselimg:remove']"
+          v-hasPermi="['ma:carouselimg:remove']"
           >删除</el-button
         >
       </el-col>
@@ -65,7 +65,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:carouselimg:export']"
+          v-hasPermi="['ma:carouselimg:export']"
           >导出</el-button
         >
       </el-col>
@@ -117,14 +117,14 @@
               type="text"
               icon="el-icon-edit"
               @click="handleUpdate(scope.row)"
-              v-hasPermi="['system:carouselimg:edit']"
+              v-hasPermi="['ma:carouselimg:edit']"
             >修改</el-button> -->
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:carouselimg:remove']"
+            v-hasPermi="['ma:carouselimg:remove']"
             >删除</el-button
           >
         </template>
@@ -355,7 +355,7 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       this.download(
-        "system/carouselimg/export",
+        "ma/carouselimg/export",
         {
           ...this.queryParams,
         },

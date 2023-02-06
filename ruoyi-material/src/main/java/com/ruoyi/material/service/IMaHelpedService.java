@@ -58,4 +58,10 @@ public interface IMaHelpedService
      * @return 结果
      */
     public int deleteMaHelpedByHuid(Long huid);
+    /**
+     *  查询对应物资的 申请记录
+     * @param mid
+     * @return
+     */
+    public List<MaHelped> selectMaHelpedByMid(Long mid);
 }

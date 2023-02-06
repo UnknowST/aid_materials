@@ -47,6 +47,7 @@
             <if test="mimagid != null ">and a.mimagid = #{mimagid}</if>
             <if test="maddress != null  and maddress != ''">and a.maddress = #{maddress}</if>
             <if test="mstatus != null  and mstatus != ''">and a.mstatus = #{mstatus}</if>
+            <if test="createBy != null  and createBy != ''">and a.create_by = #{createBy}</if>
         </where>
     </select>
 

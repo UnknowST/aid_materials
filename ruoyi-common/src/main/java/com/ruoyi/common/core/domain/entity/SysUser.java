@@ -1,5 +1,6 @@
 package com.ruoyi.common.core.domain.entity;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.*;
@@ -162,6 +163,7 @@ public class SysUser extends BaseEntity {
     public static boolean isAdmin(Long userId) {
         return userId != null && 1L == userId;
     }
+
 
     public Long getDeptId() {
         return deptId;

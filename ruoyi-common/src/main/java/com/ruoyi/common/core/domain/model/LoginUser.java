@@ -1,6 +1,7 @@
 package com.ruoyi.common.core.domain.model;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +27,10 @@ public class LoginUser implements UserDetails
      */
     private Long deptId;
 
+    /*
+    * 角色ID
+    * */
+    private List<Long> roleId;
     /**
      * 用户唯一标识
      */
@@ -71,6 +76,14 @@ public class LoginUser implements UserDetails
      */
     private SysUser user;
 
+    public List<Long> getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(List<Long> roleId) {
+        this.roleId = roleId;
+    }
+
     public Long getUserId()
     {
         return userId;
@@ -111,10 +124,11 @@ public class LoginUser implements UserDetails
         this.permissions = permissions;
     }
 
-    public LoginUser(Long userId, Long deptId, SysUser user, Set<String> permissions)
+    public LoginUser(Long userId, Long deptId,List<Long> roleId, SysUser user, Set<String> permissions)
     {
         this.userId = userId;
         this.deptId = deptId;
+        this.roleId=roleId;
         this.user = user;
         this.permissions = permissions;
     }
@@ -256,6 +270,21 @@ public class LoginUser implements UserDetails
     public void setUser(SysUser user)
     {
         this.user = user;
+    }
+
+    //判断是否是 物资系统管理员
+    public boolean isMaAdmin(){
+        return  isMaAdmin(this.roleId);
+    }
+    public static boolean isMaAdmin(List<Long> roleId){
+        return roleId.contains(3L);
+    }
+    // 判断是不是系统超级管理员
+    public boolean isAdmin(){
+        return isAdmin(this.roleId);
+    }
+    public static boolean isAdmin(List<Long> roleId){
+        return roleId.contains(1L);
     }
 
     @Override

@@ -2,8 +2,13 @@ package com.ruoyi.material.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,6 +46,7 @@ public class MaMatypeController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(MaMatype maMatype)
     {
+
         startPage();
         List<MaMatype> list = maMatypeService.selectMaMatypeList(maMatype);
         return getDataTable(list);
@@ -77,6 +83,7 @@ public class MaMatypeController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody MaMatype maMatype)
     {
+        maMatype.setCreateBy(SecurityUtils.getUsername());
         return toAjax(maMatypeService.insertMaMatype(maMatype));
     }
 
@@ -88,6 +95,8 @@ public class MaMatypeController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody MaMatype maMatype)
     {
+
+        maMatype.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(maMatypeService.updateMaMatype(maMatype));
     }
 

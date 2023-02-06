@@ -332,8 +332,8 @@
                 @change="provinceChange($event)"
               >
                 <el-option
-                  v-for="(item, index) in this.provinceList"
-                  :key="item.name"
+                  v-for="(item, index) in provinceList"
+                  :key="index"
                   :value="item.name"
                 ></el-option>
               </el-select>
@@ -346,8 +346,8 @@
               @change="cityChange($event)"
             >
               <el-option
-                v-for="(item, index) in this.cityList"
-                :key="item.name"
+                v-for="(item, index) in cityList"
+                :key="index"
                 :value="item.name"
               ></el-option>
             </el-select>
@@ -355,8 +355,8 @@
           <el-col :span="8">
             <el-select v-model="form.region3" placeholder="请选择区县">
               <el-option
-                v-for="(item, index) in this.countyList"
-                :key="item.name"
+                v-for="(item, index) in countyList"
+                :key="index"
                 :value="item.name"
               ></el-option>
             </el-select>
@@ -887,10 +887,15 @@ export default {
         this.form = response.data;
         if (response.data.address != null) {
         str = this.getaddress(this.form.address);
-        this.form.region1 = str[0];
-        this.form.region2 = str[1];
-        this.form.region3 = str[2];
-        this.form.address1 = str[3];
+        console.log(str)
+        this.$set(this.form, 'region1', str[0])
+        this.$set(this.form, 'region2', str[1])
+        this.$set(this.form, 'region3', str[2])
+        this.$set(this.form, 'address1', str[3])
+        // this.form.region1 = str[0];
+        // this.form.region2 = str[1];
+        // this.form.region3 = str[2];
+        // this.form.address1 = str[3];
       }
         this.getPositions()
         this.postOptions = response.posts;

@@ -62,13 +62,18 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '',
+    path:'',
+    component:()=> import('@/views/index'),
+    hidden:true
+  },
+  {
+    path: '/index1',
     component: Layout,
-    redirect: 'index',
+    //redirect: 'index',
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/index'),
+        path: 'index1',
+        component: () => import('@/views/index1'),
         name: 'Index',
         meta: { title: '首页', icon: 'dashboard', affix: true }
       }

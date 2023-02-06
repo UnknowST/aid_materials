@@ -118,7 +118,7 @@
     }
     /*slide样式*/
     .my-swiper-slide{
-      height: 300px;
+      height: 350px;
       background-color: white;
     }
     /*swiper容器样式*/

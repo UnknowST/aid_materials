@@ -93,4 +93,9 @@ public class MaHelpedServiceImpl implements IMaHelpedService
     {
         return maHelpedMapper.deleteMaHelpedByHuid(huid);
     }
+
+    @Override
+    public List<MaHelped> selectMaHelpedByMid(Long mid) {
+        return maHelpedMapper.selectMaHelpedByMid(mid);
+    }
 }

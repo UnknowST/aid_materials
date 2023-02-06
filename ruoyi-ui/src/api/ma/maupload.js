@@ -25,6 +25,15 @@ export function listMaterial(query) {
     })
   }
   
+// 查询登录用户的物资列表
+export function mylistMaterial(query){
+  return request({
+    url:'ma/material/mylist',
+    method:'get',
+    params:query
+  })
+}
+
   // 查询物资详细
   export function getMaterial(mid) {
     return request({

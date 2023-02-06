@@ -2,6 +2,8 @@ package com.ruoyi.material.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,6 +79,7 @@ public class MaDistypeController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody MaDistype maDistype)
     {
+        maDistype.setCreateBy(SecurityUtils.getUsername());
         return toAjax(maDistypeService.insertMaDistype(maDistype));
     }
 
@@ -88,6 +91,7 @@ public class MaDistypeController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody MaDistype maDistype)
     {
+        maDistype.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(maDistypeService.updateMaDistype(maDistype));
     }
 

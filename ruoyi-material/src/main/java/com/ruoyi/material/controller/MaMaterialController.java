@@ -1,11 +1,13 @@
 package com.ruoyi.material.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.html.MinimalHTMLWriter;
 
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.MimeTypeUtils;
 import com.ruoyi.material.domain.MaImg;
@@ -44,7 +46,36 @@ public class MaMaterialController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(MaMaterial maMaterial)
     {
+        //这里应该是三种情况
+        //1.如果是管理员和超级管理员 返回所有数据
+        //2. 不是管理员 返回所有审核通过的数据
+        //3. 返回当前用户的物资列表  单独使用一个方法
         startPage();
+        List<MaMaterial> list=new ArrayList<>();
+        LoginUser loginUser=getLoginUser();
+        // 先判断是不是管理员
+        if(loginUser.isAdmin() || loginUser.isMaAdmin()){
+            list = maMaterialService.selectMaMaterialList(maMaterial);
+        }else{
+            maMaterial.setMstatus("1");
+            list=maMaterialService.selectMaMaterialList(maMaterial);
+        }
+        //List<MaMaterial> list = maMaterialService.selectMaMaterialList(maMaterial);
+        return getDataTable(list);
+    }
+
+    /**
+     * 返回登录用户的物资列表
+     */
+    @PreAuthorize("@ss.hasPermi('ma:material:mylist')")
+    @GetMapping("/mylist")
+    public TableDataInfo mylist(MaMaterial maMaterial)
+    {
+
+        startPage();
+
+        LoginUser loginUser=getLoginUser();
+        maMaterial.setCreateBy(loginUser.getUsername());
         List<MaMaterial> list = maMaterialService.selectMaMaterialList(maMaterial);
         return getDataTable(list);
     }
@@ -80,6 +111,8 @@ public class MaMaterialController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody MaMaterial maMaterial)
     {
+        LoginUser loginUser=getLoginUser();
+        maMaterial.setCreateBy(loginUser.getUsername());
         int flag=maMaterialService.insertMaMaterial(maMaterial);
         AjaxResult ajax= AjaxResult.success();
         if(flag!=0){
@@ -97,6 +130,7 @@ public class MaMaterialController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody MaMaterial maMaterial)
     {
+        maMaterial.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(maMaterialService.updateMaMaterial(maMaterial));
     }
 

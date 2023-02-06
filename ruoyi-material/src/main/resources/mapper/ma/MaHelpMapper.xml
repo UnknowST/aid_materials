@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="disastype"    column="disastype"    />
         <result property="needtype"    column="needtype"    />
         <result property="status"    column="status"    />
+        <result property="hedusername"    column="hedusername"    />
         <result property="hedname"    column="hedname"    />
         <result property="headphone"    column="headphone"    />
         <result property="hedstatus"    column="hedstatus"    />
@@ -26,19 +27,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectMaHelpVo">
-        select hid,husername, hname, hphone, haddress, disastype, needtype, status, hedname, headphone, hedstatus, heddetail, hedaddress, create_by, create_time, update_by, update_time, remark from ma_help
+        select hid,husername, hname, hphone, haddress, disastype, needtype, status,hedusername, hedname, headphone, hedstatus, heddetail, hedaddress, create_by, create_time, update_by, update_time, remark from ma_help
     </sql>
 
     <select id="selectMaHelpList" parameterType="MaHelp" resultMap="MaHelpResult">
         <include refid="selectMaHelpVo"/>
         <where>
-            <if test="husername != null  and husername != ''"> and husername like concat('%', #{husername}, '%')</if>
+            <if test="husername != null  and husername != ''"> and husername=#{husername}</if>
             <if test="hname != null  and hname != ''"> and hname like concat('%', #{hname}, '%')</if>
             <if test="hphone != null  and hphone != ''"> and hphone = #{hphone}</if>
             <if test="haddress != null  and haddress != ''"> and haddress = #{haddress}</if>
             <if test="disastype != null "> and disastype = #{disastype}</if>
             <if test="needtype != null "> and needtype = #{needtype}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="hedusername != null  and hedusername != ''"> and hedusername = #{hedusername}</if>
             <if test="hedname != null  and hedname != ''"> and hedname like concat('%', #{hedname}, '%')</if>
             <if test="headphone != null  and headphone != ''"> and headphone = #{headphone}</if>
             <if test="hedstatus != null  and hedstatus != ''"> and hedstatus = #{hedstatus}</if>
@@ -62,6 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="disastype != null">disastype,</if>
             <if test="needtype != null">needtype,</if>
             <if test="status != null">status,</if>
+            <if test="hedusername != null">hedusername,</if>
             <if test="hedname != null">hedname,</if>
             <if test="headphone != null">headphone,</if>
             <if test="hedstatus != null">hedstatus,</if>
@@ -80,6 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="haddress != null">#{haddress},</if>
             <if test="disastype != null">#{disastype},</if>
             <if test="needtype != null">#{needtype},</if>
+            <if test="hedusername != null">#{hedusername}</if>
             <if test="status != null">#{status},</if>
             <if test="hedname != null">#{hedname},</if>
             <if test="headphone != null">#{headphone},</if>
@@ -97,13 +101,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateMaHelp" parameterType="MaHelp">
         update ma_help
         <trim prefix="SET" suffixOverrides=",">
-            <if test="husername != null">#{husername},</if>
+            <if test="husername != null">husername=#{husername},</if>
             <if test="hname != null">hname = #{hname},</if>
             <if test="hphone != null">hphone = #{hphone},</if>
             <if test="haddress != null">haddress = #{haddress},</if>
             <if test="disastype != null">disastype = #{disastype},</if>
             <if test="needtype != null">needtype = #{needtype},</if>
             <if test="status != null">status = #{status},</if>
+            <if test="hedusername != null">hedusername = #{hedusername},</if>
             <if test="hedname != null">hedname = #{hedname},</if>
             <if test="headphone != null">headphone = #{headphone},</if>
             <if test="hedstatus != null">hedstatus = #{hedstatus},</if>

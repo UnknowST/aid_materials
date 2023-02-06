@@ -34,3 +34,20 @@ export function updateNews(data) {
       data: data
     })
   }
+
+  //获取物资的数值统计数据
+  export function getmaNum(){
+    return request({
+        url:'/ma/statistics/getmanum',
+        method:'get'
+    })
+  }
+
+  //获取帮助统计数据
+
+  export function gethelpNum(){
+    return request({
+        url:'ma/statistics/gethelpnum',
+        method:'get'
+    })
+  }
