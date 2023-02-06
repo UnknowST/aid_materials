@@ -110,8 +110,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
                 .authorizeRequests()
-                // 对于登录login 注册register 验证码captchaImage 允许匿名访问
-                .antMatchers("/login", "/register", "/captchaImage","/login/userLogin").permitAll()
+                // 对于登录login 注册register 验证码captchaImage 允许匿名访问 检查用户登录  新闻目录 公告目录 数据查询 结构都放行
+                .antMatchers("/login", "/register", "/captchaImage","/checklogin","/ma/carouselimg/list","/ma/news/**","/ma/statistics/**","/system/notice/list").permitAll()
                 // 静态资源，可匿名访问
                 .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
                 .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**").permitAll()

@@ -39,7 +39,7 @@ public class MaCarouselimgController extends BaseController
     /**
      * 查询轮播图列表
      */
-    @PreAuthorize("@ss.hasPermi('ma:carouselimg:list')")
+   // @PreAuthorize("@ss.hasPermi('ma:carouselimg:list')")
     @GetMapping("/list")
     public TableDataInfo list(MaCarouselimg maCarouselimg)
     {

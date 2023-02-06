@@ -6,6 +6,7 @@ import java.util.Set;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.service.ISysUserService;
@@ -81,6 +82,29 @@ public class SysLoginController
         ajax.put("user", user);
         ajax.put("roles", roles);
         ajax.put("permissions", permissions);
+        return ajax;
+    }
+
+    /**
+     * 判断用户是否登录
+     * @return
+     */
+    @GetMapping("checklogin")
+    public AjaxResult checkLogin(){
+        SysUser user=new SysUser();
+        AjaxResult ajax=AjaxResult.success();
+        try {
+            user=SecurityUtils.getLoginUser().getUser();
+        } catch (Exception e) {
+            ajax.put("isLogin",0);
+            return ajax;
+        }
+
+        if(user==null) {
+            ajax.put("isLogin",0);
+        } else {
+            ajax.put("isLogin",1);
+        }
         return ajax;
     }
 

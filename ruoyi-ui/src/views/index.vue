@@ -14,7 +14,7 @@
     <h1>灾区物资管理系统</h1>
   </div>
   <div class="slogan">一方有难，八方支援。</div>
-  <div class="login-item"> <a class="link-type" href="dev-api/login/userLogin" style="font-size:20px;color:cornflowerblue"
+  <div class="login-item"> <a class="link-type" @click="checkLogin" style="font-size:20px;color:cornflowerblue"
             >前往登录</a></div>  
         </el-card>
     <div>
@@ -37,7 +37,7 @@
                     icon="el-icon-reading"
                     circle
                     @click="opennews(item.nid, item.nread)"
-                    v-hasPermi="['ma:news:query']"
+                    
                   ></el-button>
                 </span>
               </ol>
@@ -125,10 +125,12 @@
 </template>
 
 
+
 <script>
 import CarouselContainer from "@/components/CarouselContainer";
-import { listCarouselimg, listNews, getNews, updateNews,getmaNum,gethelpNum } from "@/api/ma/index";
+import { listCarouselimg, listNews, getNews, updateNews,getmaNum,gethelpNum,checklogin } from "@/api/ma/index";
 import { listNotice } from "@/api/system/notice";
+import { isRelogin } from '@/utils/request'
 
 export default {
   name: "Index",
@@ -180,6 +182,7 @@ export default {
     this.getNoticeList();
     this.getStatisticsNum();
     this.getHelpNum();
+    this.isRelogin=false;
   },
   mounted() {},
   computed: {
@@ -242,6 +245,15 @@ export default {
     gethelpNum().then(res=>{
     
       this.helpnum=res.data;
+    })
+  },
+  //检查用户是否登录
+  checkLogin(){
+    checklogin().then(res=>{
+      if(res.isLogin===1){
+        this.$router.push({ path: this.redirect || "/index1/index1" }).catch(()=>{});
+      }
+      this.$router.push({ path: this.redirect || "/login" }).catch(()=>{});
     })
   }
   },

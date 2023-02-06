@@ -39,7 +39,7 @@ public class MaNewsController extends BaseController {
     /**
      * 查询新闻列列表
      */
-    @PreAuthorize("@ss.hasPermi('ma:news:list')")
+    //@PreAuthorize("@ss.hasPermi('ma:news:list')")
     @GetMapping("/list")
     public TableDataInfo list(MaNews maNews) {
         startPage();
@@ -62,7 +62,7 @@ public class MaNewsController extends BaseController {
     /**
      * 获取新闻列详细信息
      */
-    @PreAuthorize("@ss.hasPermi('ma:news:query')")
+    //@PreAuthorize("@ss.hasPermi('ma:news:query')")
     @GetMapping(value = "/{nid}")
     public AjaxResult getInfo(@PathVariable("nid") Long nid) {
         return success(maNewsService.selectMaNewsByNid(nid));
@@ -83,12 +83,16 @@ public class MaNewsController extends BaseController {
     /**
      * 修改新闻列
      */
-    @PreAuthorize("@ss.hasPermi('ma:news:edit')")
+   // @PreAuthorize("@ss.hasPermi('ma:news:edit')")
     @Log(title = "新闻列", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody MaNews maNews) {
         //LoginUser loginUser = getLoginUser();
-        maNews.setUpdateBy(SecurityUtils.getUsername());
+        try {
+            maNews.setUpdateBy(SecurityUtils.getUsername());
+        } catch (Exception e) {
+            return toAjax(maNewsService.updateMaNews(maNews));
+        }
         return toAjax(maNewsService.updateMaNews(maNews));
     }
 

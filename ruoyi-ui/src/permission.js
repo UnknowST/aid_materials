@@ -7,8 +7,8 @@ import { getToken } from '@/utils/auth'
 import { isRelogin } from '@/utils/request'
 
 NProgress.configure({ showSpinner: false })
-
-const whiteList = ['/login', '/auth-redirect', '/bind', '/register','/']
+ 
+const whiteList = ['/login', '/auth-redirect', '/bind', '/register',' ','/','/ma/news/query','/ma/news/edit','/checklogin']
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
@@ -16,9 +16,13 @@ router.beforeEach((to, from, next) => {
     to.meta.title && store.dispatch('settings/setTitle', to.meta.title)
     /* has token*/
     if (to.path === '/login') {
-      next({ path: '/' })
+      next({ path: '' })
       NProgress.done()
     } else {
+      if(from.path==='/login'){
+        next();
+        return ;
+      }
       if (store.getters.roles.length === 0) {
         isRelogin.show = true
         // 判断当前用户是否已拉取完user_info信息
@@ -32,7 +36,7 @@ router.beforeEach((to, from, next) => {
         }).catch(err => {
             store.dispatch('LogOut').then(() => {
               Message.error(err)
-              next({ path: '/' })
+              next({ path: '' })
             })
           })
       } else {

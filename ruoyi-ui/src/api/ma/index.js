@@ -51,3 +51,11 @@ export function updateNews(data) {
         method:'get'
     })
   }
+
+  // 检查用户是否登录
+  export function checklogin(){
+    return request({
+        url:'/checklogin',
+        method:'get'
+    })
+  }

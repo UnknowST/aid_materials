@@ -29,7 +29,7 @@ public class MaStatisticsController extends BaseController {
     /**
      * 返回物资数值统计数据
      */
-    @PreAuthorize("@ss.hasPermi('ma:statistics:getmanum')")
+    //@PreAuthorize("@ss.hasPermi('ma:statistics:getmanum')")
     @GetMapping("/getmanum")
     public AjaxResult list() {
 
@@ -38,7 +38,7 @@ public class MaStatisticsController extends BaseController {
     /**
      * 返回帮助数值统计数据
      */
-    @PreAuthorize("@ss.hasPermi('ma:statistics:gethelpnum')")
+    //@PreAuthorize("@ss.hasPermi('ma:statistics:gethelpnum')")
     @GetMapping("/gethelpnum")
     public AjaxResult helplist() {
 
