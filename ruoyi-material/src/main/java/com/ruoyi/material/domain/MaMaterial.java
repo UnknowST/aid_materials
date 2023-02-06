@@ -61,6 +61,17 @@ public class MaMaterial extends BaseEntity {
     @Excel(name = "图片路径")
     private String imgpath;
 
+    /**
+     * 物资类型
+     */
+    @Excel(name = "物资类型")
+    private Long mtype;
+
+    /**
+     * 物资数量
+     */
+    @Excel(name = "物资数量")
+    private String mnum;
 
     /**
      * 删除标志（0正常 1删除）
@@ -140,10 +151,26 @@ public class MaMaterial extends BaseEntity {
         this.imgpath = imgpath;
     }
 
+    public Long getMtype() {
+        return mtype;
+    }
+
+    public void setMtype(Long mtype) {
+        this.mtype = mtype;
+    }
+
+    public String getMnum() {
+        return mnum;
+    }
+
+    public void setMnum(String mnum) {
+        this.mnum = mnum;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("mid", getMid()).append("mtitle", getMtitle()).append("mdetail", getMdetail())
 
-                .append("mimagid", getMimagid()).append("maddress", getMaddress()).append("mstatus", getMstatus()).append("delFlag", getDelFlag()).append("createBy", getCreateBy()).append("createTime", getCreateTime()).append("updateBy", getUpdateBy()).append("updateTime", getUpdateTime()).append("remark", getRemark()).append("imgname", getImgname()).append("imgpath", getImgpath()).toString();
+                .append("mimagid", getMimagid()).append("maddress", getMaddress()).append("mstatus", getMstatus()).append("delFlag", getDelFlag()).append("createBy", getCreateBy()).append("createTime", getCreateTime()).append("updateBy", getUpdateBy()).append("updateTime", getUpdateTime()).append("remark", getRemark()).append("imgname", getImgname()).append("imgpath", getImgpath()).append("matype",getMtype()).append("mnum",getMnum()).toString();
     }
 }

@@ -14,8 +14,13 @@
     <h1>灾区物资管理系统</h1>
   </div>
   <div class="slogan">一方有难，八方支援。</div>
-  <div class="login-item"> <a class="link-type" @click="checkLogin" style="font-size:20px;color:cornflowerblue"
-            >前往登录</a></div>  
+  <div class="login-item"> 
+    <div v-if="islogin">
+      <router-link :to="'/index1'">进入系统</router-link>
+    </div>
+    <div v-if="!islogin"><router-link :to="'/login'">登录注册</router-link></div>
+    <!-- <a class="link-type" @click="checkLogin" style="font-size:20px;color:cornflowerblue">前往登录</a></div>   -->
+    </div>
         </el-card>
     <div>
       <el-row :gutter="20">
@@ -137,7 +142,7 @@ export default {
   components: {
     CarouselContainer,
   },
-  dicts: ["sys_notice_type"],
+  //dicts: ["sys_notice_type"],
   data() {
     return {
       list: [],
@@ -166,6 +171,8 @@ export default {
       manum:{},
       //帮助数值统计数据
       helpnum:{},
+      //是否登录
+      islogin:false,
       //新闻
       news: {
         ntitle: null,
@@ -183,8 +190,12 @@ export default {
     this.getStatisticsNum();
     this.getHelpNum();
     this.isRelogin=false;
+    this.islogin=false;
+    this.checkLogin();
   },
-  mounted() {},
+  mounted() {
+
+  },
   computed: {
     baseurl() {
       return process.env.VUE_APP_BASE_API;
@@ -251,9 +262,13 @@ export default {
   checkLogin(){
     checklogin().then(res=>{
       if(res.isLogin===1){
-        this.$router.push({ path: this.redirect || "/index1/index1" }).catch(()=>{});
+        this.islogin=true
+        //this.$router.push({ path: "/index1" }).catch(()=>{});
+      }else{
+        this.islogin=false
+       // this.$router.push({ path: this.redirect || "/login" }).catch(()=>{});
       }
-      this.$router.push({ path: this.redirect || "/login" }).catch(()=>{});
+      
     })
   }
   },
@@ -361,6 +376,8 @@ export default {
 .login-item{
   float:right;
   color: red;
+  font-family: LiSu,MingLiu;
+  font-size: 18px;
   
 }
 </style>

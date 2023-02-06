@@ -1,5 +1,8 @@
 package com.ruoyi.material.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 数值统计Mapper接口
  *
@@ -56,5 +59,28 @@ public interface MaStatisticsMapper {
      * @return
      */
     public int getHelpedNum();
+
+    /** 获取每天求助人数
+     * @return
+     */
+    public List<Map<String,Integer>> getHelpBuDay();
+
+    /**
+     * 每日上传物资的人数
+     * @return
+     */
+    public List<Map<String,Integer>> getUpMaterialNum();
+
+    /**
+     * 获取不同类型物资的数量
+     * @return
+     */
+    public List<Map<String,Integer>> getMatypeNum();
+
+    /**
+     * 获取不同灾害类型的求助数
+     * @return
+     */
+    public List<Map<String,Integer>> getDistypeNum();
 
 }

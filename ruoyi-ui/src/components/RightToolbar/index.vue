@@ -90,7 +90,7 @@ export default {
     },
   },
 };
-</script>
+</script >
 <style lang="scss" scoped>
 ::v-deep .el-transfer__button {
   border-radius: 50%;

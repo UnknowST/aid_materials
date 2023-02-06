@@ -16,6 +16,33 @@
         >
         </el-input>
       </el-form-item>
+      <el-form-item label="物资类型" prop="mtype">
+        <el-select
+            v-model="formData.mtype"
+            placeholder="请选择物资类型"
+            clearable
+            :style="{ width: '50%' }"
+          >
+        <el-option
+            v-for="(item, index) in this.needtype"
+            :key="item.maid"
+              :label="item.maname"
+              :value="item.maid"
+              :disabled="item.disabled"
+          ></el-option>
+        </el-select>
+    
+      </el-form-item>
+      <el-form-item label="物资数量" prop="mnum">
+        <el-input
+        type="number"
+          v-model="formData.mnum"
+          placeholder="请输入物资数量"
+          clearable
+          :style="{ width: '100%' }"
+        >
+        </el-input>
+      </el-form-item>
       <el-form-item label="物资详细信息" prop="mdetail">
         <el-input
           v-model="formData.mdetail"
@@ -124,6 +151,7 @@ import { getPosition, addMaterial } from "@/api/ma/maupload";
 import { updateImg } from "@/api/ma/img";
 import { getUserProfile } from "@/api/system/user";
 import { getToken } from "@/utils/auth";
+import {listMatype} from "@/api/ma/matype"
 export default {
   components: {},
   props: [],
@@ -136,6 +164,7 @@ export default {
       CITY: [],
       XIAN: [],
       fileList: [],
+      needtype:[],
       uploadflag: "false",
       hearders: {
         Authorization: "Bearer " + getToken(),
@@ -144,6 +173,8 @@ export default {
         mimagid: null,
         mtitle: undefined,
         mdetail: undefined,
+        mtype:undefined,
+        mnum:undefined,
         minage: null,
         mstatus: 0,
         address: undefined,
@@ -159,6 +190,7 @@ export default {
         region1: "",
         region2: "",
         region3: "",
+        needtype:[],
       },
       rules: {
         mtitle: [
@@ -182,13 +214,20 @@ export default {
             trigger: "change",
           },
         ],
-        // address: [
-        //   {
-        //     required: true,
-        //     message: "请选择地址",
-        //     trigger: "blur",
-        //   },
-        // ],
+        mtype: [
+          {
+            required: true,
+            message: "请选择物资类型",
+            trigger: "change",
+          },
+        ],
+        mnum: [
+          {
+            required: true,
+            message: "请输入物资数量",
+            trigger: "blur",
+          },
+        ],
         address1: [
           {
             required: true,
@@ -211,9 +250,15 @@ export default {
   watch: {},
   created() {
     this.getPositions();
+    this.getdata();
   },
   mounted() {},
   methods: {
+    getdata() {
+      listMatype().then((res) => {
+        this.needtype = res.rows;
+      });
+    },
     submitForm() {
       this.$refs["maForm"].validate((valid) => {
         if (!valid) return;

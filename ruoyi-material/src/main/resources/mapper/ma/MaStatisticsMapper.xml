@@ -42,4 +42,32 @@
         WHERE hedstatus = 3
     </select>
 
+
+
+    <select id="getHelpBuDay" resultType="map">
+        SELECT DATE_FORMAT(create_time, '%Y-%m-%d') TIME ,COUNT(0) AS num
+        FROM ma_help
+        GROUP BY DATE_FORMAT(create_time, '%Y-%m-%d')
+        ORDER BY DATE_FORMAT(create_time, '%Y-%m-%d') ASC
+    </select>
+    <select id="getUpMaterialNum" resultType="map">
+        SELECT DATE_FORMAT(create_time, '%Y-%m-%d') TIME ,COUNT(0) AS num
+        FROM ma_material
+        GROUP BY DATE_FORMAT(create_time, '%Y-%m-%d')
+        ORDER BY DATE_FORMAT(create_time, '%Y-%m-%d') ASC
+    </select>
+
+    <select id="getMatypeNum" resultType="map">
+        SELECT b.maname, SUM(mnum) AS num
+        FROM ma_material AS a
+                 LEFT JOIN ma_matype AS b ON a.mtype = b.maid
+        GROUP BY a.mtype
+    </select>
+
+    <select id="getDistypeNum" resultType="map">
+        SELECT b.disname, COUNT(*) AS num
+        FROM ma_help AS a
+                 LEFT JOIN ma_distype AS b ON a.disastype = b.disid
+        GROUP BY a.disastype
+    </select>
 </mapper>

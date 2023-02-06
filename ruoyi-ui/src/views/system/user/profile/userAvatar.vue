@@ -160,7 +160,7 @@ export default {
   }
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="scss"  scoped>
 .user-info-head {
   position: relative;
   display: inline-block;

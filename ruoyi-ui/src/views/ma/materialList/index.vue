@@ -16,6 +16,23 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="物资类型" prop="mtype">
+        <el-select
+            v-model="queryParams.mtype"
+            placeholder="请选择物资类型"
+            clearable
+            :style="{ width: '100%' }"
+          >
+        <el-option
+            v-for="(item, index) in this.needtype"
+            :key="item.maid"
+              :label="item.maname"
+              :value="item.maid"
+              :disabled="item.disabled"
+          ></el-option>
+        </el-select>
+    
+      </el-form-item>
       <!-- <el-form-item label="图片id" prop="mimagid">
         <el-input
           v-model="queryParams.mimagid"
@@ -122,6 +139,14 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="mid" />
       <el-table-column label="物资标题" align="center" prop="mtitle" />
+      <el-table-column label="物资类型" align="center" prop="mtype" >
+        <template slot-scope="scope">
+            <span>
+              {{ getNeedtypeName(scope.row.mtype) }}
+            </span>
+          </template>
+      </el-table-column>
+      <el-table-column label="物资数量" align="center" prop="mnum" type="number" />
       <el-table-column label="物资详细信息" align="center" prop="mdetail" />
       <el-table-column label="图片" align="center" prop="imgpath">
         <template slot-scope="scope">
@@ -215,6 +240,33 @@
           >
           </el-input>
         </el-form-item>
+        <el-form-item label="物资类型" prop="mtype" required>
+        <el-select
+            v-model="form.mtype"
+            placeholder="请选择物资类型"
+            clearable
+            :style="{ width: '50%' }"
+          >
+        <el-option
+            v-for="(item, index) in this.needtype"
+            :key="index"
+              :label="item.maname"
+              :value="item.maid"
+              :disabled="item.disabled"
+          ></el-option>
+        </el-select>
+    
+      </el-form-item>
+      <el-form-item label="物资数量" prop="mnum" required>
+        <el-input
+        type="number"
+          v-model="form.mnum"
+          placeholder="请输入物资数量"
+          clearable
+          :style="{ width: '100%' }"
+        >
+        </el-input>
+      </el-form-item>
         <el-form-item label="物资详细信息" prop="mdetail" required>
           <el-input
             v-model="form.mdetail"
@@ -572,6 +624,7 @@ export default {
         mimagid: null,
         maddress: null,
         mstatus: null,
+        mtype:null,
       },
       distype: [],
       needtype: [],
@@ -580,6 +633,8 @@ export default {
         mimagid: null,
         minage: null,
         mtitle: undefined,
+        mtype:undefined,
+        mnum:undefined,
         mdetail: undefined,
         minage: null,
         mstatus: 0,
@@ -714,11 +769,26 @@ export default {
             trigger: "change",
           },
         ],
+        mtype: [
+          {
+            required: true,
+            message: "请选择物资类型",
+            trigger: "change",
+          },
+        ],
+        mnum: [
+          {
+            required: true,
+            message: "请输入物资数量",
+            trigger: "blur",
+          },
+        ],
       },
     };
   },
   created() {
     this.getList();
+    this.getdata();
   },
 
   computed: {
@@ -771,6 +841,8 @@ export default {
       this.form = {
         mid: null,
         mtitle: null,
+        mtype:null,
+        mnum:null,
         mdetail: null,
         mtype: null,
         mimagid: null,
@@ -812,6 +884,12 @@ export default {
     fileChange() {
       this.choiseFlag = "true";
     },
+         //查询物资类型的名字
+         getNeedtypeName(option) {
+        for (var i = 0; i < this.needtype.length; i++) {
+          if (option == this.needtype[i].maid) return this.needtype[i].maname;
+        }
+      },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.choiseFlag = "false";
@@ -825,15 +903,12 @@ export default {
         this.getPositions();
 
         str = this.getaddress(this.form.maddress);
+        console.log(response.data.mtype)
         this.$set(this.form, 'region1', str[0])
         this.$set(this.form, 'region2', str[1])
         this.$set(this.form, 'region3', str[2])
         this.$set(this.form, 'address1', str[3])
-        // this.form.region1 = str[0];
-        // this.form.region2 = str[1];
-        // this.form.region3 = str[2];
-        // this.form.address1 = str[3];
-    
+  
         let data = {
           name: response.data.imgname,
           url: this.baseurl + response.data.imgpath,

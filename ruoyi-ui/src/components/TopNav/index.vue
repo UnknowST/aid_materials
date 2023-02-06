@@ -31,7 +31,7 @@
 import { constantRoutes } from "@/router";
 
 // 隐藏侧边栏路由
-const hideList = ['/index1/index1', '/user/profile'];
+const hideList = ['/index1', '/user/profile'];
 
 export default {
   data() {
@@ -158,7 +158,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss"  scoped>
 .topmenu-container.el-menu--horizontal > .el-menu-item {
   float: left;
   height: 50px !important;

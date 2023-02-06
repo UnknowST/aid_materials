@@ -7,6 +7,8 @@
     <resultMap type="MaMaterial" id="MaMaterialResult">
         <result property="mid" column="mid"/>
         <result property="mtitle" column="mtitle"/>
+        <result property="mtype" column="mtype"/>
+        <result property="mnum" column="mnum"/>
         <result property="mdetail" column="mdetail"/>
         <result property="mimagid" column="mimagid"/>
         <result property="maddress" column="maddress"/>
@@ -23,6 +25,8 @@
     <sql id="selectMaMaterialVo">
         SELECT a.mid,
                a.mtitle,
+               a.mtype,
+               a.mnum,
                a.mdetail,
                a.mimagid,
                a.maddress,
@@ -43,6 +47,7 @@
         <include refid="selectMaMaterialVo"/>
         <where>
             <if test="mtitle != null  and mtitle != ''">and a.mtitle = #{mtitle}</if>
+            <if test="mtype != null  and mtype != ''">and a.mtype = #{mtype}</if>
             <if test="mdetail != null  and mdetail != ''">and a.mdetail = #{mdetail}</if>
             <if test="mimagid != null ">and a.mimagid = #{mimagid}</if>
             <if test="maddress != null  and maddress != ''">and a.maddress = #{maddress}</if>
@@ -60,8 +65,9 @@
         insert into ma_material
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="mtitle != null">mtitle,</if>
+            <if test="mtype != null">mtype,</if>
+            <if test="mnum != null">mnum,</if>
             <if test="mdetail != null">mdetail,</if>
-
             <if test="mimagid != null">mimagid,</if>
             <if test="maddress != null">maddress,</if>
             <if test="mstatus != null">mstatus,</if>
@@ -74,6 +80,8 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="mtitle != null">#{mtitle},</if>
+            <if test="mtype != null">#{mtype},</if>
+            <if test="mnum != null">#{mnum},</if>
             <if test="mdetail != null">#{mdetail},</if>
 
             <if test="mimagid != null">#{mimagid},</if>
@@ -92,8 +100,9 @@
         update ma_material
         <trim prefix="SET" suffixOverrides=",">
             <if test="mtitle != null">mtitle = #{mtitle},</if>
+            <if test="mtype != null">mtype = #{mtype},</if>
+            <if test="mnum != null">mnum = #{mnum},</if>
             <if test="mdetail != null">mdetail = #{mdetail},</if>
-
             <if test="mimagid != null">mimagid = #{mimagid},</if>
             <if test="maddress != null">maddress = #{maddress},</if>
             <if test="mstatus != null">mstatus = #{mstatus},</if>

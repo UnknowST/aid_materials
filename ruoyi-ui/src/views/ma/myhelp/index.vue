@@ -341,7 +341,7 @@
           >
             <el-option
               v-for="(item, index) in this.needtype"
-              :key="item.maid"
+              :key="index"
               :label="item.maname"
               :value="item.maid"
               :disabled="item.disabled"

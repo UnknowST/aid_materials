@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '若依管理系统',
+      title: '灾区物资互助平台',
       logo: logoImg
     }
   }

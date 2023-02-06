@@ -15,6 +15,24 @@
           clearable
           @keyup.enter.native="handleQuery"
         />
+
+      </el-form-item>
+      <el-form-item label="物资类型" prop="mtype">
+        <el-select
+            v-model="queryParams.mtype"
+            placeholder="请选择物资类型"
+            clearable
+            :style="{ width: '100%' }"
+          >
+        <el-option
+            v-for="(item, index) in this.needtype"
+            :key="item.maid"
+              :label="item.maname"
+              :value="item.maid"
+              :disabled="item.disabled"
+          ></el-option>
+        </el-select>
+    
       </el-form-item>
       <!-- <el-form-item label="图片id" prop="mimagid">
           <el-input
@@ -122,6 +140,14 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="mid" />
       <el-table-column label="物资标题" align="center" prop="mtitle" />
+      <el-table-column label="物资类型" align="center" prop="mtype" >
+        <template slot-scope="scope">
+            <span>
+              {{ getNeedtypeName(scope.row.mtype) }}
+            </span>
+          </template>
+      </el-table-column>
+      <el-table-column label="物资数量" align="center" prop="mnum" type="number" />
       <el-table-column label="物资详细信息" align="center" prop="mdetail" />
       <el-table-column label="图片" align="center" prop="imgpath">
         <template slot-scope="scope">
@@ -220,6 +246,33 @@
           >
           </el-input>
         </el-form-item>
+        <el-form-item label="物资类型" prop="mtype" required>
+        <el-select
+            v-model="form.mtype"
+            placeholder="请选择物资类型"
+            clearable
+            :style="{ width: '50%' }"
+          >
+        <el-option
+            v-for="(item, index) in this.needtype"
+            :key="index"
+              :label="item.maname"
+              :value="item.maid"
+              :disabled="item.disabled"
+          ></el-option>
+        </el-select>
+    
+      </el-form-item>
+      <el-form-item label="物资数量" prop="mnum" required>
+        <el-input
+        type="number"
+          v-model="form.mnum"
+          placeholder="请输入物资数量"
+          clearable
+          :style="{ width: '100%' }"
+        >
+        </el-input>
+      </el-form-item>
         <el-form-item label="物资详细信息" prop="mdetail" required>
           <el-input
             v-model="form.mdetail"
@@ -520,6 +573,7 @@ export default {
         mimagid: null,
         maddress: null,
         mstatus: null,
+        mtype:null,
       },
       //申请列表查询参数
       helpedqueryParams: {
@@ -535,6 +589,8 @@ export default {
         mimagid: null,
         minage: null,
         mtitle: undefined,
+        mtype:null,
+        mnum:null,
         mdetail: undefined,
         minage: null,
         mstatus: 0,
@@ -689,11 +745,26 @@ export default {
             trigger: "change",
           },
         ],
+        mtype: [
+          {
+            required: true,
+            message: "请选择物资类型",
+            trigger: "change",
+          },
+        ],
+        mnum: [
+          {
+            required: true,
+            message: "请输入物资数量",
+            trigger: "blur",
+          },
+        ],
       },
     };
   },
   created() {
     this.getList();
+    this.getdata();
   },
 
   computed: {
@@ -853,7 +924,7 @@ export default {
 
       this.getHelpList(row.mid);
       this.helpedqueryParams.mid = row.mid;
-      this.getdata();
+      //this.getdata();
     },
     //反馈按钮
     handleReback(row) {
