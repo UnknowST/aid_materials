@@ -43,7 +43,6 @@
     </select>
 
 
-
     <select id="getHelpBuDay" resultType="map">
         SELECT DATE_FORMAT(create_time, '%Y-%m-%d') TIME ,COUNT(0) AS num
         FROM ma_help
@@ -70,4 +69,12 @@
                  LEFT JOIN ma_distype AS b ON a.disastype = b.disid
         GROUP BY a.disastype
     </select>
+
+    <select id="getProMa" >
+        select * from ma_material
+    </select>
+    <select id="getproHelp">
+        select * from ma_help
+    </select>
 </mapper>
+

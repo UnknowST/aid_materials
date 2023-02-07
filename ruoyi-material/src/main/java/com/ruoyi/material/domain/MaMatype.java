@@ -7,45 +7,46 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 求助类型对象 ma_matype
- * 
+ *
  * @author ruoyi
  * @date 2023-01-19
  */
-public class MaMatype extends BaseEntity
-{
+public class MaMatype extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** 类型id */
+    /**
+     * 类型id
+     */
     private Long maid;
 
-    /** 类型名称 */
+    /**
+     * 类型名称
+     */
     @Excel(name = "类型名称")
     private String maname;
 
-    public void setMaid(Long maid) 
-    {
+    public void setMaid(Long maid) {
         this.maid = maid;
     }
 
-    public Long getMaid() 
-    {
+    public Long getMaid() {
         return maid;
     }
-    public void setManame(String maname) 
-    {
+
+    public void setManame(String maname) {
         this.maname = maname;
     }
 
-    public String getManame() 
-    {
+    public String getManame() {
         return maname;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("maid", getMaid())
-            .append("maname", getManame())
-            .toString();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("maid", getMaid())
+                .append("maname", getManame())
+                .toString();
     }
+
 }

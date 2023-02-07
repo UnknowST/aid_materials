@@ -1,5 +1,8 @@
 package com.ruoyi.material.mapper;
 
+import com.ruoyi.material.domain.MaHelp;
+import com.ruoyi.material.domain.MaMaterial;
+
 import java.util.List;
 import java.util.Map;
 
@@ -82,5 +85,17 @@ public interface MaStatisticsMapper {
      * @return
      */
     public List<Map<String,Integer>> getDistypeNum();
+
+    /**
+     * 查询每个省份的物资数
+     * @return
+     */
+    public List<MaMaterial> getProMa();
+
+    /**
+     * 查询每个省份的求助数
+     * @return
+     */
+    public List<MaHelp> getproHelp();
 
 }

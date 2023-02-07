@@ -39,6 +39,9 @@ import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
 
+// dataV
+import dataV from '@jiaminghi/data-view'
+Vue.use(dataV)
 
 
 
