@@ -11,7 +11,7 @@
  <!-- <el-divider></el-divider> -->
  <el-card class="box-card" style="height:192px">
   <div class="title-text">
-    <h1>灾区物资管理系统</h1>
+    <h1>灾区物资互助平台</h1>
   </div>
   <div class="slogan">一方有难，八方支援。</div>
   <div class="login-item"> 

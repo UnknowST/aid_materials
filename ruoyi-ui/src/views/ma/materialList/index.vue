@@ -189,6 +189,7 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
+            v-if="user.userName==scope.row.createBy "
             v-hasPermi="['ma:material:remove']"
             >删除</el-button
           >
@@ -197,6 +198,7 @@
             size="mini"
             type="text"
             icon="el-icon-check"
+          v-if="roleid==1 || roleid==3"
             @click="handleExamine(scope.row)"
             v-hasPermi="['ma:material:remove']"
             >审核</el-button
@@ -207,6 +209,7 @@
             type="text"
             icon="el-icon-message"
             @click="handleApply(scope.row)"
+            v-if="user.userName!=scope.row.createBy && scope.row.mstatus==1"
             v-hasPermi="['ma:material:remove']"
             >申请</el-button
           >
@@ -628,6 +631,8 @@ export default {
       },
       distype: [],
       needtype: [],
+      roleid:null,
+
       // 表单参数
       form: {
         mimagid: null,
@@ -789,6 +794,7 @@ export default {
   created() {
     this.getList();
     this.getdata();
+    this.getUser();
   },
 
   computed: {
@@ -810,7 +816,8 @@ export default {
     getUser() {
       getUserProfile().then((response) => {
         this.user = response.data;
-        //console.log(this.user);
+        console.log(this.user);
+        this.roleid=this.user.roles[0].roleId;
         this.roleGroup = response.roleGroup;
         this.postGroup = response.postGroup;
       });

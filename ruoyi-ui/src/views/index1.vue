@@ -13,7 +13,7 @@
           <dv-decoration-5 class="title_center" :color="['#008CFF', '#00ADDD']"
         /></el-col>
         <el-col :span="6"
-          ><div class="title_time">2023年2月7日</div>
+          ><div class="title_time">{{ Year }}-{{ Mother }}-{{ Day }}</div>
           <dv-decoration-8
             :reverse="true"
             class="title_left"
@@ -64,24 +64,20 @@
         <el-col :span="6">
           <div class="left_box1">
             <!-- 第一个统计图 -->
-            <dv-border-box-8 style="width: 100%; height: 100%"
-              >
+            <dv-border-box-8 style="width: 100%; height: 100%">
               <div
                 style="height: 100%; width: 100%; padding: 5px"
                 id="upmaoption"
-              ></div
-            >
+              ></div>
             </dv-border-box-8>
           </div>
           <!-- 第二个统计图 -->
           <div class="left_box1">
-            <dv-border-box-8 style="width: 100%; height: 100%"
-              >
+            <dv-border-box-8 style="width: 100%; height: 100%">
               <div
                 style="height: 100%; width: 100%; padding: 5px"
                 id="needoption"
-              ></div
-            >
+              ></div>
             </dv-border-box-8>
           </div>
         </el-col>
@@ -92,7 +88,14 @@
 
 <script>
 import * as echarts from "echarts";
-import { getdata, helpnumbyday, distypenum,upmaterialnum,getmatypenum } from "@/api/ma/index1";
+import {
+  getdata,
+  helpnumbyday,
+  distypenum,
+  upmaterialnum,
+  getmatypenum,
+  getProdata,
+} from "@/api/ma/index1";
 export default {
   name: "Datashow",
   data() {
@@ -129,8 +132,13 @@ export default {
       mapoption: {},
       helpoption: {},
       distypeoption: {},
-      upmaoption:{},
-      needoption:{},
+      upmaoption: {},
+      needoption: {},
+      provincedata: [],
+      showinfo: null,
+    Year:null,
+    Mother:null,
+    Day:null,
     };
   },
   created() {},
@@ -141,6 +149,8 @@ export default {
     this.getDistype();
     this.getUpmanum();
     this.getNeednum();
+    this.getprodata();
+    this.getNowData();
     this.loading = false;
   },
   methods: {
@@ -174,22 +184,36 @@ export default {
       };
     },
     getmap() {
+        let that=this
       getdata().then((res) => {
-        console.log(res);
+        
         const myechart = echarts.init(document.getElementById("map"), "dark");
         echarts.registerMap("china", res.data);
         this.mapoption = {
-            tooltip: {
-                trigger: "item",
-                confine: true,
-                formatter: function (p) {
-                  console.log(p);
-                  return p.data;
-                },
-              },
+         
+          tooltip: {
+            trigger: "item",
+            confine: true,
+            formatter: function (p) {
+                var toolTiphtml=null
+              if(p.name=="广西壮族自治区") p.name="广西省"
+                 for(var i=0;i<that.provincedata.length;i++){
+                    if(that.provincedata[i].name==p.name) {
+                         toolTiphtml = p.name=that.provincedata[i].name + '<br>'
+                +'<span style="display:inline-block:margin-right:5px:border-radius:50%:width:10px:height:10ox:left:5ox:backeround-color: #1fa4"x</span>'
+                    + that.provincedata[i].title1 +  ':'+ that.provincedata[i].value1 + '<br>'+
+                    '<span style-"display:inline-block;margin-right:5px;border-radius:50%:width: 10px;height:1x;left:5px;background-color: #9e87f></span>'
+                     + that.provincedata[i].title2+':'+that.provincedata[i].value2 
+                     + '<br>'
+                    }
+                }
+              return toolTiphtml;
+            },
+          },
           geo: {
             // 作为底图，设置地图外围边框
             map: "china",
+            zoom:1.2,
             itemStyle: {
               areaColor: "#fff",
               borderColor: "#333",
@@ -199,9 +223,12 @@ export default {
 
           series: [
             {
-
+                
+              data: this.provincedata,
               type: "map",
               map: "china",
+             
+              geoIndex:0,
               itemStyle: {
                 areaColor: "#fff",
                 borderColor: "#333",
@@ -230,16 +257,9 @@ export default {
                   borderColor: "rgb(0, 60, 131)",
                 },
               },
-            //   data: [
-            //     { name: "贵州省", value: 700 },
-            //     { name: "南谯区", value: 600 },
-            //     { name: "定远县", value: 500 },
-            //     { name: "凤阳县", value: 400 },
-            //     { name: "明光市", value: 300 },
-            //     { name: "来安县", value: 200 },
-            //     { name: "天长市", value: 100 },
-            //   ],
+          
             },
+            
           ],
         };
         myechart.setOption(this.mapoption);
@@ -247,8 +267,6 @@ export default {
     },
     gethelpoption() {
       helpnumbyday().then((res) => {
-        
-
         const hchart = echarts.init(
           document.getElementById("helpoption"),
           "dark"
@@ -258,7 +276,6 @@ export default {
           xdata[i] = res.data[i]["TIME"];
         let ydata = [];
         for (var i = 0; i < res.data.length; i++) ydata[i] = res.data[i]["num"];
-        
 
         this.helpoption = {
           backgroundColor: "dark",
@@ -306,14 +323,14 @@ export default {
         "dark"
       );
       distypenum().then((res) => {
-        //console.log(res);
+       
         let xdata = [];
         for (var i = 0; i < res.data.length; i++)
           xdata[i] = res.data[i]["disname"];
         let ydata = [];
         for (var i = 0; i < res.data.length; i++) ydata[i] = res.data[i]["num"];
         this.distypeoption = {
-            title: {
+          title: {
             text: "不同灾害类型求助数",
           },
           tooltip: {
@@ -351,12 +368,12 @@ export default {
             },
           ],
         };
-        myechart.setOption(this.distypeoption)
+        myechart.setOption(this.distypeoption);
       });
     },
-    getUpmanum(){
-        upmaterialnum().then(res=>{
-            const hchart = echarts.init(
+    getUpmanum() {
+      upmaterialnum().then((res) => {
+        const hchart = echarts.init(
           document.getElementById("upmaoption"),
           "dark"
         );
@@ -365,7 +382,7 @@ export default {
           xdata[i] = res.data[i]["TIME"];
         let ydata = [];
         for (var i = 0; i < res.data.length; i++) ydata[i] = res.data[i]["num"];
-        console.log(xdata);
+    
 
         this.upmaoption = {
           backgroundColor: "dark",
@@ -405,22 +422,22 @@ export default {
           ],
         };
         hchart.setOption(this.upmaoption);
-        })
+      });
     },
-    getNeednum(){
-        const myechart = echarts.init(
+    getNeednum() {
+      const myechart = echarts.init(
         document.getElementById("needoption"),
         "dark"
       );
       getmatypenum().then((res) => {
-        //console.log(res);
+        
         let xdata = [];
         for (var i = 0; i < res.data.length; i++)
           xdata[i] = res.data[i]["maname"];
         let ydata = [];
         for (var i = 0; i < res.data.length; i++) ydata[i] = res.data[i]["num"];
         this.needoption = {
-            title: {
+          title: {
             text: "不同求助类型数",
           },
           tooltip: {
@@ -458,14 +475,33 @@ export default {
             },
           ],
         };
-        myechart.setOption(this.needoption)
+        myechart.setOption(this.needoption);
       });
-    }
+    },
+    getprodata() {
+      getProdata().then((res) => {
+      
+
+        this.provincedata = res.data;
+  
+      });
+    },
+    getNowData(){
+       let constdate=new Date();
+       this.Year=constdate.getFullYear();
+       this.Mother=constdate.getMonth()+1;
+       this.Day=constdate.getDay();
+       
+    },
+
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.index{
+    background-color: black;
+}
 //顶部右边装饰效果
 .title_left {
   width: 100%;
@@ -493,6 +529,7 @@ export default {
 //时间日期
 .title_time {
   text-align: center;
+  color: red;
 }
 
 .el-col {

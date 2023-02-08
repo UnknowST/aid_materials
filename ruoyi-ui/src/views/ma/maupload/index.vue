@@ -308,7 +308,7 @@ export default {
       let data = {
         maddress:
           this.formData.region1 +
-          this.formData.region1 +
+          this.formData.region2 +
           this.formData.region3 +
           this.formData.address1,
       };

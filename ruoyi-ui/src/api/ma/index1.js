@@ -36,11 +36,24 @@ export function getmatypenum() {
 
 //获取全国地图数据
 
-export function getdata(){
+export function getdata() {
     return axios({
         method: 'get',
         url: 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json',
-       
-        }) 
+
+    })
+
+}
+
+
+//获取省份对应
+
+export function getProdata() {
+    return request
+        ({
+            method: 'get',
+            url: '/ma/statistics/getprodata',
+
+        })
 
 }

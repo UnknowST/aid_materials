@@ -47,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="heddetail != null  and heddetail != ''"> and heddetail = #{heddetail}</if>
             <if test="hedaddress != null  and hedaddress != ''"> and hedaddress = #{hedaddress}</if>
         </where>
+        ORDER BY create_time DESC
     </select>
     
     <select id="selectMaHelpByHid" parameterType="Long" resultMap="MaHelpResult">

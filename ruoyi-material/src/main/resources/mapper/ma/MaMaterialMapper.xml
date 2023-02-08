@@ -54,6 +54,7 @@
             <if test="mstatus != null  and mstatus != ''">and a.mstatus = #{mstatus}</if>
             <if test="createBy != null  and createBy != ''">and a.create_by = #{createBy}</if>
         </where>
+        ORDER BY create_time DESC
     </select>
 
     <select id="selectMaMaterialByMid" parameterType="Long" resultMap="MaMaterialResult">

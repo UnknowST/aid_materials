@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.material.domain.MaMaterial;
+import com.ruoyi.material.mapper.MaMaterialMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.material.mapper.MaImgMapper;
@@ -23,6 +25,8 @@ public class MaImgServiceImpl implements IMaImgService
     @Autowired
     private MaImgMapper maImgMapper;
 
+    @Autowired
+    private MaMaterialMapper materialMapper;
     /**
      * 查询物资图片
      * 
@@ -97,19 +101,25 @@ public class MaImgServiceImpl implements IMaImgService
      * @return 结果
      */
     @Override
-    public int deleteMaImgByImgid(Long imgid)
+    public int deleteMaImgByImgid(Long mid)
     {
-        MaImg maImg=  maImgMapper.selectMaImgByImgid(imgid);
+
+        //获取物资详细数据
+        MaMaterial material=materialMapper.selectMaMaterialByMid(mid);
+        MaImg maImg=  maImgMapper.selectMaImgByImgid(material.getMimagid());
         // 修改文件名
         String fileNewName=maImg.getImgpath().replace("/profile/upload","");
         File file=new File(RuoYiConfig.getUploadPath()+fileNewName);
         //System.out.println(file.getPath());
         //System.out.println(file.exists());
-
-        if(file.delete()){
-            maImgMapper.deleteMaImgByImgid(imgid);
+        if(file.exists()){
+            if(file.delete()){
+                maImgMapper.deleteMaImgByImgid(maImg.getImgid());
+            }else{
+                return 0;
+            }
         }else{
-            return 0;
+            maImgMapper.deleteMaImgByImgid(maImg.getImgid());
         }
         return 1;
     }

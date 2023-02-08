@@ -538,6 +538,7 @@ export default {
       getHelp(hid).then((response) => {
         this.getUser();
         //this.form = response.data;
+        this.$set(this.form,"hid",hid);
         this.$set(this.form, 'hedusername', this.user.userName)
         this.$set(this.form, 'hedname', this.user.nickName)
         this.$set(this.form, 'headphone', this.user.phonenumber)

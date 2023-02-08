@@ -70,10 +70,10 @@
         GROUP BY a.disastype
     </select>
 
-    <select id="getProMa" >
+    <select id="getProMa" resultType="com.ruoyi.material.domain.MaMaterial">
         select * from ma_material
     </select>
-    <select id="getproHelp">
+    <select id="getproHelp" resultType="com.ruoyi.material.domain.MaHelp">
         select * from ma_help
     </select>
 </mapper>

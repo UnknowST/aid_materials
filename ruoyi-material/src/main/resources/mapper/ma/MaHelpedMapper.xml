@@ -52,6 +52,7 @@
             <if test="needtype != null ">and needtype = #{needtype}</if>
             <if test="status != null  and status != ''">and status = #{status}</if>
         </where>
+        ORDER BY create_time DESC
     </select>
 
     <select id="selectMaHelpedByHuid" parameterType="Long" resultMap="MaHelpedResult">
