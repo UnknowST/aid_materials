@@ -8,9 +8,10 @@
     <artifactId>ruoyi</artifactId>
     <version>3.8.5</version>
 
+
     <name>ruoyi</name>
     <url>http://www.ruoyi.vip</url>
-    <description>若依管理系统</description>
+    <description>灾区物资互助平台</description>
     
     <properties>
         <ruoyi.version>3.8.5</ruoyi.version>
