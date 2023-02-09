@@ -152,7 +152,7 @@ public class MaCarouselimgController extends BaseController
     /**
      * 状态修改
      */
-    @PreAuthorize("@ss.hasPermi('ma:carousellimg:edit')")
+    @PreAuthorize("@ss.hasPermi('ma:carousellimg:changestatus')")
     @Log(title = "修改轮播图状态", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody MaCarouselimg carouselimg)

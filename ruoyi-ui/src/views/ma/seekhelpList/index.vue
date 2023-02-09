@@ -135,6 +135,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
+          v-hasRole="['admin','maadmin']"
           v-hasPermi="['ma:help:remove']"
           >删除</el-button
         >
@@ -146,6 +147,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
+          v-hasRole="['admin','maadmin']"
           v-hasPermi="['ma:help:export']"
           >导出</el-button
         >
@@ -240,12 +242,12 @@
             size="mini"
             type="text"
             icon="el-icon-circle-check"
-            v-if="(scope.row.hedstatus==0 && user.roleIds[0]==3)||(scope.row.hedstatus==0 && user.roleIds[0]==1)"
+            v-hasRole="['admin','maadmin']"
+            v-if="(scope.row.status==0 )"
             @click="handleExam(scope.row)"
             v-hasPermi="['ma:help:edit']"
             >审核</el-button
           >
- 
         </template>
       </el-table-column>
     </el-table>
@@ -429,6 +431,7 @@ export default {
        getUser() {
       getUserProfile().then((response) => {
         this.user = response.data;
+        console.log(response)
         this.roleGroup = response.roleGroup;
         this.postGroup = response.postGroup;
       });

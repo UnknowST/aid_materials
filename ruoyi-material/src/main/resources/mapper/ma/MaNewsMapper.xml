@@ -32,6 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="nread != null  and nread != ''"> and nread = #{nread}</if>
             <if test="deltype != null  and deltype != ''"> and deltype = #{deltype}</if>
         </where>
+        ORDER BY create_time DESC
     </select>
     
     <select id="selectMaNewsByNid" parameterType="Long" resultMap="MaNewsResult">

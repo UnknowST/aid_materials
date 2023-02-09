@@ -254,7 +254,8 @@ export default {
     },
     // 轮播图状态修改
     handleStatusChange(row) {
-      let text = row.status === "0" ? "启用" : "停用";
+      console.log(row.imgstatus)
+      let text = row.imgstatus === "0" ? "启用" : "停用";
       this.$modal
         .confirm('确认要"' + text + '""' + row.imgname + '"轮播图吗？')
         .then(function () {
@@ -264,7 +265,7 @@ export default {
           this.$modal.msgSuccess(text + "成功");
         })
         .catch(function () {
-          row.status = row.status === "0" ? "1" : "0";
+          row.imgstatus = row.imgstatus === "0" ? "1" : "0";
         });
     },
     // 取消按钮

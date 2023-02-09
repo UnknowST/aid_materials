@@ -2,26 +2,28 @@
   <div id="app">
     <!--传递不同的currentIndex 作为区分不同swiper组件的动态id-->
     <!-- <CarouselContainer :slide-list="list" currentIndex="1"></CarouselContainer> -->
-    <el-carousel :interval="4000" type="card" height="300px" >
-      <el-carousel-item v-for="(item,index) of list" :key="index">
+    <el-carousel :interval="4000" type="card" height="300px">
+      <el-carousel-item v-for="(item, index) of list" :key="index">
         <img :src="item.imgpath" />
       </el-carousel-item>
     </el-carousel>
- <!-- 分割线 -->
- <!-- <el-divider></el-divider> -->
- <el-card class="box-card" style="height:192px">
-  <div class="title-text">
-    <h1>灾区物资互助平台</h1>
-  </div>
-  <div class="slogan">一方有难，八方支援。</div>
-  <div class="login-item"> 
-    <div v-if="islogin">
-      <router-link :to="'/index1'">进入系统</router-link>
-    </div>
-    <div v-if="!islogin"><router-link :to="'/login'">登录注册</router-link></div>
-    <!-- <a class="link-type" @click="checkLogin" style="font-size:20px;color:cornflowerblue">前往登录</a></div>   -->
-    </div>
-        </el-card>
+    <!-- 分割线 -->
+    <!-- <el-divider></el-divider> -->
+    <el-card class="box-card" style="height: 192px">
+      <div class="title-text">
+        <h1>灾区物资互助平台</h1>
+      </div>
+      <div class="slogan">一方有难，八方支援。</div>
+      <div class="login-item">
+        <div v-if="islogin">
+          <router-link :to="'/index1'">进入系统</router-link>
+        </div>
+        <div v-if="!islogin">
+          <router-link :to="'/login'">登录注册</router-link>
+        </div>
+        <!-- <a class="link-type" @click="checkLogin" style="font-size:20px;color:cornflowerblue">前往登录</a></div>   -->
+      </div>
+    </el-card>
     <div>
       <el-row :gutter="20">
         <el-col :span="10" :lg="12" style="padding-left: 20px">
@@ -42,7 +44,6 @@
                     icon="el-icon-reading"
                     circle
                     @click="opennews(item.nid, item.nread)"
-                    
                   ></el-button>
                 </span>
               </ol>
@@ -74,7 +75,7 @@
     <el-dialog
       :title="title"
       :visible.sync="open"
-      width="800px"
+      width="1000px"
       append-to-body
       :before-close="handleDialogClose"
     >
@@ -89,38 +90,50 @@
             >
           </div>
         </div>
-        <div class="content">
-          <div v-html="news.ndetail" class="html"></div>
+        <div class="ql-container ql-snow">
+          <div class="ql-editor" v-html="news.ndetail" />
         </div>
+        <!-- <div class="content">
+          <div v-html="news.ndetail" class="html"></div>
+        </div> -->
       </div>
     </el-dialog>
     <!-- 分割线 -->
     <el-divider></el-divider>
-    
+
     <!-- 部分数据展示卡片 -->
-    <div style="height:170px">
-    <el-row :gutter="20">
-      <el-col :span="10" :lg="12" style="padding-left: 20px">
-        <el-card class="box-card">
-          <div  class="text item"> 
-            当前共有物资<span>{{ manum.materialsum }}</span>批,还有<span>{{ manum.materialing }}</span>批可以申请 
-          </div>
-          <div  class="text item"> 
-             可以为<span> {{ manum.disastypesum }}</span>种灾害提供<span>{{ manum.needtype }}</span>种物资帮助
-             </div>
-        </el-card>
-      </el-col>
-      <el-col :span="10" :lg="12" style="padding-left: 20px">
-        <el-card class="box-card">
-          <div  class="text item"> 
-           截至目前共有<span>{{helpnum.materialed}}</span>人成功申请到物资帮助，还有<span>{{helpnum.materialing}}</span>人正在申请物资帮助
-          </div>
-          <div  class="text item"> 
-              截至目前共有<span>{{helpnum.helpnum}}</span>人申请帮助，有<span>{{helpnum.helpednum}}</span>人成功获得帮助
-             </div>
-        </el-card></el-col>
-    </el-row>
-  </div>
+    <div style="height: 170px">
+      <el-row :gutter="20">
+        <el-col :span="10" :lg="12" style="padding-left: 20px">
+          <el-card class="box-card">
+            <div class="text item">
+              当前共有物资<span>{{ manum.materialsum }}</span
+              >批,还有<span>{{ manum.materialing }}</span
+              >批可以申请
+            </div>
+            <div class="text item">
+              可以为<span> {{ manum.disastypesum }}</span
+              >种灾害提供<span>{{ manum.needtype }}</span
+              >种物资帮助
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="10" :lg="12" style="padding-left: 20px">
+          <el-card class="box-card">
+            <div class="text item">
+              截至目前共有<span>{{ helpnum.materialed }}</span
+              >人成功申请到物资帮助，还有<span>{{ helpnum.materialing }}</span
+              >人正在申请物资帮助
+            </div>
+            <div class="text item">
+              截至目前共有<span>{{ helpnum.helpnum }}</span
+              >人申请帮助，有<span>{{ helpnum.helpednum }}</span
+              >人成功获得帮助
+            </div>
+          </el-card></el-col
+        >
+      </el-row>
+    </div>
     <div class="el-login-footer">
       <span class="el-icon-user-solid">juanQian</span>
       <span class="el-icon-phone">1588538xxxx</span>
@@ -133,9 +146,17 @@
 
 <script>
 import CarouselContainer from "@/components/CarouselContainer";
-import { listCarouselimg, listNews, getNews, updateNews,getmaNum,gethelpNum,checklogin } from "@/api/ma/index";
+import {
+  listCarouselimg,
+  listNews,
+  getNews,
+  updateNews,
+  getmaNum,
+  gethelpNum,
+  checklogin,
+} from "@/api/ma/index";
 import { listNotice } from "@/api/system/notice";
-import { isRelogin } from '@/utils/request'
+import { isRelogin } from "@/utils/request";
 
 export default {
   name: "Index",
@@ -152,7 +173,7 @@ export default {
       // 遮罩层
       loading: true,
       // 走马灯自动播放
-      flag:true,
+      flag: true,
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -168,11 +189,11 @@ export default {
       // 是否显示弹出层
       open: false,
       // 物质数值统计数据
-      manum:{},
+      manum: {},
       //帮助数值统计数据
-      helpnum:{},
+      helpnum: {},
       //是否登录
-      islogin:false,
+      islogin: false,
       //新闻
       news: {
         ntitle: null,
@@ -189,13 +210,11 @@ export default {
     this.getNoticeList();
     this.getStatisticsNum();
     this.getHelpNum();
-    this.isRelogin=false;
-    this.islogin=false;
+    this.isRelogin = false;
+    this.islogin = false;
     this.checkLogin();
   },
-  mounted() {
-
-  },
+  mounted() {},
   computed: {
     baseurl() {
       return process.env.VUE_APP_BASE_API;
@@ -246,33 +265,30 @@ export default {
         }
       });
     },
-    getStatisticsNum(){
-      getmaNum().then(res=>{
-       // console.log(res)
-        this.manum=res.data;
-      })
+    getStatisticsNum() {
+      getmaNum().then((res) => {
+        // console.log(res)
+        this.manum = res.data;
+      });
     },
-    getHelpNum(){
-    gethelpNum().then(res=>{
-    
-      this.helpnum=res.data;
-    })
+    getHelpNum() {
+      gethelpNum().then((res) => {
+        this.helpnum = res.data;
+      });
+    },
+    //检查用户是否登录
+    checkLogin() {
+      checklogin().then((res) => {
+        if (res.isLogin === 1) {
+          this.islogin = true;
+          //this.$router.push({ path: "/index1" }).catch(()=>{});
+        } else {
+          this.islogin = false;
+          // this.$router.push({ path: this.redirect || "/login" }).catch(()=>{});
+        }
+      });
+    },
   },
-  //检查用户是否登录
-  checkLogin(){
-    checklogin().then(res=>{
-      if(res.isLogin===1){
-        this.islogin=true
-        //this.$router.push({ path: "/index1" }).catch(()=>{});
-      }else{
-        this.islogin=false
-       // this.$router.push({ path: this.redirect || "/login" }).catch(()=>{});
-      }
-      
-    })
-  }
-  },
-
 };
 </script>
 <style lang="scss">
@@ -282,7 +298,7 @@ export default {
 }
 .title {
   padding: 0 60px;
-  font-size: 20px;
+  font-size: 26px;
   font-weight: bold;
   color: #333333;
   text-align: center;
@@ -314,16 +330,13 @@ export default {
 
 .item {
   padding: 18px 0;
-  
 }
 
-.text span{
-  
-    font-size: 22px;
-    color: red;
-    padding-left: 10px;
-    padding-right: 10px;
-  
+.text span {
+  font-size: 22px;
+  color: red;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .box-card {
@@ -357,27 +370,26 @@ export default {
   font-size: 12px;
   letter-spacing: 1px;
 }
-.title-text{
+.title-text {
   text-align: center;
   padding-top: 5px;
   font-size: 24px;
-  font-family:LiSu,STLiti,"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;
-
+  font-family: LiSu, STLiti, "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei",
+    华文细黑, STHeiti, MingLiu;
 }
-.slogan{
+.slogan {
   font-size: 20px;
   color: cornflowerblue;
-  font-family: KaiTiGB2312,"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;
+  font-family: KaiTiGB2312, "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei",
+    华文细黑, STHeiti, MingLiu;
   margin-left: 55%;
   font-weight: bold;
-  letter-spacing : 2px;
-
+  letter-spacing: 2px;
 }
-.login-item{
-  float:right;
+.login-item {
+  float: right;
   color: red;
-  font-family: LiSu,MingLiu;
+  font-family: LiSu, MingLiu;
   font-size: 18px;
-  
 }
 </style>

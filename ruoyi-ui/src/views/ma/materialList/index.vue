@@ -98,6 +98,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
+          v-hasRole="['admin','maadmin']"
           v-hasPermi="['ma:material:edit']"
           >修改</el-button
         >
@@ -110,6 +111,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
+          v-hasRole="['admin','maadmin']"
           v-hasPermi="['ma:material:remove']"
           >删除</el-button
         >
@@ -198,12 +200,12 @@
             size="mini"
             type="text"
             icon="el-icon-check"
-          v-if="roleid==1 || roleid==3"
+            v-hasRole="['admin','maadmin']"
             @click="handleExamine(scope.row)"
             v-hasPermi="['ma:material:remove']"
             >审核</el-button
           >
-
+<!--  -->
           <el-button
             size="mini"
             type="text"

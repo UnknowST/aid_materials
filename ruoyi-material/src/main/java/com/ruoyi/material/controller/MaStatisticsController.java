@@ -175,43 +175,7 @@ public class MaStatisticsController extends BaseController {
 
         List<MaMaterial> list = statisticsService.getProMa();
         List<MaHelp> list1 = statisticsService.getproHelp();
-//        //先准备一个map的全国身份数据
-//        List<HashMap<String, List<Integer>>> list2 = new ArrayList<>();
-//        HashMap<String, List<Integer>> map = new HashMap<>();
-//        map.put("北京市", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("上海市", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("天津市", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("重庆市", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("河北省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("山西省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("辽宁省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("吉林省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("黑龙江省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("浙江省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("福建省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("山东省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("河南省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("湖北省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("湖南省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("广东省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("海南省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("四川省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("贵州省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("云南省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("江西省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("陕西省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("青海省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("甘肃省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("广西省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("新疆维吾尔自治区", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("内蒙古自治区", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("西藏自治区", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("台湾省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("香港特别行政区", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("澳门行政区", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("安徽省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        map.put("江苏省", new ArrayList<Integer>(Arrays.asList(0, 0)));
-//        list2.add(map);
+
         for (int i = 0; i < list.size(); i++) {
             //Pattern创建正则，matcher验证正则
 
@@ -224,7 +188,7 @@ public class MaStatisticsController extends BaseController {
                     p.setValue1(p.getValue1()+Integer.valueOf(list.get(i).getMnum()));
                 }
             }
-            //map.get(province).set(0, map.get(province).get(0) + Integer.valueOf(list.get(i).getMnum()));
+
         }
 
         for (int i = 0; i < list1.size(); i++) {
@@ -239,7 +203,7 @@ public class MaStatisticsController extends BaseController {
                     p.setValue2(p.getValue2()+1);
                 }
             }
-            //map.get(province).set(1, map.get(province).get(1) + 1);
+
         }
 
         return success(prolist);
