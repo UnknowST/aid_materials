@@ -490,7 +490,8 @@ export default {
        let constdate=new Date();
        this.Year=constdate.getFullYear();
        this.Mother=constdate.getMonth()+1;
-       this.Day=constdate.getDay();
+       this.Day=constdate.getDate();
+      
        
     },
 
