@@ -95,6 +95,7 @@ import {
   upmaterialnum,
   getmatypenum,
   getProdata,
+  dealWithData,
 } from "@/api/ma/index1";
 export default {
   name: "Datashow",
@@ -102,33 +103,6 @@ export default {
     return {
       loading: true,
       option1: {},
-      option: {
-        title: {
-          text: "剩余油量表",
-          style: {
-            fill: "#fff",
-          },
-        },
-        series: [
-          {
-            type: "gauge",
-            data: [{ name: "itemA", value: 55 }],
-            center: ["50%", "55%"],
-            axisLabel: {
-              formatter: "{value}%",
-              style: {
-                fill: "#fff",
-              },
-            },
-            axisTick: {
-              style: {
-                stroke: "#fff",
-              },
-            },
-            animationCurve: "easeInOutBack",
-          },
-        ],
-      },
       mapoption: {},
       helpoption: {},
       distypeoption: {},
@@ -136,14 +110,14 @@ export default {
       needoption: {},
       provincedata: [],
       showinfo: null,
-    Year:null,
-    Mother:null,
-    Day:null,
+      Year: null,
+      Mother: null,
+      Day: null,
+      prodata: [],
     };
   },
   created() {},
   mounted() {
-    this.test();
     this.getmap();
     this.gethelpoption();
     this.getDistype();
@@ -154,116 +128,204 @@ export default {
     this.loading = false;
   },
   methods: {
-    test() {
-      this.option1 = {
-        title: {
-          text: "剩余油量表",
-          style: {
-            fill: "#fff",
-          },
-        },
-        series: [
-          {
-            type: "gauge",
-            data: [{ name: "itemA", value: 55 }],
-            center: ["50%", "55%"],
-            axisLabel: {
-              formatter: "{value}%",
-              style: {
-                fill: "#fff",
-              },
-            },
-            axisTick: {
-              style: {
-                stroke: "#fff",
-              },
-            },
-            animationCurve: "easeInOutBack",
-          },
-        ],
-      };
-    },
     getmap() {
-        let that=this
+      let that = this;
       getdata().then((res) => {
-        
-        const myechart = echarts.init(document.getElementById("map"), "dark");
-        echarts.registerMap("china", res.data);
-        this.mapoption = {
-         
-          tooltip: {
-            trigger: "item",
-            confine: true,
-            formatter: function (p) {
-                var toolTiphtml=null
-              if(p.name=="广西壮族自治区") p.name="广西省"
-                 for(var i=0;i<that.provincedata.length;i++){
-                    if(that.provincedata[i].name==p.name) {
-                         toolTiphtml = p.name=that.provincedata[i].name + '<br>'
-                +'<span style="display:inline-block:margin-right:5px:border-radius:50%:width:10px:height:10ox:left:5ox:backeround-color: #1fa4"x</span>'
-                    + that.provincedata[i].title1 +  ':'+ that.provincedata[i].value1 + '<br>'+
-                    '<span style-"display:inline-block;margin-right:5px;border-radius:50%:width: 10px;height:1x;left:5px;background-color: #9e87f></span>'
-                     + that.provincedata[i].title2+':'+that.provincedata[i].value2 
-                     + '<br>'
-                    }
-                }
-              return toolTiphtml;
-            },
-          },
-          geo: {
-            // 作为底图，设置地图外围边框
-            map: "china",
-            zoom:1.2,
-            itemStyle: {
-              areaColor: "#fff",
-              borderColor: "#333",
-              borderWidth: 1,
-            },
-          },
+        getProdata().then((res1) => {
+          this.provincedata = res1.data;
+          for (var i = 0; i < res1.data.length; i++) {
+            var tempdata = {};
+            if (res1.data[i]["namne"] == "广西省") {
+              tempdata = {
+                name: "广西壮族自治区",
+                value: res1.data[i]["value1"] + res1.data[i]["value2"],
+              };
+            } else {
+              tempdata = {
+                name: res1.data[i]["name"],
+                value: res1.data[i]["value1"] + res1.data[i]["value2"],
+              };
+            }
+            this.prodata.push(tempdata);
+          }
+          const myechart = echarts.init(document.getElementById("map"));
+          echarts.registerMap("china", res.data);
 
-          series: [
-            {
-                
-              data: this.provincedata,
-              type: "map",
-              map: "china",
-             
-              geoIndex:0,
-              itemStyle: {
-                areaColor: "#fff",
-                borderColor: "#333",
-                borderType: [2, 4],
-                borderDashOffset: 4,
+          var dataValue = this.dealWithData();
+          var data1 = dataValue.splice(0, 6);
+
+          var option = {
+            tooltip: {
+              trigger: "item",
+              confine: true,
+              formatter: function (p) {
+               // console.log(p);
+                var toolTiphtml = null;
+                if (p.name == "广西壮族自治区") p.name = "广西省";
+                for (var i = 0; i < that.provincedata.length; i++) {
+                  if (that.provincedata[i].name == p.name) {
+                    toolTiphtml = p.name =
+                      that.provincedata[i].name +
+                      "<br>" +
+                      '<span style="display:inline-block:margin-right:5px:border-radius:50%:width:10px:height:10ox:left:5ox:backeround-color: #1fa4"x</span>' +
+                      that.provincedata[i].title1 +
+                      ":" +
+                      that.provincedata[i].value1 +
+                      "<br>" +
+                      '<span style-"display:inline-block;margin-right:5px;border-radius:50%:width: 10px;height:1x;left:5px;background-color: #9e87f></span>' +
+                      that.provincedata[i].title2 +
+                      ":" +
+                      that.provincedata[i].value2 +
+                      "<br>";
+                  }
+                }
+                return toolTiphtml;
               },
-              emphasis: {
-                // 鼠标悬停时样式
-                label: {
-                  color: "rgb(0, 60, 131)",
-                },
-                itemStyle: {
-                  areaColor: "rgba(0, 60, 131, 0.3)",
-                  borderType: "solid",
-                  borderColor: "rgb(0, 60, 131)",
-                },
-              },
-              select: {
-                // 选中时样式
-                label: {
-                  color: "#fff",
-                },
-                itemStyle: {
-                  areaColor: "rgba(0, 60, 131, 0.7)",
-                  borderType: "solid",
-                  borderColor: "rgb(0, 60, 131)",
-                },
-              },
-          
             },
-            
-          ],
-        };
-        myechart.setOption(this.mapoption);
+            geo: {
+              map: "china",
+              itemStyle: {
+                borderColor: "rgba(196,223,255,1)",
+                borderWidth: 2,
+                shadowColor: "rgba(196,223,255,.8)",
+                shadowBlur: 20,
+                shadowOffsetX: 4,
+                shadowOffsetY: 4,
+              },
+            },
+            visualMap: {
+              type: "piecewise",
+              splitNumber: 3,
+              min: 60,
+              max: 89,
+              align: "left",
+              right: 20,
+              bottom: 20,
+              itemWidth: 60,
+              itemHeight: 20,
+              itemGap: 5,
+              // itemSymbol: 'circle',
+              orient: "vertical",
+              //区域颜色
+              color: [
+                "#33FFFF",
+                "#33FFCC",
+                "#33FF99",
+                "#33FF66",
+                "#33FF33",
+                "#33FF00",
+                "#33CCFF",
+              ],
+              //区域颜色范范围
+              pieces: [
+                { min: 0, max: 50 },
+                { min: 50, max: 100 },
+                { min: 100, max: 150 },
+                { min: 150, max: 200 },
+                { min: 200, max: 250 },
+                { min: 250, max: 400 },
+                { min: 400, max: 1000 },
+              ],
+              textStyle: {
+                color: "#fff",
+                fontSize: 14,
+              },
+            },
+            series: [
+              {
+                map: "china",
+                type: "map",
+                label: {
+                  normal: {
+                    color: "rgba(255,255,255,1)",
+                    show: false,
+                    color: "#fff",
+                    textShadowColor: "rgba(0,0,0,0.5)",
+                    textShadowBlur: 4,
+                    textShadowOffsetX: 0,
+                    textShadowOffsetY: 1,
+                    fontWeight: "normal",
+                  },
+                },
+
+                itemStyle: {
+                  borderColor: "rgba(196,223,255,1)",
+                  borderWidth: 2,
+                  areaColor: {
+                    type: "linear",
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [
+                      {
+                        offset: 0,
+                        color: "rgba(102,172,191,1)",
+                      },
+                      {
+                        offset: 1,
+                        color: "rgba(21,118,145,1)",
+                      },
+                    ],
+                    global: false,
+                  },
+                },
+                zlevel: 1,
+                data: this.prodata,
+              },
+
+              {
+                name: "Top 5",
+                type: "effectScatter",
+                coordinateSystem: "geo",
+                data: data1,
+                symbolSize: 15,
+                tooltip: {
+                  show: false,
+                },
+                encode: {
+                  value: 2,
+                },
+                showEffectOn: "render",
+                rippleEffect: {
+                  brushType: "stroke",
+                  color: "#FF0000",
+                  period: 9,
+                  scale: 5,
+                },
+                hoverAnimation: true,
+                label: {
+                  formatter: "{b}",
+                  position: "right",
+                  show: true,
+                },
+                itemStyle: {
+                  color: "#FF0000",
+                  shadowBlur: 2,
+                  shadowColor: "#FF0000",
+                },
+                zlevel: 1,
+              },
+            ],
+          };
+
+          // 使用刚指定的配置项和数据显示图表。
+          myechart.setOption(option);
+
+          //响应式变化
+          window.addEventListener("resize", () => myechart.resize(), false);
+        });
       });
+    },
+    dealWithData() {
+      var geoCoordMap = {
+        北京: [116.46, 39.92],
+      };
+      var data = [];
+      for (var key in geoCoordMap) {
+        data.push({ name: key, value: geoCoordMap[key] });
+      }
+      return data;
     },
     gethelpoption() {
       helpnumbyday().then((res) => {
@@ -305,16 +367,22 @@ export default {
             type: "category",
             data: xdata,
           },
-          yAxis: {},
+          yAxis: {
+            minInterval: 1,
+            axisLabel: {
+              formatter: "{value}",
+            },
+          },
           series: [
             {
               data: ydata,
               type: "line",
-              smooth: true,
             },
           ],
         };
         hchart.setOption(this.helpoption);
+        // 响应式变化
+        window.addEventListener("resize", () => hchart.resize(), false);
       });
     },
     getDistype() {
@@ -323,52 +391,56 @@ export default {
         "dark"
       );
       distypenum().then((res) => {
-       
-        let xdata = [];
-        for (var i = 0; i < res.data.length; i++)
-          xdata[i] = res.data[i]["disname"];
-        let ydata = [];
-        for (var i = 0; i < res.data.length; i++) ydata[i] = res.data[i]["num"];
+        let data = [];
+
+        for (var i = 0; i < res.data.length; i++) {
+          var tempdata = {
+            name: res.data[i]["disname"],
+            value: res.data[i]["num"],
+          };
+          data.push(tempdata);
+        }
+
         this.distypeoption = {
           title: {
             text: "不同灾害类型求助数",
           },
           tooltip: {
-            trigger: "axis",
-            axisPointer: {
-              type: "shadow",
-            },
+            trigger: "item",
           },
-          grid: {
-            left: "3%",
-            right: "4%",
-            bottom: "3%",
-            containLabel: true,
-          },
-          xAxis: [
-            {
-              type: "category",
-              data: xdata,
-              axisTick: {
-                alignWithLabel: true,
-              },
-            },
-          ],
-          yAxis: [
-            {
-              type: "value",
-            },
-          ],
+
           series: [
             {
-              name: "Direct",
-              type: "bar",
-              barWidth: "60%",
-              data: ydata,
+              name: "求助数",
+              type: "pie",
+              radius: ["40%", "70%"],
+              avoidLabelOverlap: false,
+              itemStyle: {
+                borderRadius: 10,
+                borderColor: "#fff",
+                borderWidth: 2,
+              },
+              label: {
+                show: false,
+                position: "center",
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: 40,
+                  fontWeight: "bold",
+                },
+              },
+              labelLine: {
+                show: false,
+              },
+              data: data,
             },
           ],
         };
         myechart.setOption(this.distypeoption);
+        // 响应式变化
+        window.addEventListener("resize", () => myechart.resize(), false);
       });
     },
     getUpmanum() {
@@ -382,7 +454,6 @@ export default {
           xdata[i] = res.data[i]["TIME"];
         let ydata = [];
         for (var i = 0; i < res.data.length; i++) ydata[i] = res.data[i]["num"];
-    
 
         this.upmaoption = {
           backgroundColor: "dark",
@@ -416,12 +487,15 @@ export default {
           series: [
             {
               data: ydata,
-              type: "line",
+              type: "bar",
               smooth: true,
             },
           ],
         };
+
         hchart.setOption(this.upmaoption);
+        // 响应式变化
+        window.addEventListener("resize", () => hchart.resize(), false);
       });
     },
     getNeednum() {
@@ -430,7 +504,6 @@ export default {
         "dark"
       );
       getmatypenum().then((res) => {
-        
         let xdata = [];
         for (var i = 0; i < res.data.length; i++)
           xdata[i] = res.data[i]["maname"];
@@ -446,62 +519,58 @@ export default {
               type: "shadow",
             },
           },
-          grid: {
-            left: "3%",
-            right: "4%",
-            bottom: "3%",
-            containLabel: true,
+
+          xAxis: {
+            data: xdata,
           },
-          xAxis: [
-            {
-              type: "category",
-              data: xdata,
-              axisTick: {
-                alignWithLabel: true,
-              },
-            },
-          ],
-          yAxis: [
-            {
-              type: "value",
-            },
-          ],
+          yAxis: {},
           series: [
             {
-              name: "Direct",
-              type: "bar",
-              barWidth: "60%",
+              type: "scatter",
+              name: "求助数",
               data: ydata,
+              symbol: "pin",
             },
           ],
         };
         myechart.setOption(this.needoption);
+        // 响应式变化
+        window.addEventListener("resize", () => myechart.resize(), false);
       });
     },
     getprodata() {
       getProdata().then((res) => {
-      
-
         this.provincedata = res.data;
-  
+        for (var i = 0; i < res.data.length; i++) {
+          var tempdata = {};
+          if (res.data[i]["namne"] == "广西省") {
+            tempdata = {
+              name: "广西壮族自治区",
+              value: res.data[i]["value1"] + res.data[i]["value2"],
+            };
+          } else {
+            tempdata = {
+              name: res.data[i]["name"],
+              value: res.data[i]["value1"] + res.data[i]["value2"],
+            };
+          }
+          this.prodata.push(tempdata);
+        }
       });
     },
-    getNowData(){
-       let constdate=new Date();
-       this.Year=constdate.getFullYear();
-       this.Mother=constdate.getMonth()+1;
-       this.Day=constdate.getDate();
-      
-       
+    getNowData() {
+      let constdate = new Date();
+      this.Year = constdate.getFullYear();
+      this.Mother = constdate.getMonth() + 1;
+      this.Day = constdate.getDate();
     },
-
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.index{
-    background-color: black;
+.index {
+  background-color: black;
 }
 //顶部右边装饰效果
 .title_left {
@@ -529,9 +598,8 @@ export default {
 }
 //时间日期
 .title_time {
-  
   text-align: center;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   font-size: large;
   color: white;
 }

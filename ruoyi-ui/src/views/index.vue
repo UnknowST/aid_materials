@@ -4,7 +4,7 @@
     <!-- <CarouselContainer :slide-list="list" currentIndex="1"></CarouselContainer> -->
     <el-carousel :interval="4000" type="card" height="300px">
       <el-carousel-item v-for="(item, index) of list" :key="index">
-        <img :src="item.imgpath" />
+        <img :src="item.imgpath" height="300px" width="100%"/>
       </el-carousel-item>
     </el-carousel>
     <!-- 分割线 -->

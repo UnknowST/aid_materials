@@ -377,9 +377,15 @@ export default {
       return isRightSize;
     },
     uploadsuccess(res) {
+      if(res.code!=200){
+        this.$message.error(res.msg)
+        this.minagefileList=[]
+      }
+     else{
       this.open = false;
       this.minagefileList=[]
       this.getList();
+    }
     },
   },
 };
