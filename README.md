@@ -14,9 +14,7 @@
 >
 ### 项目启动
 ```bash
-ruoyi-ui
-npm install
-npm run dev
+查看 ruoyi-ui/README.md
 ```
 
 之后启动后端项目，即可在游览器成功访问

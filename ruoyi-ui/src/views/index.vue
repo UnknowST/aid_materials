@@ -239,8 +239,8 @@ export default {
     },
     getNewsList() {
       listNews().then((res) => {
-        for (var i = res.rows.length - 1, j = 0; i >= 0; i--, j++) {
-          if (j < 5) this.newslist1.push(res.rows[i]);
+        for (var i = 0;i<res.rows.length;i++) {
+           if(i<5) this.newslist1.push(res.rows[i]);
         }
       });
     },

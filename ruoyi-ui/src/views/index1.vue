@@ -438,7 +438,7 @@ export default {
         for (var i = 0; i < res.data.length; i++) ydata[i] = res.data[i]["num"];
         this.needoption = {
           title: {
-            text: "不同求助类型数",
+            text: "不同物资求助数",
           },
           tooltip: {
             trigger: "axis",
@@ -529,8 +529,11 @@ export default {
 }
 //时间日期
 .title_time {
+  
   text-align: center;
-  color: red;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: large;
+  color: white;
 }
 
 .el-col {

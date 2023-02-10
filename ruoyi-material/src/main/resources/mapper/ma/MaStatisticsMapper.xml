@@ -14,11 +14,11 @@
 
     <select id="getMaterialTypeSum" resultType="int">
         SELECT COUNT(0)
-        FROM ma_distype
+        FROM  ma_matype
     </select>
     <select id="getDisastypeSum" resultType="int">
         SELECT COUNT(0)
-        FROM ma_matype
+        FROM ma_distype
     </select>
 
     <select id="getGetMaterialNum" resultType="int">

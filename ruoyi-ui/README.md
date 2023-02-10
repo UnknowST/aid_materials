@@ -2,7 +2,13 @@
 
 ```bash
 # 克隆项目
-git clone https://gitee.com/y_project/RuoYi-Vue
+git clone https://github.com/UnknowST/aid_materials.git
+
+# nodejs 版本
+v14.15.0
+
+# npm版本
+6.14.8
 
 # 进入项目目录
 cd ruoyi-ui
