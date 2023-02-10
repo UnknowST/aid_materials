@@ -3,17 +3,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.11</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-    <groupId>com.material</groupId>
-    <artifactId>ruoyi-material</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>ruoyi-material</name>
-    <description>ruoyi-material</description>
 
+        <artifactId>ruoyi</artifactId>
+        <groupId>com.ruoyi</groupId>
+
+        <version>3.8.5</version>
+
+    </parent>
+
+
+
+    <artifactId>ruoyi-material</artifactId>
+    <description>
+        material 管理模块
+    </description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -35,11 +38,7 @@
             <artifactId>ruoyi-common</artifactId>
             <version>3.8.5</version>
         </dependency>
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-system</artifactId>
-            <version>3.8.5</version>
-        </dependency>
+
     </dependencies>
 
     <build>

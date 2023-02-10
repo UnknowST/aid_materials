@@ -77,9 +77,9 @@ public class MaStatisticsController extends BaseController {
         class provincedata {
             String name;
             String title1 = "物资数";
-            Integer value1=0;
+            Integer value1 = 0;
             String title2 = "求助数";
-            Integer value2=0;
+            Integer value2 = 0;
 
             public String getName() {
                 return name;
@@ -133,7 +133,7 @@ public class MaStatisticsController extends BaseController {
             }
         }
         List<provincedata> prolist = new ArrayList<>();
-       String[] provincelist = new String[] {
+        String[] provincelist = new String[]{
                 "北京市",
                 "上海市",
                 "天津市",
@@ -167,8 +167,8 @@ public class MaStatisticsController extends BaseController {
                 "澳门行政区",
                 "安徽省",
                 "江苏省"};
-        for(String name:provincelist){
-            provincedata pro=new provincedata();
+        for (String name : provincelist) {
+            provincedata pro = new provincedata();
             pro.setName(name);
             prolist.add(pro);
         }
@@ -179,13 +179,11 @@ public class MaStatisticsController extends BaseController {
         for (int i = 0; i < list.size(); i++) {
             //Pattern创建正则，matcher验证正则
 
-            System.out.println(list.get(i).getMaddress());
-
             String province = getProvince(list.get(i).getMaddress());
-            System.out.println(province);
-            for(provincedata p:prolist){
-                if(p.getName().equals(province)) {
-                    p.setValue1(p.getValue1()+Integer.valueOf(list.get(i).getMnum()));
+
+            for (provincedata p : prolist) {
+                if (p.getName().equals(province)) {
+                    p.setValue1(p.getValue1() + Integer.valueOf(list.get(i).getMnum()));
                 }
             }
 
@@ -194,13 +192,12 @@ public class MaStatisticsController extends BaseController {
         for (int i = 0; i < list1.size(); i++) {
             //Pattern创建正则，matcher验证正则
 
-            System.out.println(list1.get(i).getHaddress());
 
             String province = getProvince(list1.get(i).getHaddress());
-            System.out.println(province);
-            for(provincedata p:prolist){
-                if(p.getName().equals(province)) {
-                    p.setValue2(p.getValue2()+1);
+
+            for (provincedata p : prolist) {
+                if (p.getName().equals(province)) {
+                    p.setValue2(p.getValue2() + 1);
                 }
             }
 

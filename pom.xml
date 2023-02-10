@@ -180,9 +180,9 @@
             </dependency>
             <!--物资管理 子模块-->
             <dependency>
-                <groupId>com.material</groupId>
+                <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-material</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${ruoyi.version}</version>
             </dependency>
 
         </dependencies>
