@@ -65,8 +65,11 @@ public class CaptchaController
         if ("math".equals(captchaType))
         {
             String capText = captchaProducerMath.createText();
+            //生成计算验证码
             capStr = capText.substring(0, capText.lastIndexOf("@"));
+            //生成验证码答案 保存起来
             code = capText.substring(capText.lastIndexOf("@") + 1);
+            //创建 验证码图片
             image = captchaProducerMath.createImage(capStr);
         }
         else if ("char".equals(captchaType))

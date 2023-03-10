@@ -86,7 +86,7 @@
             <el-input
               v-model="formData.address1"
               placeholder="请详细地址"
-              maxlength="11"
+              maxlength="20"
             />
           </el-form-item>
         </el-col>

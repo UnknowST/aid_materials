@@ -18,20 +18,19 @@
       </el-form-item>
       <el-form-item label="物资类型" prop="mtype">
         <el-select
-            v-model="queryParams.mtype"
-            placeholder="请选择物资类型"
-            clearable
-            :style="{ width: '100%' }"
-          >
-        <el-option
+          v-model="queryParams.mtype"
+          placeholder="请选择物资类型"
+          clearable
+          :style="{ width: '100%' }"
+        >
+          <el-option
             v-for="(item, index) in this.needtype"
             :key="item.maid"
-              :label="item.maname"
-              :value="item.maid"
-              :disabled="item.disabled"
+            :label="item.maname"
+            :value="item.maid"
+            :disabled="item.disabled"
           ></el-option>
         </el-select>
-    
       </el-form-item>
       <!-- <el-form-item label="图片id" prop="mimagid">
         <el-input
@@ -98,7 +97,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasRole="['admin','maadmin']"
+          v-hasRole="['admin', 'maadmin']"
           v-hasPermi="['ma:material:edit']"
           >修改</el-button
         >
@@ -111,7 +110,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasRole="['admin','maadmin']"
+          v-hasRole="['admin', 'maadmin']"
           v-hasPermi="['ma:material:remove']"
           >删除</el-button
         >
@@ -141,14 +140,19 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="mid" />
       <el-table-column label="物资标题" align="center" prop="mtitle" />
-      <el-table-column label="物资类型" align="center" prop="mtype" >
+      <el-table-column label="物资类型" align="center" prop="mtype">
         <template slot-scope="scope">
-            <span>
-              {{ getNeedtypeName(scope.row.mtype) }}
-            </span>
-          </template>
+          <span>
+            {{ getNeedtypeName(scope.row.mtype) }}
+          </span>
+        </template>
       </el-table-column>
-      <el-table-column label="物资数量" align="center" prop="mnum" type="number" />
+      <el-table-column
+        label="物资数量"
+        align="center"
+        prop="mnum"
+        type="number"
+      />
       <el-table-column label="物资详细信息" align="center" prop="mdetail" />
       <el-table-column label="图片" align="center" prop="imgpath">
         <template slot-scope="scope">
@@ -191,7 +195,7 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-if="user.userName==scope.row.createBy "
+            v-if="user.userName == scope.row.createBy"
             v-hasPermi="['ma:material:remove']"
             >删除</el-button
           >
@@ -200,18 +204,18 @@
             size="mini"
             type="text"
             icon="el-icon-check"
-            v-hasRole="['admin','maadmin']"
+            v-hasRole="['admin', 'maadmin']"
             @click="handleExamine(scope.row)"
             v-hasPermi="['ma:material:remove']"
             >审核</el-button
           >
-<!--  -->
+          <!--  -->
           <el-button
             size="mini"
             type="text"
             icon="el-icon-message"
             @click="handleApply(scope.row)"
-            v-if="user.userName!=scope.row.createBy && scope.row.mstatus==1"
+            v-if="user.userName != scope.row.createBy && scope.row.mstatus == 1"
             v-hasPermi="['ma:material:remove']"
             >申请</el-button
           >
@@ -228,7 +232,13 @@
     />
 
     <!-- 添加或修改【请填写功能名称】对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body :before-close="handleDialogClose">
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="600px"
+      append-to-body
+      :before-close="handleDialogClose"
+    >
       <el-form
         ref="form"
         :model="form"
@@ -246,32 +256,31 @@
           </el-input>
         </el-form-item>
         <el-form-item label="物资类型" prop="mtype" required>
-        <el-select
+          <el-select
             v-model="form.mtype"
             placeholder="请选择物资类型"
             clearable
             :style="{ width: '50%' }"
           >
-        <el-option
-            v-for="(item, index) in this.needtype"
-            :key="index"
+            <el-option
+              v-for="(item, index) in this.needtype"
+              :key="index"
               :label="item.maname"
               :value="item.maid"
               :disabled="item.disabled"
-          ></el-option>
-        </el-select>
-    
-      </el-form-item>
-      <el-form-item label="物资数量" prop="mnum" required>
-        <el-input
-        type="number"
-          v-model="form.mnum"
-          placeholder="请输入物资数量"
-          clearable
-          :style="{ width: '100%' }"
-        >
-        </el-input>
-      </el-form-item>
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="物资数量" prop="mnum" required>
+          <el-input
+            type="number"
+            v-model="form.mnum"
+            placeholder="请输入物资数量"
+            clearable
+            :style="{ width: '100%' }"
+          >
+          </el-input>
+        </el-form-item>
         <el-form-item label="物资详细信息" prop="mdetail" required>
           <el-input
             v-model="form.mdetail"
@@ -584,10 +593,10 @@ export default {
       countyList: [],
       CITY: [],
       XIAN: [],
-      region1:[],
-      region2:[],
-      region3:[],
-      address1:undefined,
+      region1: [],
+      region2: [],
+      region3: [],
+      address1: undefined,
       showbutton1: "false",
       showbutton2: "false",
       hearders: {
@@ -629,19 +638,19 @@ export default {
         mimagid: null,
         maddress: null,
         mstatus: null,
-        mtype:null,
+        mtype: null,
       },
       distype: [],
       needtype: [],
-      roleid:null,
+      roleid: null,
 
       // 表单参数
       form: {
         mimagid: null,
         minage: null,
         mtitle: undefined,
-        mtype:undefined,
-        mnum:undefined,
+        mtype: undefined,
+        mnum: undefined,
         mdetail: undefined,
         minage: null,
         mstatus: 0,
@@ -674,7 +683,7 @@ export default {
         region1: undefined,
         region2: undefined,
         region3: undefined,
-        create_by:undefined,
+        create_by: undefined,
       },
       // 表单校验
       rules: {
@@ -819,7 +828,7 @@ export default {
       getUserProfile().then((response) => {
         this.user = response.data;
         console.log(this.user);
-        this.roleid=this.user.roles[0].roleId;
+        this.roleid = this.user.roles[0].roleId;
         this.roleGroup = response.roleGroup;
         this.postGroup = response.postGroup;
       });
@@ -834,15 +843,15 @@ export default {
     },
     // 取消按钮
     cancel() {
-      this.minagefileList=[]
+      this.minagefileList = [];
       this.open = false;
       this.reset();
     },
     //点击右上角关闭按钮的回调事件
-    handleDialogClose(){
-      this.open=false;
-      this.reset()
-      this.minagefileList=[]
+    handleDialogClose() {
+      this.open = false;
+      this.reset();
+      this.minagefileList = [];
     },
 
     // 表单重置
@@ -850,8 +859,8 @@ export default {
       this.form = {
         mid: null,
         mtitle: null,
-        mtype:null,
-        mnum:null,
+        mtype: null,
+        mnum: null,
         mdetail: null,
         mtype: null,
         mimagid: null,
@@ -893,16 +902,16 @@ export default {
     fileChange() {
       this.choiseFlag = "true";
     },
-         //查询物资类型的名字
-         getNeedtypeName(option) {
-        for (var i = 0; i < this.needtype.length; i++) {
-          if (option == this.needtype[i].maid) return this.needtype[i].maname;
-        }
-      },
+    //查询物资类型的名字
+    getNeedtypeName(option) {
+      for (var i = 0; i < this.needtype.length; i++) {
+        if (option == this.needtype[i].maid) return this.needtype[i].maname;
+      }
+    },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.choiseFlag = "false";
-    
+
       this.reset();
       const mid = row.mid || this.ids;
       getMaterial(mid).then((response) => {
@@ -912,12 +921,12 @@ export default {
         this.getPositions();
 
         str = this.getaddress(this.form.maddress);
-        console.log(response.data.mtype)
-        this.$set(this.form, 'region1', str[0])
-        this.$set(this.form, 'region2', str[1])
-        this.$set(this.form, 'region3', str[2])
-        this.$set(this.form, 'address1', str[3])
-  
+        console.log(response.data.mtype);
+        this.$set(this.form, "region1", str[0]);
+        this.$set(this.form, "region2", str[1]);
+        this.$set(this.form, "region3", str[2]);
+        this.$set(this.form, "address1", str[3]);
+
         let data = {
           name: response.data.imgname,
           url: this.baseurl + response.data.imgpath,
@@ -956,7 +965,7 @@ export default {
             this.apform.region1 == undefined ||
             this.apform.region2 == undefined ||
             this.apform.region3 == undefined ||
-            this.apform.haddress1==undefined
+            this.apform.haddress1 == undefined
           ) {
             this.$message.error("地址信息必填");
             return;
@@ -983,15 +992,15 @@ export default {
       this.getdata();
       this.getPositions();
       this.apform.mid = row.mid;
-     
+
       getUserProfile().then((response) => {
         this.user = response.data;
         if (this.user.address != null) {
           str = this.getaddress(this.user.address);
-          this.$set(this.apform, 'region1', str[0])
-        this.$set(this.apform, 'region2', str[1])
-        this.$set(this.apform, 'region3', str[2])
-        this.$set(this.apform, 'haddress1', str[3])
+          this.$set(this.apform, "region1", str[0]);
+          this.$set(this.apform, "region2", str[1]);
+          this.$set(this.apform, "region3", str[2]);
+          this.$set(this.apform, "haddress1", str[3]);
           // (this.apform.region1 = str[0]),
           //   (this.apform.region2 = str[1]),
           //   (this.apform.region2 = str[2]),
@@ -1000,7 +1009,7 @@ export default {
         (this.apform.husername = this.user.userName),
           (this.apform.hname = this.user.nickName),
           (this.apform.hphone = this.user.phonenumber);
-          this.apform.create_by=this.user.userName
+        this.apform.create_by = this.user.userName;
       });
       // console.log(this.user)
     },
@@ -1026,7 +1035,7 @@ export default {
               updateMaterial(this.form).then((res) => {
                 this.$modal.msgSuccess("修改成功");
                 this.minagefileList = [];
-                
+
                 this.open = false;
 
                 this.getList();

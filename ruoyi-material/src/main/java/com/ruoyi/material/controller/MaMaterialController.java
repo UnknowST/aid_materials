@@ -164,12 +164,13 @@ public class MaMaterialController extends BaseController
     @CrossOrigin
     public AjaxResult imgupload(@RequestParam("file") MultipartFile file) throws Exception
     {
-        //System.out.println("======="+maMaterial.getMdetail()+maMaterial.getMtitle());
+
         if (!file.isEmpty())
         {
             MaImg maImg=new MaImg();
 
             LoginUser loginUser = getLoginUser();
+            // 文件上传工具类
             String imgurl= FileUploadUtils.upload(RuoYiConfig.getUploadPath(),file, MimeTypeUtils.IMAGE_EXTENSION);
             maImg.setImgname(file.getOriginalFilename());
             maImg.setImgpath(imgurl);
@@ -178,9 +179,8 @@ public class MaMaterialController extends BaseController
             if (flag!=0)
             {
                 AjaxResult ajax = AjaxResult.success();
-                ajax.put("imgUrl", imgurl);
-                ajax.put("mid",flag);
-                // 更新缓存用户头像
+                ajax.put("imgUrl", imgurl);  //返回图片上传成功后的路径
+                ajax.put("mid",flag);        //返回对应的编号
                 return ajax;
             }
         }

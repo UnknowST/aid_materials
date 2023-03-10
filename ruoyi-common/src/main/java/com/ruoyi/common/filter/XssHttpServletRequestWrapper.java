@@ -38,7 +38,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper
             for (int i = 0; i < length; i++)
             {
                 // 防xss攻击和过滤前后空格
-                escapesValues[i] = EscapeUtil.clean(values[i]).trim();
+                escapesValues[i] = EscapeUtil.clean(values[i]).trim(); //EScapeUtil 工具实现html代码的转移
             }
             return escapesValues;
         }
